@@ -8,17 +8,20 @@ import { styled } from "@mui/material/styles";
 type Props = {
   children: ReactNode; //四角の中に入れる内容
   title: string; //ページタイトル
+  radius?: string;
 };
-export const PageLayout: FC<Props> = memo(({ children, title }) => {
-  return (
-    <>
-      <PageTitle title={title} />
-      <_Main>
-        <_BgBox>{children}</_BgBox>
-      </_Main>
-    </>
-  );
-});
+export const PageLayout: FC<Props> = memo(
+  ({ children, title, radius = "10%" }) => {
+    return (
+      <>
+        <PageTitle title={title} />
+        <_Main>
+          <_BgBox borderRadius={radius}>{children}</_BgBox>
+        </_Main>
+      </>
+    );
+  }
+);
 
 //全体
 const _Main = styled("div")(() => ({
@@ -34,5 +37,4 @@ const _BgBox = styled(Box)(() => ({
   minWidth: "60%",
   marginBottom: 20,
   boxShadow: "10px 5px 5px gray",
-  borderRadius: "10%",
 }));
