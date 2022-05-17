@@ -47,5 +47,5 @@ export const InputText: FC<Props> = memo(
 const _Error = styled("div")(() => ({
   color: "#F6416C",
   textAlign: "left",
-  height: 25,
+  height: 30,
 }));
