@@ -11,7 +11,7 @@ type Props = {
   radius?: string;
 };
 export const PageLayout: FC<Props> = memo(
-  ({ children, title, radius = "10%" }) => {
+  ({ children, title, radius = "3%" }) => {
     return (
       <>
         <PageTitle title={title} />
