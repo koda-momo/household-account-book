@@ -77,7 +77,7 @@ export const FamilyList: FC<Props> = memo(({ id }) => {
     <>
       {familyMember.length > 0 ? (
         <>
-          <PageTitle title="グループ情報" />
+          <PageTitle title="同じグループの人たち" />
           <_Card>
             {familyMember?.map((item) => (
               <div key={item.id}>

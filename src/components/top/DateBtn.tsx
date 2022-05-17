@@ -35,7 +35,7 @@ export const DateBtn: FC = memo(() => {
   }, [date, formatDate]);
 
   return (
-    <>
+    <_Main>
       <_Btn onClick={subtractMonth}>
         <ArrowBackIosNewIcon />
       </_Btn>
@@ -45,9 +45,14 @@ export const DateBtn: FC = memo(() => {
       <_Btn onClick={addMonth}>
         <ArrowForwardIosIcon />
       </_Btn>
-    </>
+    </_Main>
   );
 });
+
+const _Main = styled("div")(() => ({
+  display: "flex",
+  gap: 10,
+}));
 
 const _Date = styled("div")(() => ({
   fontSize: 20,

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 //components
@@ -22,6 +22,8 @@ import { FamilyTable } from "../../components/top/FamilyTable";
  */
 const Home: NextPage = () => {
   Chart.register(ArcElement);
+
+  const router = useRouter();
 
   //個人支出
   const oneOutPieData: ChartData<"pie"> = {
@@ -51,7 +53,7 @@ const Home: NextPage = () => {
    * 詳細画面に遷移.
    */
   const goDetailPage = useCallback(() => {
-    Router.push("/top/detail");
+    router.push("/top/detail");
   }, []);
 
   return (

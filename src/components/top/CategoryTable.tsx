@@ -82,8 +82,6 @@ export const CategoryTable: FC = memo(() => {
     return percent;
   }, []);
 
-  const color = "red";
-
   return (
     <_Table>
       <TableContainer component={Paper}>
