@@ -1,13 +1,14 @@
 import type { NextPage } from "next";
 import { useCallback, useState } from "react";
+
+//components
 import { InputText } from "../../components/form/InputText";
-import { PageTitle } from "../../components/layout/PageTitle";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 //MUI
+import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { styled } from "@mui/material/styles";
-import { PageLayout } from "../../components/layout/PageLayout";
 
 /**
  * ユーザ登録画面.
