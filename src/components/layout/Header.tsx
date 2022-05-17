@@ -8,11 +8,8 @@ import { styled } from "@mui/material/styles";
  * ヘッダーコンポーネント.
  */
 export const Header: FC = memo(() => {
-  //仮
-  const userId = "3";
-
   return (
-    <_Header>
+    <_Header className="header">
       <_HeaderIcon>
         <Link href={`/top/`}>
           <a>ヘッダー</a>
@@ -20,7 +17,7 @@ export const Header: FC = memo(() => {
       </_HeaderIcon>
       <_HeaderMenu>
         <_List>
-          <Link href={`/user/${userId}/`}>
+          <Link href="/user/">
             <a>
               <li>USER INFO</li>
             </a>
