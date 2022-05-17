@@ -1,22 +1,26 @@
 import type { NextPage } from "next";
+import { useCallback } from "react";
 
 //components
 import { PageLayout } from "../../components/layout/PageLayout";
+import { FamilyList } from "../../components/user/FamilyList";
+import { InfoTable } from "../../components/user/InfoTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Avatar, Button } from "@mui/material";
-import { FamilyList } from "../../components/user/FamilyList";
-import { InfoTable } from "../../components/user/InfoTable";
+import { useRouter } from "next/router";
 
 /**
  * ユーザ情報.
  */
 const UserInfo: NextPage = () => {
+  const router = useRouter();
+
   const data = {
     id: "abcdefg",
     image: "/book-tab-logo-face.jpg",
-    familyID: "familyId",
+    familyID: "",
     name: "山田太郎",
     mail: "yamadataro-love-happy-yamada@mail.com",
     password: "yamayama",
@@ -24,12 +28,19 @@ const UserInfo: NextPage = () => {
   };
 
   /**
+   * ページ遷移.
+   */
+  const gotoPage = useCallback((url: string) => {
+    router.push(url);
+  }, []);
+
+  /**
    * ユーザ情報の取得
    */
 
   return (
     <>
-      <PageLayout title="ユーザ情報" radius="3%">
+      <PageLayout title="ユーザ情報">
         <_Flex>
           <Avatar
             alt="icon"
@@ -46,15 +57,43 @@ const UserInfo: NextPage = () => {
 
         <_BtnGroup>
           <div>
-            <_Btn variant="contained" color="primary">
+            <_Btn
+              variant="contained"
+              color="primary"
+              onClick={() => gotoPage("/user/edit/")}
+            >
               ユーザ情報の編集
             </_Btn>
           </div>
-          <div>
-            <_Btn variant="contained" color="primary">
-              グループ情報の登録・編集
-            </_Btn>
-          </div>
+
+          {data.familyID !== "" ? (
+            <div>
+              <_Btn variant="contained" color="primary" href="/group/edit/">
+                グループ名の編集
+              </_Btn>
+            </div>
+          ) : (
+            <>
+              <div>
+                <_Btn
+                  variant="contained"
+                  color="primary"
+                  onClick={() => gotoPage("/group/new/")}
+                >
+                  グループの新規登録
+                </_Btn>
+              </div>
+              <div>
+                <_Btn
+                  variant="contained"
+                  color="primary"
+                  onClick={() => gotoPage("/group/link/")}
+                >
+                  グループに紐づけ
+                </_Btn>
+              </div>
+            </>
+          )}
         </_BtnGroup>
       </PageLayout>
       <_FamilyList>
