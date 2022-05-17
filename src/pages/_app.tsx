@@ -14,6 +14,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>家計簿</title>
         <meta name="household-account-book" content="household-account-boo" />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
       </Head>
       <Layout>
         <ThemeProvider theme={theme}>
