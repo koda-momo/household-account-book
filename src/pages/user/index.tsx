@@ -49,7 +49,7 @@ const UserInfo: NextPage<Props> = ({ userData }) => {
         <_Name>{userData.user.name}</_Name>
         <_Flex>
           <_Table>
-            <InfoTable data={userData.user} />
+            <InfoTable userData={userData.user} />
           </_Table>
         </_Flex>
 
