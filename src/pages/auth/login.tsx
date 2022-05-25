@@ -39,17 +39,20 @@ const Login: NextPage = () => {
     //エラーリセット
     setMailError("");
     setPasswordError("");
+    let error = "";
 
     //バリデーション
     if (mail === "") {
+      error = "エラーあり";
       setMailError("メールを入力して下さい。");
     }
 
     if (password === "") {
+      error = "エラーあり";
       setPasswordError("パスワードを入力して下さい。");
     }
 
-    if (mailError !== "" || passwordError !== "") {
+    if (error !== "") {
       return;
     }
 
