@@ -2,31 +2,42 @@ import { FC, memo } from "react";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { UserType } from "../../types/UserType";
+import { FamilyType, UserType } from "../../types/UserType";
+import { CircularProgress } from "@mui/material";
+import useSWR from "swr";
+import { fetcher } from "../../utils/fetcher";
+import { apiUrl } from "../../utils/values";
 
 type Props = {
-  data: UserType;
+  userData: UserType;
 };
 
-export const InfoTable: FC<Props> = memo(({ data }) => {
+export const InfoTable: FC<Props> = memo(({ userData }) => {
+  //APIのURL
+  const url = userData.familyId
+    ? `${apiUrl}/getfamily/${userData.familyId}`
+    : "undefined";
+
   /**
    * ユーザIDから紐づいている家族情報の取得
    */
-  const familyData = {
-    id: "familyId",
-    image: "/book-tab-logo-face.jpg",
-    secretWord: "",
-    password: "",
-    name: "山田家",
-    incomeId: "",
-    spendingId: "",
-  };
+  const { data, error } = useSWR(url, fetcher);
+  const familyData: FamilyType = data?.family;
+
+  //エラー処理
+  if (userData.familyId && error) return <_Error>error</_Error>;
+  if (userData.familyId && !data)
+    return (
+      <_Error>
+        <CircularProgress />
+      </_Error>
+    );
 
   return (
     <>
       <_Flex>
         <_Item>メールアドレス</_Item>
-        <_Item>{data.mail}</_Item>
+        <_Item>{userData.mail}</_Item>
       </_Flex>
 
       {familyData && (
@@ -38,7 +49,7 @@ export const InfoTable: FC<Props> = memo(({ data }) => {
 
           <_Flex>
             <_Item>役割</_Item>
-            <_Item>{data.role}</_Item>
+            <_Item>{userData.role}</_Item>
           </_Flex>
         </>
       )}
@@ -56,4 +67,10 @@ const _Flex = styled("div")(() => ({
   width: "100%",
   textAlign: "left",
   marginBottom: 10,
+}));
+
+const _Error = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 50,
 }));
