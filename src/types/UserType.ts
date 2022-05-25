@@ -1,6 +1,6 @@
 //ユーザ1人1人の型
 export type UserType = {
-  id: string;
+  _id: string;
   image: string;
   familyID: string;
   name: string;
