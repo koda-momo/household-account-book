@@ -21,24 +21,15 @@ import { fetcher } from "../../utils/fetcher";
 const UserInfo: NextPage = () => {
   const router = useRouter();
 
-  const { data, error, mutate } = useSWR(
-    "http://localhost:3000/getuser",
+  /**
+   * ユーザ情報の取得
+   */
+
+  const userId = "62873cf70ae4d6038a394401";
+  const { data, error } = useSWR(
+    `http://localhost:3000/getuser/${userId}/`,
     fetcher
   );
-
-  console.dir("データ" + JSON.stringify(data));
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
-  // const data = {
-  //   id: "abcdefg",
-  //   image: "/book-tab-logo-face.jpg",
-  //   familyID: "",
-  //   name: "山田太郎",
-  //   mail: "yamadataro-love-happy-yamada@mail.com",
-  //   password: "yamayama",
-  //   role: "父",
-  // };
 
   /**
    * ページ遷移.
@@ -47,9 +38,8 @@ const UserInfo: NextPage = () => {
     router.push(url);
   }, []);
 
-  /**
-   * ユーザ情報の取得
-   */
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
 
   return (
     <>
@@ -57,14 +47,14 @@ const UserInfo: NextPage = () => {
         <_Flex>
           <Avatar
             alt="icon"
-            src={data.image}
+            src={data.user.image}
             sx={{ width: 100, height: 100 }}
           />
         </_Flex>
-        <_Name>{data.name}</_Name>
+        <_Name>{data.user.name}</_Name>
         <_Flex>
           <_Table>
-            <InfoTable data={data} />
+            <InfoTable data={data.user} />
           </_Table>
         </_Flex>
 
@@ -79,7 +69,7 @@ const UserInfo: NextPage = () => {
             </_Btn>
           </div>
 
-          {data.familyID !== "" ? (
+          {data.user.familyID !== "" ? (
             <div>
               <_Btn variant="contained" color="primary" href="/group/edit/">
                 グループ名の編集
@@ -110,7 +100,7 @@ const UserInfo: NextPage = () => {
         </_BtnGroup>
       </PageLayout>
       <_FamilyList>
-        <FamilyList id={data.familyID} />
+        <FamilyList id={data.user.familyID} />
       </_FamilyList>
     </>
   );
