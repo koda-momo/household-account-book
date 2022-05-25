@@ -26,12 +26,8 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 /**
  * ユーザ情報.
  */
-const UserInfo: NextPage<Props> = ({ data }) => {
+const UserInfo: NextPage<Props> = ({ userData }) => {
   const router = useRouter();
-
-  /**
-   * ユーザ情報の取得
-   */
 
   /**
    * ページ遷移.
@@ -46,14 +42,14 @@ const UserInfo: NextPage<Props> = ({ data }) => {
         <_Flex>
           <Avatar
             alt="icon"
-            src={data.user.image}
+            src={userData.user.image}
             sx={{ width: 100, height: 100 }}
           />
         </_Flex>
-        <_Name>{data.user.name}</_Name>
+        <_Name>{userData.user.name}</_Name>
         <_Flex>
           <_Table>
-            <InfoTable data={data.user} />
+            <InfoTable data={userData.user} />
           </_Table>
         </_Flex>
 
@@ -68,7 +64,7 @@ const UserInfo: NextPage<Props> = ({ data }) => {
             </_Btn>
           </div>
 
-          {data.user.familyID !== "" ? (
+          {userData.user.familyId !== "" ? (
             <div>
               <_Btn variant="contained" color="primary" href="/group/edit/">
                 グループ名の編集
@@ -99,7 +95,7 @@ const UserInfo: NextPage<Props> = ({ data }) => {
         </_BtnGroup>
       </PageLayout>
       <_FamilyList>
-        <FamilyList id={data.user.familyID} />
+        <FamilyList familyId={userData.user.familyId} />
       </_FamilyList>
     </>
   );
@@ -114,11 +110,11 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const cookies = new Cookies(ctx.req.headers.cookie);
   const userId = cookies.get("userId");
-  const res = await fetch(`${apiUrl}/getuser/${userId}`);
-  const data: UserType = await res.json();
+  const userRes = await fetch(`${apiUrl}/getuser/${userId}`);
+  const userData: UserType = await userRes.json();
 
   return {
-    props: { data },
+    props: { userData },
   };
 };
 
