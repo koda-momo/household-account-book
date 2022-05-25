@@ -13,6 +13,9 @@ import { fetcher } from "../utils/fetcher";
 import { Layout } from "../components/layout/Layout";
 import { theme } from "../styles/MuiColor";
 
+//other
+import { Toaster } from "react-hot-toast";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -28,6 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <SWRConfig value={{ fetcher }}>
         <Layout>
           <ThemeProvider theme={theme}>
+            <div>
+              <Toaster />
+            </div>
             <Component {...pageProps} />
           </ThemeProvider>
         </Layout>
