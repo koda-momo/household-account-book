@@ -1,12 +1,16 @@
-import { Button, Card, CardContent } from "@mui/material";
-import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useState, useCallback } from "react";
-import { InputText } from "../../components/form/InputText";
-import { PageLayout } from "../../components/layout/PageLayout";
-import SendIcon from "@mui/icons-material/Send";
-import { PageTitle } from "../../components/layout/PageTitle";
 import { useRouter } from "next/router";
+
+//compoents
+import { PageTitle } from "../../components/layout/PageTitle";
+
+//MUI
+import styled from "@emotion/styled";
+import { Button, Card, CardContent } from "@mui/material";
+
+import Cookie from "universal-cookie";
+import { toast } from "react-hot-toast";
 
 /**
  * ログアウト画面.
@@ -18,7 +22,10 @@ const Logout: NextPage = () => {
    * ログアウト.
    */
   const logout = useCallback(() => {
-    alert("ログアウトしました");
+    const cookie = new Cookie();
+    toast.success("ログアウトしました。");
+    cookie.remove("userId", { path: "/" });
+    router.push("/auth/login/");
   }, []);
 
   /**
