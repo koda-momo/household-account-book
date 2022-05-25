@@ -1,15 +1,28 @@
-import { Button } from "@mui/material";
-import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useState, useCallback } from "react";
+
+//components
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
+
+//MUI
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+
+//Other
+import Cookie from "universal-cookie";
+import axios from "axios";
+import { apiUrl } from "../../utils/values";
+import { toast } from "react-hot-toast";
 
 /**
  * ログイン画面.
  */
 const Login: NextPage = () => {
+  //Cookie
+  const cookie = new Cookie();
+
   //メールアドレス
   const [mail, setMail] = useState<string>("");
   const [mailError, setMailError] = useState<string>("");
@@ -21,7 +34,12 @@ const Login: NextPage = () => {
   /**
    * ログイン.
    */
-  const postUserData = useCallback(() => {
+  const login = useCallback(async () => {
+    //エラーリセット
+    setMailError("");
+    setPasswordError("");
+
+    //バリデーション
     if (mail === "") {
       setMailError("メールを入力して下さい。");
     }
@@ -33,7 +51,23 @@ const Login: NextPage = () => {
     if (mailError !== "" || passwordError !== "") {
       return;
     }
-  }, []);
+
+    //ログインAPI
+    try {
+      const loginData: {
+        data: { status: string; message: string; user: string };
+      } = await axios.post(`${apiUrl}/loginuser`, {
+        mail: mail,
+        password: password,
+      });
+      toast.success("ログインしました。");
+      if (loginData.data.user) {
+        cookie.set("userId", loginData.data.user);
+      }
+    } catch (e) {
+      toast.error("ログイン出来ませんでした");
+    }
+  }, [mail, password]);
 
   return (
     <>
@@ -59,7 +93,7 @@ const Login: NextPage = () => {
         <div>
           <Button
             variant="contained"
-            onClick={postUserData}
+            onClick={login}
             endIcon={<SendIcon />}
             color="primary"
           >
