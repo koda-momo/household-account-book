@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useState, useCallback } from "react";
+import { useRouter } from "next/router";
 
 //components
 import { InputText } from "../../components/form/InputText";
@@ -20,8 +21,8 @@ import { toast } from "react-hot-toast";
  * ログイン画面.
  */
 const Login: NextPage = () => {
-  //Cookie
   const cookie = new Cookie();
+  const router = useRouter();
 
   //メールアドレス
   const [mail, setMail] = useState<string>("");
@@ -61,6 +62,7 @@ const Login: NextPage = () => {
         password: password,
       });
       toast.success("ログインしました。");
+      router.push("/top/");
       if (loginData.data.user) {
         cookie.set("userId", loginData.data.user);
       }
