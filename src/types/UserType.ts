@@ -2,7 +2,7 @@
 export type UserType = {
   _id: string;
   image: string;
-  familyID: string;
+  familyId: string;
   name: string;
   mail: string;
   password: string;
@@ -11,11 +11,15 @@ export type UserType = {
 
 //家族型
 export type FamilyType = {
-  id: string;
-  image: string;
+  _id: string;
+  name: string;
   secretWord: string;
   password: string;
-  name: string;
-  incomeId: string;
-  spendingId: string;
+};
+
+//家族情報取得型
+export type GetFamilyType = {
+  status: string;
+  message: string;
+  user: FamilyType;
 };
