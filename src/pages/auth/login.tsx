@@ -64,7 +64,7 @@ const Login: NextPage = () => {
       toast.success("ログインしました。");
       router.push("/top/");
       if (loginData.data.user) {
-        cookie.set("userId", loginData.data.user);
+        cookie.set("userId", loginData.data.user, { path: "/" });
       }
     } catch (e) {
       toast.error("ログイン出来ませんでした");
