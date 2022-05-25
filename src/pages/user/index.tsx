@@ -11,21 +11,34 @@ import { styled } from "@mui/material/styles";
 import { Avatar, Button } from "@mui/material";
 import { useRouter } from "next/router";
 
+//API
+import useSWR from "swr";
+import { fetcher } from "../../utils/fetcher";
+
 /**
  * ユーザ情報.
  */
 const UserInfo: NextPage = () => {
   const router = useRouter();
 
-  const data = {
-    id: "abcdefg",
-    image: "/book-tab-logo-face.jpg",
-    familyID: "",
-    name: "山田太郎",
-    mail: "yamadataro-love-happy-yamada@mail.com",
-    password: "yamayama",
-    role: "父",
-  };
+  const { data, error, mutate } = useSWR(
+    "http://localhost:3000/getuser",
+    fetcher
+  );
+
+  console.dir("データ" + JSON.stringify(data));
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+
+  // const data = {
+  //   id: "abcdefg",
+  //   image: "/book-tab-logo-face.jpg",
+  //   familyID: "",
+  //   name: "山田太郎",
+  //   mail: "yamadataro-love-happy-yamada@mail.com",
+  //   password: "yamayama",
+  //   role: "父",
+  // };
 
   /**
    * ページ遷移.

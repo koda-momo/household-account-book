@@ -1,7 +1,13 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
+
+//CSS
 import "../styles/global.css";
 import { ThemeProvider } from "@mui/material/styles";
+
+//SWR
+import { SWRConfig } from "swr";
+import { fetcher } from "../utils/fetcher";
 
 //components
 import { Layout } from "../components/layout/Layout";
@@ -19,11 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
-      <Layout>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Layout>
+      <SWRConfig value={{ fetcher }}>
+        <Layout>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </Layout>
+      </SWRConfig>
     </>
   );
 }
