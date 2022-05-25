@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 //API
 import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
+import { apiUrl } from "../../utils/values";
 
 /**
  * ユーザ情報.
@@ -24,12 +25,7 @@ const UserInfo: NextPage = () => {
   /**
    * ユーザ情報の取得
    */
-
-  const userId = "62873cf70ae4d6038a394401";
-  const { data, error } = useSWR(
-    `http://localhost:3000/getuser/${userId}/`,
-    fetcher
-  );
+  const { data, error } = useSWR(`${apiUrl}/getuser/userid/`, fetcher);
 
   /**
    * ページ遷移.
