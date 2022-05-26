@@ -41,7 +41,7 @@ const _Header = styled("header")(() => ({
   alignItems: "center",
   position: "fixed",
   top: 0,
-  zIndex: 100,
+  zIndex: 0,
 }));
 
 //ヘッダーのアイコン
