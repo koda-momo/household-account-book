@@ -12,6 +12,9 @@ type Props = {
   userData: UserType;
 };
 
+/**
+ * ユーザ情報の役割、メールアドレス、家族データの部分.
+ */
 export const InfoTable: FC<Props> = memo(({ userData }) => {
   //APIのURL
   const url = userData.familyId
