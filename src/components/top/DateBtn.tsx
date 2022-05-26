@@ -1,4 +1,11 @@
-import { FC, memo, useCallback, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  memo,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 
 //date-fns
 import { format } from "date-fns";
@@ -9,9 +16,13 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-export const DateBtn: FC = memo(() => {
+type Props = {
+  date: Date;
+  setDate: Dispatch<SetStateAction<Date>>;
+};
+
+export const DateBtn: FC<Props> = memo(({ date, setDate }) => {
   //日付データ
-  const [date, setDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(format(date, "yyyy年M月分"));
 
   /**
@@ -52,6 +63,7 @@ export const DateBtn: FC = memo(() => {
 const _Main = styled("div")(() => ({
   display: "flex",
   gap: 10,
+  zIndex: 2,
 }));
 
 const _Date = styled("div")(() => ({
