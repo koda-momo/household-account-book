@@ -4,10 +4,7 @@ import { useCallback, useState } from "react";
 
 //components
 import { ToggleButton } from "../../components/form/ToggleButton";
-import { PieData } from "../../components/top/PieData";
-
-//chart.js
-import { ChartData, ChartOptions, Chart, ArcElement } from "chart.js";
+import { IncomePieData } from "../../components/top/IncomePieData";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -21,33 +18,18 @@ import { FamilyTable } from "../../components/top/FamilyTable";
  * トップページ(収支のページ).
  */
 const Home: NextPage = () => {
-  Chart.register(ArcElement);
-
   const router = useRouter();
-
-  //個人支出
-  const oneOutPieData: ChartData<"pie"> = {
-    labels: ["Red", "Blue", "Yellow"],
-    datasets: [
-      {
-        label: "支出",
-        data: [300, 50, 100], //それぞれの%
-        backgroundColor: [
-          //背景色
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
 
   //トグル(支出、収入)
   const [inOrOutFlug, setInOrOutFlug] = useState("支出");
 
   //トグル(個人、グループ)
   const [oneOrGroupFlug, setOneOrGroupFlug] = useState("個人");
+
+  //表示中の日付
+  const [date, setDate] = useState(new Date());
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
 
   /**
    * 詳細画面に遷移.
@@ -62,7 +44,7 @@ const Home: NextPage = () => {
         <PageTitle title={`${oneOrGroupFlug}の${inOrOutFlug}の記録`} />
 
         <_DateBtn>
-          <DateBtn />
+          <DateBtn date={date} setDate={setDate} />
         </_DateBtn>
 
         <_Center>
@@ -88,7 +70,7 @@ const Home: NextPage = () => {
         </_Center>
 
         <_Flex>
-          <PieData data={oneOutPieData} />
+          <IncomePieData year={year} month={month} mode={oneOrGroupFlug} />
         </_Flex>
 
         <_Flex>
