@@ -7,7 +7,8 @@ import { DetailTable } from "../../components/top/detail/DetailTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
 
 /**
  * 収支詳細画面.
@@ -15,6 +16,19 @@ import { useState } from "react";
 const Detail: NextPage = () => {
   //表示中の日付
   const [date, setDate] = useState(new Date());
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  const { spendingDataCheck, getCategorySpending, spendingCategoryTable } =
+    useSpendingDetail(year, month);
+
+  const { incomeDataCheck, getCategoryIncome, incomeCategoryTable } =
+    useIncomeDetail(year, month);
+
+  useEffect(() => {
+    getCategorySpending();
+    getCategoryIncome();
+  }, [year, month]);
 
   return (
     <_Main>
@@ -22,17 +36,25 @@ const Detail: NextPage = () => {
         <DateBtn date={date} setDate={setDate} />
       </_Flex>
 
-      <PageTitle title="個人支出詳細" />
+      <PageTitle title="あなたの支出詳細" />
       <_Flex>
-        <DetailTable />
+        {spendingDataCheck ? (
+          <DetailTable tableData={spendingCategoryTable} />
+        ) : (
+          <>データなし</>
+        )}
       </_Flex>
 
-      <PageTitle title="個人収入詳細" />
+      <PageTitle title="あなたの収入詳細" />
       <_Flex>
-        <DetailTable />
+        {incomeDataCheck ? (
+          <DetailTable tableData={incomeCategoryTable} />
+        ) : (
+          <>データなし</>
+        )}
       </_Flex>
 
-      <PageTitle title="グループ支出詳細" />
+      {/* <PageTitle title="グループ支出詳細" />
       <_Flex>
         <DetailTable />
       </_Flex>
@@ -40,7 +62,7 @@ const Detail: NextPage = () => {
       <PageTitle title="グループ収入詳細" />
       <_Flex>
         <DetailTable />
-      </_Flex>
+      </_Flex> */}
     </_Main>
   );
 };
