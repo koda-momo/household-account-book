@@ -5,21 +5,21 @@ import { useCallback, useState } from "react";
 //components
 import { ToggleButton } from "../../components/form/ToggleButton";
 import { IncomePieData } from "../../components/top/IncomePieData";
+import { SpendingPieData } from "../../components/top/SpendingPieData";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { PageTitle } from "../../components/layout/PageTitle";
 import { DateBtn } from "../../components/top/DateBtn";
-import { Box, Button } from "@mui/material";
-import { CategoryTable } from "../../components/top/CategoryTable";
+import { Box } from "@mui/material";
+import { SpendingCategoryTable } from "../../components/top/SpendingCategoryTable";
 import { FamilyTable } from "../../components/top/FamilyTable";
+import { AddBtn } from "../../components/top/AddBtn";
 
 /**
  * トップページ(収支のページ).
  */
 const Home: NextPage = () => {
-  const router = useRouter();
-
   //トグル(支出、収入)
   const [inOrOutFlug, setInOrOutFlug] = useState("支出");
 
@@ -31,16 +31,9 @@ const Home: NextPage = () => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
 
-  /**
-   * 詳細画面に遷移.
-   */
-  const goDetailPage = useCallback(() => {
-    router.push("/top/detail");
-  }, []);
-
   return (
     <>
-      <div>
+      <_Main>
         <PageTitle title={`${oneOrGroupFlug}の${inOrOutFlug}の記録`} />
 
         <_DateBtn>
@@ -70,24 +63,30 @@ const Home: NextPage = () => {
         </_Center>
 
         <_Flex>
-          <IncomePieData year={year} month={month} mode={oneOrGroupFlug} />
+          {inOrOutFlug == "支出" ? (
+            <SpendingPieData year={year} month={month} mode={oneOrGroupFlug} />
+          ) : (
+            <IncomePieData year={year} month={month} mode={oneOrGroupFlug} />
+          )}
         </_Flex>
 
         <_Flex>
-          {oneOrGroupFlug === "個人" ? <CategoryTable /> : <FamilyTable />}
-        </_Flex>
+          {inOrOutFlug == "支出" &&
+            (oneOrGroupFlug === "個人" ? (
+              <SpendingCategoryTable year={year} month={month} />
+            ) : (
+              <FamilyTable />
+            ))}
 
-        <_Flex>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ width: 300, fontSize: 20 }}
-            onClick={goDetailPage}
-          >
-            詳細を見る
-          </Button>
+          {inOrOutFlug == "収入" &&
+            (oneOrGroupFlug === "個人" ? (
+              <SpendingCategoryTable year={year} month={month} />
+            ) : (
+              <FamilyTable />
+            ))}
         </_Flex>
-      </div>
+      </_Main>
+      <AddBtn />
     </>
   );
 };
@@ -121,6 +120,13 @@ const _ToggleButton = styled(Box)(() => ({
   "@media screen and (max-width:600px)": {
     flexDirection: "column",
     gap: 20,
+  },
+}));
+
+const _Main = styled("div")(() => ({
+  marginBottom: 50,
+  "@media screen and (max-width:600px)": {
+    marginBottom: 200,
   },
 }));
 
