@@ -8,7 +8,7 @@ import "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button, CircularProgress } from "@mui/material";
+import { Button } from "@mui/material";
 
 //others
 import { useSpendingPie } from "../../../../hooks/useSpendingPie";
@@ -53,7 +53,7 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
   };
 
   /**
-   * 収入データ取得.
+   * 支出データ取得.
    * @remarks スイッチ切替で発動
    */
   useEffect(() => {
@@ -66,11 +66,7 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
-    return (
-      <_Loading>
-        <CircularProgress />
-      </_Loading>
-    );
+    return <_Nodata>登録がありません。</_Nodata>;
 
   return (
     <>
@@ -113,18 +109,6 @@ const _Flex = styled("div")(() => ({
   justifyContent: "center",
   marginTop: 50,
   marginBottom: 50,
-}));
-
-const _Loading = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  marginBottom: 50,
-  width: 500,
-  height: 500,
-  "@media screen and (max-width:600px)": {
-    width: 300,
-    height: 300,
-  },
 }));
 
 const _Nodata = styled("div")(() => ({
