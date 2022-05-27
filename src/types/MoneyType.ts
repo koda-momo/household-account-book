@@ -1,10 +1,37 @@
-export type IncomeItemType = {
+export type ItemType = {
   _id: string;
   name: string;
   howmatch: number;
   createdAt: Date;
 };
 
+export type SpendingType = {
+  _id: string;
+  categoryName: string;
+  color: string;
+  icon: string;
+  spendingId: Array<string>;
+  total: number;
+};
+
+export type NestSpendingType = {
+  _id: string;
+  categoryName: string;
+  color: string;
+  icon: string;
+  spendingId: Array<ItemType>;
+  total: number;
+};
+
+export type GetNestSpendingType = {
+  message: string;
+  status: string;
+  sp: NestSpendingType;
+};
+
+/**
+ * 収入.
+ */
 export type IncomeType = {
   _id: string;
   categoryName: string;
@@ -19,7 +46,7 @@ export type NestIncomeType = {
   categoryName: string;
   color: string;
   icon: string;
-  incomeId: Array<IncomeItemType>;
+  incomeId: Array<ItemType>;
   total: number;
 };
 
@@ -38,5 +65,13 @@ export type NestUserType = {
   role: string;
   image: string;
   incomeId: Array<NestIncomeType>;
-  spendingId: [];
+  spendingId: Array<NestSpendingType>;
+};
+
+export type CategoryType = {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+  price: number;
 };
