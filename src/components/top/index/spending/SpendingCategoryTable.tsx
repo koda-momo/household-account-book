@@ -15,6 +15,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
 } from "@mui/material";
 
 type Props = {
@@ -29,13 +30,11 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
   //表示を整える
   const { formatMoney } = useFormater();
 
-  const { dataCheck, categoryTableData, tableData } = useSpendingTable(
-    year,
-    month
-  );
+  const { dataCheck, makeCategoryTableData, categoryTableData } =
+    useSpendingTable(year, month);
 
   useEffect(() => {
-    categoryTableData();
+    makeCategoryTableData();
   }, [year, month]);
 
   /**
@@ -44,7 +43,7 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
   const totaleCount = (price: number) => {
     let total = 0;
 
-    for (const item of tableData) {
+    for (const item of categoryTableData) {
       total += item.price;
     }
 
@@ -52,6 +51,14 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
 
     return percent;
   };
+
+  //読み込み中の表示
+  if (categoryTableData?.length == 0 && dataCheck === true)
+    return (
+      <_Loading>
+        <CircularProgress />
+      </_Loading>
+    );
 
   return (
     <>
@@ -69,7 +76,7 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData.map((item) => (
+                {categoryTableData.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell></TableCell>
                     <TableCell align="right" width="30%">
@@ -107,4 +114,16 @@ const _Name = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
+}));
+
+const _Loading = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 50,
+  width: 500,
+  height: 500,
+  "@media screen and (max-width:600px)": {
+    width: 300,
+    height: 300,
+  },
 }));
