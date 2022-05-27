@@ -17,6 +17,11 @@ export const Header: FC = memo(() => {
       </_HeaderIcon>
       <_HeaderMenu>
         <_List>
+          <Link href="/top/">
+            <a>
+              <li>TOP</li>
+            </a>
+          </Link>
           <Link href="/user/">
             <a>
               <li>USER INFO</li>
