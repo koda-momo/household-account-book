@@ -7,15 +7,19 @@ import { DetailTable } from "../../components/top/DetailTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
 
 /**
  * 収支詳細画面.
  */
 const Detail: NextPage = () => {
+  //表示中の日付
+  const [date, setDate] = useState(new Date());
+
   return (
     <_Main>
       <_Flex>
-        <DateBtn />
+        <DateBtn date={date} setDate={setDate} />
       </_Flex>
 
       <PageTitle title="個人支出詳細" />
