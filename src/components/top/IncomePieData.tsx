@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
@@ -7,10 +7,11 @@ import "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 //others
 import { useIncome } from "../../hooks/useIncome";
+import { useRouter } from "next/router";
 
 type Props = {
   year: number; //表示年
@@ -20,9 +21,17 @@ type Props = {
 
 export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
+  const router = useRouter();
 
   const { getIncomeCategoryData, getIncomeGroupData, pieData, dataCheck } =
     useIncome(year, month);
+
+  /**
+   * 詳細画面に遷移.
+   */
+  const goDetailPage = useCallback(() => {
+    router.push("/top/detail");
+  }, []);
 
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {
@@ -55,17 +64,31 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
     return (
-      <_Nodata>
+      <_Loading>
         <CircularProgress />
-      </_Nodata>
+      </_Loading>
     );
 
   return (
     <>
       {dataCheck ? (
-        <_Pie>
-          <Pie data={pieData} options={chartOptions} />
-        </_Pie>
+        <div>
+          <_Pie>
+            <Pie data={pieData} options={chartOptions} />
+          </_Pie>
+          <div>
+            <_Flex>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ width: 300, fontSize: 20 }}
+                onClick={goDetailPage}
+              >
+                詳細を見る
+              </Button>
+            </_Flex>
+          </div>
+        </div>
       ) : (
         <_Nodata>登録がありません。</_Nodata>
       )}
@@ -82,7 +105,14 @@ const _Pie = styled("div")(() => ({
   },
 }));
 
-const _Nodata = styled("div")(() => ({
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  marginTop: 50,
+  marginBottom: 50,
+}));
+
+const _Loading = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   marginBottom: 50,
@@ -92,4 +122,10 @@ const _Nodata = styled("div")(() => ({
     width: 300,
     height: 300,
   },
+}));
+
+const _Nodata = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 50,
 }));
