@@ -1,31 +1,33 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useCallback } from "react";
+import { useRouter } from "next/router";
 
-//components
+//components, Types
 import { PageLayout } from "../../components/layout/PageLayout";
 import { FamilyList } from "../../components/user/FamilyList";
 import { InfoTable } from "../../components/user/InfoTable";
+import { UserType } from "../../types/UserType";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Avatar, Button } from "@mui/material";
-import { useRouter } from "next/router";
+
+//API
+import Cookies from "universal-cookie";
+import { apiUrl } from "../../utils/values";
+
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
  * ユーザ情報.
  */
-const UserInfo: NextPage = () => {
+const UserInfo: NextPage<Props> = ({ userData }) => {
   const router = useRouter();
-
-  const data = {
-    id: "abcdefg",
-    image: "/book-tab-logo-face.jpg",
-    familyID: "",
-    name: "山田太郎",
-    mail: "yamadataro-love-happy-yamada@mail.com",
-    password: "yamayama",
-    role: "父",
-  };
 
   /**
    * ページ遷移.
@@ -34,24 +36,20 @@ const UserInfo: NextPage = () => {
     router.push(url);
   }, []);
 
-  /**
-   * ユーザ情報の取得
-   */
-
   return (
     <>
       <PageLayout title="ユーザ情報">
         <_Flex>
           <Avatar
             alt="icon"
-            src={data.image}
+            src={userData.user.image}
             sx={{ width: 100, height: 100 }}
           />
         </_Flex>
-        <_Name>{data.name}</_Name>
+        <_Name>{userData.user.name}</_Name>
         <_Flex>
           <_Table>
-            <InfoTable data={data} />
+            <InfoTable userData={userData.user} />
           </_Table>
         </_Flex>
 
@@ -66,7 +64,7 @@ const UserInfo: NextPage = () => {
             </_Btn>
           </div>
 
-          {data.familyID !== "" ? (
+          {userData.user.familyId !== "" ? (
             <div>
               <_Btn variant="contained" color="primary" href="/group/edit/">
                 グループ名の編集
@@ -97,10 +95,27 @@ const UserInfo: NextPage = () => {
         </_BtnGroup>
       </PageLayout>
       <_FamilyList>
-        <FamilyList id={data.familyID} />
+        <FamilyList familyId={userData.user.familyId} />
       </_FamilyList>
     </>
   );
+};
+
+/**
+ * SSRで初期データ取得.
+ * @returns ユーザ情報初期表示用データ
+ */
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const userId = cookies.get("userId");
+  const userRes = await fetch(`${apiUrl}/getuser/${userId}`);
+  const userData: UserType = await userRes.json();
+
+  return {
+    props: { userData },
+  };
 };
 
 const _Name = styled("div")(() => ({

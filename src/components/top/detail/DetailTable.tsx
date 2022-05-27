@@ -1,7 +1,8 @@
-import { FC, memo, useCallback, useState } from "react";
+import { FC, memo, useEffect } from "react";
 
-//hooks
-import { useFormater } from "../../hooks/useFormater";
+//hooks, types
+import { useFormater } from "../../../hooks/useFormater";
+import { CategoryDetailType } from "../../../types/MoneyType";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -14,60 +15,21 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
 } from "@mui/material";
+
+type Props = {
+  tableData: Array<CategoryDetailType>;
+};
 
 /**
  * 詳細テーブル.
  */
-export const DetailTable: FC = memo(() => {
+export const DetailTable: FC<Props> = memo(({ tableData }) => {
   //表示を整える
   const { formatMoney, formatDate } = useFormater();
 
-  //記録データ
-  const [result] = useState([
-    {
-      id: "000",
-      userId: "000",
-      categoryId: "000",
-      name: "遊んだ",
-      howMath: 100,
-      createdAt: new Date(),
-      categoryData: {
-        id: "000",
-        name: "他",
-        icon: "star",
-        color: "#FFDE7D",
-      },
-    },
-    {
-      id: "111",
-      userId: "000",
-      categoryId: "000",
-      name: "買い物",
-      howMath: 100,
-      createdAt: new Date(),
-      categoryData: {
-        id: "000",
-        name: "買い物",
-        icon: "shopping-cart",
-        color: "#F6416C",
-      },
-    },
-    {
-      id: "222",
-      userId: "000",
-      categoryId: "000",
-      name: "食費",
-      howMath: 10000,
-      createdAt: new Date(),
-      categoryData: {
-        id: "000",
-        name: "食費",
-        icon: "restaurant",
-        color: "#00B8A9",
-      },
-    },
-  ]);
+  if (tableData.length <= 0) return <>データなし</>;
 
   return (
     <>
@@ -84,22 +46,20 @@ export const DetailTable: FC = memo(() => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {result.map((item) => (
+              {tableData.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell></TableCell>
                   <TableCell align="right" width="30%">
                     <_Name>
-                      <Icon style={{ color: item.categoryData.color }}>
-                        {item.categoryData.icon}
-                      </Icon>
+                      <Icon style={{ color: item.color }}>{item.icon}</Icon>
                       {item.name}
                     </_Name>
                   </TableCell>
                   <TableCell align="center">
-                    &yen;{formatMoney(item.howMath)}
+                    &yen;{formatMoney(item.price)}
                   </TableCell>
                   <TableCell align="center">
-                    {formatDate(item.createdAt)}
+                    {formatDate(new Date(item.createdAt))}
                   </TableCell>
                   <TableCell></TableCell>
                 </TableRow>

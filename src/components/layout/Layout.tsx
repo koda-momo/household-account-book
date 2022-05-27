@@ -23,4 +23,5 @@ export const Layout: FC<Props> = memo(({ children }) => {
 //ヘッダーの関係で初期表示ヘッダー分下げる
 const _Main = styled("main")(() => ({
   paddingTop: 100,
+  zIndex: 2,
 }));

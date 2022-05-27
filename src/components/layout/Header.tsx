@@ -17,6 +17,11 @@ export const Header: FC = memo(() => {
       </_HeaderIcon>
       <_HeaderMenu>
         <_List>
+          <Link href="/top/">
+            <a>
+              <li>TOP</li>
+            </a>
+          </Link>
           <Link href="/user/">
             <a>
               <li>USER INFO</li>
@@ -41,7 +46,7 @@ const _Header = styled("header")(() => ({
   alignItems: "center",
   position: "fixed",
   top: 0,
-  zIndex: 100,
+  zIndex: 0,
 }));
 
 //ヘッダーのアイコン

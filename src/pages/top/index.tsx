@@ -1,68 +1,55 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 
 //components
+import { PageTitle } from "../../components/layout/PageTitle";
+import { DateBtn } from "../../components/top/DateBtn";
 import { ToggleButton } from "../../components/form/ToggleButton";
-import { PieData } from "../../components/top/PieData";
-
-//chart.js
-import { ChartData, ChartOptions, Chart, ArcElement } from "chart.js";
+import { AddBtn } from "../../components/top/AddBtn";
+import { SpendingPieData } from "../../components/top/index/spending/SpendingPieData";
+import { SpendingCategoryTable } from "../../components/top/index/spending/SpendingCategoryTable";
+import { SpendingFamilyTable } from "../../components/top/index/spending/SpendingFamilyTable";
+import { IncomePieData } from "../../components/top/index/income/IncomePieData";
+import { IncomeCategoryTable } from "../../components/top/index/income/IncomeCategoryTable";
+import { IncomeFamilyTable } from "../../components/top/index/income/IncomeFamilyTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { PageTitle } from "../../components/layout/PageTitle";
-import { DateBtn } from "../../components/top/DateBtn";
-import { Box, Button } from "@mui/material";
-import { CategoryTable } from "../../components/top/CategoryTable";
-import { FamilyTable } from "../../components/top/FamilyTable";
+import { Box } from "@mui/material";
 
 /**
  * トップページ(収支のページ).
  */
 const Home: NextPage = () => {
-  Chart.register(ArcElement);
-
-  const router = useRouter();
-
-  //個人支出
-  const oneOutPieData: ChartData<"pie"> = {
-    labels: ["Red", "Blue", "Yellow"],
-    datasets: [
-      {
-        label: "支出",
-        data: [300, 50, 100], //それぞれの%
-        backgroundColor: [
-          //背景色
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
-
   //トグル(支出、収入)
   const [inOrOutFlug, setInOrOutFlug] = useState("支出");
 
   //トグル(個人、グループ)
   const [oneOrGroupFlug, setOneOrGroupFlug] = useState("個人");
 
-  /**
-   * 詳細画面に遷移.
-   */
-  const goDetailPage = useCallback(() => {
-    router.push("/top/detail");
-  }, []);
+  //表示中の日付
+  const [date, setDate] = useState(new Date());
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  //表のタイトル
+  const [title, setTitle] = useState(`あなたの${inOrOutFlug}の記録`);
+
+  useEffect(() => {
+    if (oneOrGroupFlug === "個人") {
+      setTitle(`あなたの${inOrOutFlug}の記録`);
+    } else {
+      setTitle(`グループの${inOrOutFlug}の記録`);
+    }
+  }, [year, month, inOrOutFlug, oneOrGroupFlug]);
 
   return (
     <>
-      <div>
-        <PageTitle title={`${oneOrGroupFlug}の${inOrOutFlug}の記録`} />
+      <_Main>
+        <PageTitle title={title} />
 
         <_DateBtn>
-          <DateBtn />
+          <DateBtn date={date} setDate={setDate} />
         </_DateBtn>
 
         <_Center>
@@ -88,24 +75,30 @@ const Home: NextPage = () => {
         </_Center>
 
         <_Flex>
-          <PieData data={oneOutPieData} />
+          {inOrOutFlug == "支出" ? (
+            <SpendingPieData year={year} month={month} mode={oneOrGroupFlug} />
+          ) : (
+            <IncomePieData year={year} month={month} mode={oneOrGroupFlug} />
+          )}
         </_Flex>
 
         <_Flex>
-          {oneOrGroupFlug === "個人" ? <CategoryTable /> : <FamilyTable />}
-        </_Flex>
+          {inOrOutFlug == "支出" &&
+            (oneOrGroupFlug === "個人" ? (
+              <SpendingCategoryTable year={year} month={month} />
+            ) : (
+              <SpendingFamilyTable year={year} month={month} />
+            ))}
 
-        <_Flex>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ width: 300, fontSize: 20 }}
-            onClick={goDetailPage}
-          >
-            詳細を見る
-          </Button>
+          {inOrOutFlug == "収入" &&
+            (oneOrGroupFlug === "個人" ? (
+              <IncomeCategoryTable year={year} month={month} />
+            ) : (
+              <IncomeFamilyTable year={year} month={month} />
+            ))}
         </_Flex>
-      </div>
+      </_Main>
+      <AddBtn />
     </>
   );
 };
@@ -139,6 +132,13 @@ const _ToggleButton = styled(Box)(() => ({
   "@media screen and (max-width:600px)": {
     flexDirection: "column",
     gap: 20,
+  },
+}));
+
+const _Main = styled("div")(() => ({
+  marginBottom: 50,
+  "@media screen and (max-width:600px)": {
+    marginBottom: 200,
   },
 }));
 

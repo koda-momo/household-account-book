@@ -35,7 +35,7 @@ export const InputText: FC<Props> = memo(
           label={label}
           value={value}
           type={type}
-          defaultValue={defaultValue}
+          // defaultValue={defaultValue}
           size="medium"
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
         />
