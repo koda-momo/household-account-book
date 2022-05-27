@@ -10,11 +10,7 @@ import { useColor } from "./useColor";
 
 //他
 import Cookie from "universal-cookie";
-import {
-  NestUserType,
-  NestSpendingType,
-  CategoryType,
-} from "../types/MoneyType";
+import { NestUserType, NestSpendingType } from "../types/MoneyType";
 
 export const useSpendingPie = (year: number, month: number) => {
   const { makeColor } = useColor();
