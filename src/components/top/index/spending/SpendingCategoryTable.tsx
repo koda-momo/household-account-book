@@ -1,7 +1,8 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useEffect } from "react";
 
 //hooks
-import { useFormater } from "../../hooks/useFormater";
+import { useFormater } from "../../../../hooks/useFormater";
+import { useSpendingTable } from "../../../../hooks/useSpendingTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -15,7 +16,6 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-import { useSpending } from "../../hooks/useSpending";
 
 type Props = {
   year: number;
@@ -29,7 +29,10 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
   //表示を整える
   const { formatMoney } = useFormater();
 
-  const { categoryTableData, tableData, dataCheck } = useSpending(year, month);
+  const { dataCheck, categoryTableData, tableData } = useSpendingTable(
+    year,
+    month
+  );
 
   useEffect(() => {
     categoryTableData();

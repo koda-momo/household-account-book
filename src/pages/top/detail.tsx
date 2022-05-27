@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 //components
 import { DateBtn } from "../../components/top/DateBtn";
 import { PageTitle } from "../../components/layout/PageTitle";
-import { DetailTable } from "../../components/top/DetailTable";
+import { DetailTable } from "../../components/top/detail/DetailTable";
 
 //MUI
 import { styled } from "@mui/material/styles";

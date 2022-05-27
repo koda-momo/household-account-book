@@ -1,7 +1,7 @@
 import { FC, memo, useState, useCallback } from "react";
 
 //hooks
-import { useFormater } from "../../hooks/useFormater";
+import { useFormater } from "../../../../hooks/useFormater";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -20,7 +20,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 /**
  * グループごとに分類したデータを回す
  */
-export const FamilyTable: FC = memo(() => {
+export const SpendingFamilyTable: FC = memo(() => {
   //表示を整える
   const { formatMoney } = useFormater();
 

@@ -10,16 +10,20 @@ import { useColor } from "./useColor";
 
 //他
 import Cookie from "universal-cookie";
-import { NestIncomeType, NestUserType } from "../types/MoneyType";
+import {
+  NestUserType,
+  NestSpendingType,
+  CategoryType,
+} from "../types/MoneyType";
 
-export const useIncome = (year: number, month: number) => {
+export const useSpendingPie = (year: number, month: number) => {
   const { makeColor } = useColor();
 
   //ログイン中のユーザID
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
 
-  //収入データ
+  //支出データ
   const [nameList, setNameList] = useState<Array<string>>([]);
   const [priceList, setPriceList] = useState<Array<number>>([]);
   const [colorList, setColorList] = useState<Array<string>>([]);
@@ -28,28 +32,28 @@ export const useIncome = (year: number, month: number) => {
   const [dataCheck, setDataCheck] = useState(true);
 
   /**
-   * 収入データ取得.
+   * 支出データ取得.
    * @remarks カテゴリ別
    */
-  const getIncomeCategoryData = useCallback(async () => {
+  const getSpendingCategoryData = useCallback(async () => {
     //データがあるか否かを一旦trueに
     setDataCheck(true);
 
-    const result = await axios.post(`${apiUrl}/getic/item/`, {
+    const result = await axios.post(`${apiUrl}/getsp/item/`, {
       userId: userId,
       year: year,
       month: month,
     });
 
-    const incomeData = result.data.ic;
+    const spendingData: Array<NestSpendingType> = result.data.sp;
 
     //円グラフに利用する配列
     const categoryArray = new Array<string>();
     const priceArray = new Array<number>();
     const colorArray = new Array<string>();
 
-    //収入情報を回して円グラフのデータを作成する
-    for (const item of incomeData) {
+    //支出情報を回して円グラフのデータを作成する
+    for (const item of spendingData) {
       categoryArray.push(item.categoryName);
       priceArray.push(item.total);
       colorArray.push(`rgb(${item.color})`);
@@ -59,16 +63,17 @@ export const useIncome = (year: number, month: number) => {
     setPriceList(priceArray);
     setColorList(colorArray);
 
-    if (incomeData.length == 0) {
+    if (spendingData.length == 0) {
       setDataCheck(false);
+      return;
     }
   }, [year, month, userId, nameList, priceList, colorList]);
 
   /**
-   * 収入データ取得.
+   * 支出データ取得.
    * @remarks 家族別
    */
-  const getIncomeGroupData = useCallback(async () => {
+  const getSpendingGroupData = useCallback(async () => {
     //データがあるか否かを一旦trueに
     setDataCheck(true);
 
@@ -81,12 +86,12 @@ export const useIncome = (year: number, month: number) => {
     });
 
     const responseData = result.data.family;
-    const incomeData = new Array<NestUserType>();
+    const spendingData = new Array<NestUserType>();
 
     //トータルが0になった時は排除するようにサーバ側で調整すること！
     for (const responseItem of responseData) {
-      if (responseItem.incomeId.length > 0) {
-        incomeData.push(responseItem);
+      if (responseItem.spendingId.length > 0) {
+        spendingData.push(responseItem);
       }
     }
 
@@ -95,11 +100,11 @@ export const useIncome = (year: number, month: number) => {
     const priceArray = new Array<number>();
     const colorArray = new Array<string>();
 
-    //収入情報を回して円グラフのデータを作成する
-    for (const item of incomeData) {
+    //支出情報を回して円グラフのデータを作成する
+    for (const item of spendingData) {
       //値段データ
       let totalPrice = 0;
-      for (const itemB of item.incomeId) {
+      for (const itemB of item.spendingId) {
         totalPrice += itemB.total;
       }
 
@@ -118,7 +123,7 @@ export const useIncome = (year: number, month: number) => {
     setPriceList(priceArray);
     setColorList(colorArray);
 
-    if (incomeData.length == 0) {
+    if (spendingData.length == 0) {
       setDataCheck(false);
     }
   }, [year, month, userId, nameList, priceList, colorList]);
@@ -128,7 +133,7 @@ export const useIncome = (year: number, month: number) => {
     labels: nameList,
     datasets: [
       {
-        label: "収入",
+        label: "支出",
         data: priceList, //それぞれ価格%
         backgroundColor: colorList,
         hoverOffset: 4,
@@ -137,8 +142,8 @@ export const useIncome = (year: number, month: number) => {
   };
 
   return {
-    getIncomeCategoryData,
-    getIncomeGroupData,
+    getSpendingCategoryData,
+    getSpendingGroupData,
     pieData,
     dataCheck,
   };

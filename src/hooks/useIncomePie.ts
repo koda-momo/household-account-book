@@ -10,20 +10,16 @@ import { useColor } from "./useColor";
 
 //他
 import Cookie from "universal-cookie";
-import {
-  NestUserType,
-  NestSpendingType,
-  CategoryType,
-} from "../types/MoneyType";
+import { CategoryType, NestIncomeType, NestUserType } from "../types/MoneyType";
 
-export const useSpending = (year: number, month: number) => {
+export const useIncomePie = (year: number, month: number) => {
   const { makeColor } = useColor();
 
   //ログイン中のユーザID
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
 
-  //支出データ
+  //収入データ
   const [nameList, setNameList] = useState<Array<string>>([]);
   const [priceList, setPriceList] = useState<Array<number>>([]);
   const [colorList, setColorList] = useState<Array<string>>([]);
@@ -31,32 +27,29 @@ export const useSpending = (year: number, month: number) => {
   //データがあるか否か
   const [dataCheck, setDataCheck] = useState(true);
 
-  //テーブルに使用するデータ
-  const [tableData, setTableData] = useState<Array<CategoryType>>([]);
-
   /**
-   * 支出データ取得.
+   * 収入データ取得.
    * @remarks カテゴリ別
    */
-  const getSpendingCategoryData = useCallback(async () => {
+  const getIncomeCategoryData = useCallback(async () => {
     //データがあるか否かを一旦trueに
     setDataCheck(true);
 
-    const result = await axios.post(`${apiUrl}/getsp/item/`, {
+    const result = await axios.post(`${apiUrl}/getic/item/`, {
       userId: userId,
       year: year,
       month: month,
     });
 
-    const spendingData: Array<NestSpendingType> = result.data.sp;
+    const incomeData: Array<NestIncomeType> = result.data.ic;
 
     //円グラフに利用する配列
     const categoryArray = new Array<string>();
     const priceArray = new Array<number>();
     const colorArray = new Array<string>();
 
-    //支出情報を回して円グラフのデータを作成する
-    for (const item of spendingData) {
+    //収入情報を回して円グラフのデータを作成する
+    for (const item of incomeData) {
       categoryArray.push(item.categoryName);
       priceArray.push(item.total);
       colorArray.push(`rgb(${item.color})`);
@@ -66,17 +59,16 @@ export const useSpending = (year: number, month: number) => {
     setPriceList(priceArray);
     setColorList(colorArray);
 
-    if (spendingData.length == 0) {
+    if (incomeData.length == 0) {
       setDataCheck(false);
-      return;
     }
   }, [year, month, userId, nameList, priceList, colorList]);
 
   /**
-   * 支出データ取得.
+   * 収入データ取得.
    * @remarks 家族別
    */
-  const getSpendingGroupData = useCallback(async () => {
+  const getIncomeGroupData = useCallback(async () => {
     //データがあるか否かを一旦trueに
     setDataCheck(true);
 
@@ -89,12 +81,12 @@ export const useSpending = (year: number, month: number) => {
     });
 
     const responseData = result.data.family;
-    const spendingData = new Array<NestUserType>();
+    const incomeData = new Array<NestUserType>();
 
     //トータルが0になった時は排除するようにサーバ側で調整すること！
     for (const responseItem of responseData) {
-      if (responseItem.spendingId.length > 0) {
-        spendingData.push(responseItem);
+      if (responseItem.incomeId.length > 0) {
+        incomeData.push(responseItem);
       }
     }
 
@@ -103,11 +95,11 @@ export const useSpending = (year: number, month: number) => {
     const priceArray = new Array<number>();
     const colorArray = new Array<string>();
 
-    //支出情報を回して円グラフのデータを作成する
-    for (const item of spendingData) {
+    //収入情報を回して円グラフのデータを作成する
+    for (const item of incomeData) {
       //値段データ
       let totalPrice = 0;
-      for (const itemB of item.spendingId) {
+      for (const itemB of item.incomeId) {
         totalPrice += itemB.total;
       }
 
@@ -126,7 +118,7 @@ export const useSpending = (year: number, month: number) => {
     setPriceList(priceArray);
     setColorList(colorArray);
 
-    if (spendingData.length == 0) {
+    if (incomeData.length == 0) {
       setDataCheck(false);
     }
   }, [year, month, userId, nameList, priceList, colorList]);
@@ -136,7 +128,7 @@ export const useSpending = (year: number, month: number) => {
     labels: nameList,
     datasets: [
       {
-        label: "支出",
+        label: "収入",
         data: priceList, //それぞれ価格%
         backgroundColor: colorList,
         hoverOffset: 4,
@@ -144,48 +136,10 @@ export const useSpending = (year: number, month: number) => {
     ],
   };
 
-  /**
-   * 支出カテゴリテーブルデータ作成.
-   */
-  const categoryTableData = useCallback(async () => {
-    //データがあるか否かを一旦trueに
-    setDataCheck(true);
-
-    //API
-    const result = await axios.post(`${apiUrl}/getsp/item/`, {
-      userId: userId,
-      year: year,
-      month: month,
-    });
-    const spendingData: Array<NestSpendingType> = result.data.sp;
-
-    //配列作成
-    const dataArray = new Array<CategoryType>();
-
-    //支出情報を回して円グラフのデータを作成する
-    for (const item of spendingData) {
-      dataArray.push({
-        id: item._id,
-        name: item.categoryName,
-        icon: item.icon,
-        color: `rgb(${item.color})`,
-        price: item.total,
-      });
-    }
-
-    setTableData(dataArray);
-
-    if (spendingData.length == 0) {
-      setDataCheck(false);
-    }
-  }, [year, month, userId]);
-
   return {
-    getSpendingCategoryData,
-    getSpendingGroupData,
+    getIncomeCategoryData,
+    getIncomeGroupData,
     pieData,
     dataCheck,
-    categoryTableData,
-    tableData,
   };
 };

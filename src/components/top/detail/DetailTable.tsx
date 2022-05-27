@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useState } from "react";
 
 //hooks
-import { useFormater } from "../../hooks/useFormater";
+import { useFormater } from "../../../hooks/useFormater";
 
 //MUI
 import { styled } from "@mui/material/styles";

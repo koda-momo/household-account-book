@@ -1,4 +1,5 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect } from "react";
+import { useRouter } from "next/router";
 
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
@@ -10,8 +11,7 @@ import { styled } from "@mui/material/styles";
 import { Button, CircularProgress } from "@mui/material";
 
 //others
-import { useIncome } from "../../hooks/useIncome";
-import { useRouter } from "next/router";
+import { useSpendingPie } from "../../../../hooks/useSpendingPie";
 
 type Props = {
   year: number; //表示年
@@ -19,12 +19,15 @@ type Props = {
   mode: string; //グループか個人か
 };
 
-export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
+/**
+ * 支出円グラフコンポーネント.
+ */
+export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
   const router = useRouter();
 
-  const { getIncomeCategoryData, getIncomeGroupData, pieData, dataCheck } =
-    useIncome(year, month);
+  const { getSpendingCategoryData, getSpendingGroupData, pieData, dataCheck } =
+    useSpendingPie(year, month);
 
   /**
    * 詳細画面に遷移.
@@ -55,9 +58,9 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
    */
   useEffect(() => {
     if (mode === "個人") {
-      getIncomeCategoryData();
+      getSpendingCategoryData();
     } else if (mode === "グループ") {
-      getIncomeGroupData();
+      getSpendingGroupData();
     }
   }, [mode, year, month]);
 

@@ -1,20 +1,20 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 //components
+import { PageTitle } from "../../components/layout/PageTitle";
+import { DateBtn } from "../../components/top/DateBtn";
 import { ToggleButton } from "../../components/form/ToggleButton";
-import { IncomePieData } from "../../components/top/IncomePieData";
-import { SpendingPieData } from "../../components/top/SpendingPieData";
+import { AddBtn } from "../../components/top/AddBtn";
+import { SpendingPieData } from "../../components/top/index/spending/SpendingPieData";
+import { SpendingCategoryTable } from "../../components/top/index/spending/SpendingCategoryTable";
+import { SpendingFamilyTable } from "../../components/top/index/spending/SpendingFamilyTable";
+import { IncomePieData } from "../../components/top/index/income/IncomePieData";
+import { IncomeCategoryTable } from "../../components/top/index/income/IncomeCategoryTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { PageTitle } from "../../components/layout/PageTitle";
-import { DateBtn } from "../../components/top/DateBtn";
 import { Box } from "@mui/material";
-import { SpendingCategoryTable } from "../../components/top/SpendingCategoryTable";
-import { FamilyTable } from "../../components/top/FamilyTable";
-import { AddBtn } from "../../components/top/AddBtn";
 
 /**
  * トップページ(収支のページ).
@@ -75,14 +75,14 @@ const Home: NextPage = () => {
             (oneOrGroupFlug === "個人" ? (
               <SpendingCategoryTable year={year} month={month} />
             ) : (
-              <FamilyTable />
+              <SpendingFamilyTable />
             ))}
 
           {inOrOutFlug == "収入" &&
             (oneOrGroupFlug === "個人" ? (
-              <SpendingCategoryTable year={year} month={month} />
+              <IncomeCategoryTable year={year} month={month} />
             ) : (
-              <FamilyTable />
+              <SpendingFamilyTable />
             ))}
         </_Flex>
       </_Main>
