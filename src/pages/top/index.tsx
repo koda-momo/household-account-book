@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //components
 import { PageTitle } from "../../components/layout/PageTitle";
@@ -11,6 +11,7 @@ import { SpendingCategoryTable } from "../../components/top/index/spending/Spend
 import { SpendingFamilyTable } from "../../components/top/index/spending/SpendingFamilyTable";
 import { IncomePieData } from "../../components/top/index/income/IncomePieData";
 import { IncomeCategoryTable } from "../../components/top/index/income/IncomeCategoryTable";
+import { IncomeFamilyTable } from "../../components/top/index/income/IncomeFamilyTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -31,10 +32,21 @@ const Home: NextPage = () => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
 
+  //表のタイトル
+  const [title, setTitle] = useState(`あなたの${inOrOutFlug}の記録`);
+
+  useEffect(() => {
+    if (oneOrGroupFlug === "個人") {
+      setTitle(`あなたの${inOrOutFlug}の記録`);
+    } else {
+      setTitle(`グループの${inOrOutFlug}の記録`);
+    }
+  }, [year, month, inOrOutFlug, oneOrGroupFlug]);
+
   return (
     <>
       <_Main>
-        <PageTitle title={`${oneOrGroupFlug}の${inOrOutFlug}の記録`} />
+        <PageTitle title={title} />
 
         <_DateBtn>
           <DateBtn date={date} setDate={setDate} />
@@ -75,14 +87,14 @@ const Home: NextPage = () => {
             (oneOrGroupFlug === "個人" ? (
               <SpendingCategoryTable year={year} month={month} />
             ) : (
-              <SpendingFamilyTable />
+              <SpendingFamilyTable year={year} month={month} />
             ))}
 
           {inOrOutFlug == "収入" &&
             (oneOrGroupFlug === "個人" ? (
               <IncomeCategoryTable year={year} month={month} />
             ) : (
-              <SpendingFamilyTable />
+              <IncomeFamilyTable year={year} month={month} />
             ))}
         </_Flex>
       </_Main>
