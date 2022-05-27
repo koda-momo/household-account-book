@@ -2,7 +2,7 @@ import { FC, memo, useEffect } from "react";
 
 //hooks, Type
 import { useFormater } from "../../../../hooks/useFormater";
-import { useSpendingTable } from "../../../../hooks/useSpendingTable";
+import { useIncomeTable } from "../../../../hooks/useIncomeTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -26,11 +26,11 @@ type Props = {
 /**
  * グループごとに分類したデータを回す
  */
-export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
+export const IncomeFamilyTable: FC<Props> = memo(({ year, month }) => {
   //表示を整える
   const { formatMoney } = useFormater();
 
-  const { dataCheck, makeFamilyTableData, familyTableData } = useSpendingTable(
+  const { dataCheck, makeFamilyTableData, familyTableData } = useIncomeTable(
     year,
     month
   );
@@ -71,7 +71,7 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell align="center">役割名</TableCell>
+                    <TableCell align="center">名前</TableCell>
                     <TableCell align="center">金額</TableCell>
                     <TableCell align="center">%</TableCell>
                     <TableCell></TableCell>
@@ -88,6 +88,7 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
                             src={item.image}
                             sx={{ width: 50, height: 50 }}
                           />
+
                           {item.name}
                         </_Avatar>
                       </TableCell>
@@ -132,5 +133,19 @@ const _Loading = styled("div")(() => ({
   "@media screen and (max-width:600px)": {
     width: 300,
     height: 300,
+  },
+}));
+
+const _Phone = styled("div")(() => ({
+  display: "none",
+  "@media screen and (max-width:600px)": {
+    display: "block",
+  },
+}));
+
+const _Pc = styled("div")(() => ({
+  display: "block",
+  "@media screen and (max-width:600px)": {
+    display: "none",
   },
 }));
