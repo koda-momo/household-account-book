@@ -75,3 +75,19 @@ export type CategoryType = {
   color: string;
   price: number;
 };
+
+export type FamilyType = {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+};
+
+export type CategoryDetailType = {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+  price: number;
+  createdAt: Date;
+};
