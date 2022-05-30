@@ -98,7 +98,7 @@ const Home: NextPage = () => {
             ))}
         </_Flex>
       </_Main>
-      <GoToPageBtn path="/top/detail/" word="詳細ページへ" />
+      <GoToPageBtn path="/top/detail/" word="詳細ページへ" left={25} />
     </>
   );
 };

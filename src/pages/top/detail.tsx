@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
 import { ToggleButton } from "../../components/form/ToggleButton";
+import { GoToPageBtn } from "../../components/top/GoToPageBtn";
 
 /**
  * 収支詳細画面.
@@ -97,6 +98,7 @@ const Detail: NextPage = () => {
               <>データなし</>
             )}
           </_Flex>
+          <GoToPageBtn path="/top/detail/" word="新規追加" left={40} />
         </>
       )}
 

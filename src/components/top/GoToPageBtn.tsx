@@ -8,10 +8,11 @@ import { keyframes } from "@mui/system";
 
 type Props = {
   path: string;
-  word?: string;
+  word?: string; //吹き出しの中身
+  left?: number; //位置調節
 };
 
-export const GoToPageBtn: FC<Props> = memo(({ path, word }) => {
+export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
   const router = useRouter();
   const goToAddPage = useCallback(() => {
     router.push(path);
@@ -26,7 +27,9 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word }) => {
               <_Fukidashi>
                 <Image src={"/fukidashi.png"} width={150} height={70} />
               </_Fukidashi>
-              <_Word>{word}</_Word>
+              <div style={{ position: "absolute", top: 22, left: left }}>
+                {word}
+              </div>
             </>
           )}
           <Image
@@ -40,9 +43,18 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word }) => {
           {word && (
             <>
               <_Fukidashi>
-                <Image src={"/fukidashi.png"} width={100} height={100} />
+                <Image src={"/fukidashi.png"} width={150} height={50} />
               </_Fukidashi>
-              <_Word>{word}</_Word>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 13,
+                  left: left,
+                  fontSize: 15,
+                }}
+              >
+                {word}
+              </div>
             </>
           )}
           <Image
@@ -73,12 +85,6 @@ const _Main = styled("div")(() => ({
 const _Fukidashi = styled("div")(() => ({
   position: "relative",
   marginBottom: -20,
-}));
-
-const _Word = styled("div")(() => ({
-  position: "absolute",
-  top: 20,
-  left: 25,
 }));
 
 const _PcImage = styled("div")(() => ({
