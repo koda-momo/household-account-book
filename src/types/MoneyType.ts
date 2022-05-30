@@ -91,3 +91,12 @@ export type CategoryDetailType = {
   price: number;
   createdAt: Date;
 };
+
+export type FamilyDetailType = {
+  id: string;
+  name: string;
+  contentName: string;
+  image: string;
+  price: number;
+  createdAt: Date;
+};
