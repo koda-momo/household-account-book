@@ -85,18 +85,6 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
           <_Pie>
             <Pie data={pieData} options={chartOptions} />
           </_Pie>
-          <div>
-            <_Flex>
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ width: 300, fontSize: 20 }}
-                onClick={goDetailPage}
-              >
-                詳細を見る
-              </Button>
-            </_Flex>
-          </div>
         </div>
       ) : (
         <_Nodata>登録がありません。</_Nodata>

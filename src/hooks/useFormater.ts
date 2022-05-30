@@ -1,6 +1,7 @@
 //date-fns
 import { format } from "date-fns";
 import { useCallback } from "react";
+import { CategoryType, FamilyType } from "../types/MoneyType";
 
 /**
  * 表示を整えるhook.
@@ -20,5 +21,37 @@ export const useFormater = () => {
     return money.toLocaleString();
   }, []);
 
-  return { formatDate, formatMoney };
+  /**
+   * パーセンテージの計算.
+   */
+  const totaleCount = (
+    price: number,
+    categoryTableData: Array<CategoryType>
+  ) => {
+    let total = 0;
+
+    for (const item of categoryTableData) {
+      total += item.price;
+    }
+    const percent = (Math.round((price / total) * 1000) / 10).toString();
+    return percent;
+  };
+
+  /**
+   * パーセンテージの計算.
+   */
+  const totaleFamilyCount = (
+    price: number,
+    familyTableData: Array<FamilyType>
+  ) => {
+    let total = 0;
+
+    for (const item of familyTableData) {
+      total += item.price;
+    }
+    const percent = (Math.round((price / total) * 1000) / 10).toString();
+    return percent;
+  };
+
+  return { formatDate, formatMoney, totaleCount, totaleFamilyCount };
 };

@@ -28,7 +28,7 @@ type Props = {
  */
 export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
   //表示を整える
-  const { formatMoney } = useFormater();
+  const { formatMoney, totaleFamilyCount } = useFormater();
 
   const { dataCheck, makeFamilyTableData, familyTableData } = useSpendingTable(
     year,
@@ -38,20 +38,6 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
   useEffect(() => {
     makeFamilyTableData();
   }, [year, month]);
-
-  /**
-   * パーセンテージの計算.
-   */
-  const totaleCount = (price: number) => {
-    let total = 0;
-    familyTableData.map((item) => {
-      total += item.price;
-    });
-
-    const percent = Math.round((price / total) * Math.pow(10, 2));
-
-    return percent;
-  };
 
   //読み込み中の表示
   if (familyTableData?.length == 0 && dataCheck === true)
@@ -95,7 +81,7 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
                         &yen;{formatMoney(item.price)}
                       </TableCell>
                       <TableCell align="center">
-                        {totaleCount(item.price)}%
+                        {totaleFamilyCount(item.price, familyTableData)}%
                       </TableCell>
                       <TableCell></TableCell>
                     </TableRow>

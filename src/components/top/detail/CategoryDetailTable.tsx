@@ -1,4 +1,4 @@
-import { FC, memo, useEffect } from "react";
+import { FC, memo } from "react";
 
 //hooks, types
 import { useFormater } from "../../../hooks/useFormater";
