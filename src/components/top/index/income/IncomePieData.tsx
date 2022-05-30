@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import "chartjs-plugin-datalabels";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 
 //others
 import { useIncomePie } from "../../../../hooks/useIncomePie";
+import { usePie } from "../../../../hooks/usePie";
 
 type Props = {
   year: number; //表示年
@@ -24,10 +25,15 @@ type Props = {
  */
 export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
+  Chart.register(ChartDataLabels);
+
   const router = useRouter();
 
+  //hooks
   const { getIncomeCategoryData, getIncomeGroupData, pieData, dataCheck } =
     useIncomePie(year, month);
+
+  const { pieOption } = usePie();
 
   /**
    * 詳細画面に遷移.
@@ -38,15 +44,19 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
 
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {
-    color: "red",
-    backgroundColor: "red",
     plugins: {
       datalabels: {
+        labels: {
+          title: {
+            color: "white",
+            font: {
+              size: 20,
+            },
+          },
+        },
         display: true,
-        anchor: "end",
-        align: "right",
-        formatter(value) {
-          return `${value}円`;
+        formatter(value, context) {
+          return pieOption(value, context);
         },
       },
     },
