@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { PageTitle } from "../../components/layout/PageTitle";
 import { DateBtn } from "../../components/top/DateBtn";
 import { ToggleButton } from "../../components/form/ToggleButton";
-import { AddBtn } from "../../components/top/AddBtn";
+import { GoToPageBtn } from "../../components/top/GoToPageBtn";
 import { SpendingPieData } from "../../components/top/index/spending/SpendingPieData";
 import { SpendingCategoryTable } from "../../components/top/index/spending/SpendingCategoryTable";
 import { SpendingFamilyTable } from "../../components/top/index/spending/SpendingFamilyTable";
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
             ))}
         </_Flex>
       </_Main>
-      <AddBtn />
+      <GoToPageBtn path="/top/detail/" word="詳細ページへ" />
     </>
   );
 };
