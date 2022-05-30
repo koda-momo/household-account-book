@@ -98,7 +98,7 @@ const Detail: NextPage = () => {
               <>データなし</>
             )}
           </_Flex>
-          <GoToPageBtn path="/top/detail/" word="新規追加" left={40} />
+          <GoToPageBtn path="/top/add/" word="新規追加" left={40} />
         </>
       )}
 
