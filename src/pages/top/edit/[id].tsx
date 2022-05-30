@@ -1,4 +1,8 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 
@@ -7,22 +11,28 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
+//components
+import { PageLayout } from "../../../components/layout/PageLayout";
+import { SelectBox } from "../../../components/form/SelectBox";
+import { InputText } from "../../../components/form/InputText";
+import { InputNumber } from "../../../components/form/InputNumber";
+import { InputDate } from "../../../components/form/InputDate";
+import { apiUrl } from "../../../utils/values";
+
+//others
 import Cookie from "universal-cookie";
 import { toast } from "react-hot-toast";
-import { InputText } from "../../components/form/InputText";
-import { PageLayout } from "../../components/layout/PageLayout";
-import { SelectBox } from "../../components/form/SelectBox";
-import { InputNumber } from "../../components/form/InputNumber";
-import { InputDate } from "../../components/form/InputDate";
 import { addYears } from "date-fns";
-import { apiUrl } from "../../utils/values";
 import axios from "axios";
-import { CategorySelect } from "../../components/top/CategorySelect";
+import { CategoryType, ItemType } from "../../../types/MoneyType";
+import { CategorySelect } from "../../../components/top/CategorySelect";
+
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
- * 収支新規登録画面.
+ * 編集ページ.
  */
-const AddData: NextPage = () => {
+const EditData: NextPage<Props> = ({ categoryList }) => {
   const router = useRouter();
   const cookie = new Cookie();
   const userId = cookie.get("userId");
@@ -201,9 +211,33 @@ const AddData: NextPage = () => {
   );
 };
 
+/**
+ * SSRでカテゴリデータ取得.
+ * @returns ユーザ情報初期表示用データ
+ */
+export const getServerSideProps: GetServerSideProps = async (req) => {
+  //クエリからID取得
+  const path = req.query.path?.[0] ?? null;
+
+  //支出データ取得
+  const spendingRes = await fetch(`${apiUrl}/getspitem`);
+  const spendingList: Array<ItemType> = await spendingRes.json();
+
+  //収入データ取得
+  const incomeRes = await fetch(`${apiUrl}/geticitem`);
+  const incomeList: Array<ItemType> = await incomeRes.json();
+
+  //同じIDの物を抽出
+  const spendingData = spendingList.find((item) => item._id === path);
+
+  return {
+    props: { categoryList },
+  };
+};
+
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
 }));
 
-export default AddData;
+export default EditData;
