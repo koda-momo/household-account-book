@@ -13,13 +13,14 @@ type Props = {
   category: string;
   setCategory: Dispatch<SetStateAction<string>>;
   categoryError: string;
+  genre: string;
 };
 
 /**
  * カテゴリのセレクトボックス.
  */
 export const CategorySelect: FC<Props> = memo(
-  ({ category, setCategory, categoryError }) => {
+  ({ category, setCategory, categoryError, genre }) => {
     /**
      * カテゴリリスト取得.
      */
@@ -31,13 +32,22 @@ export const CategorySelect: FC<Props> = memo(
      * データ作成.
      */
     useEffect(() => {
-      const array = new Array<string>();
       if (!categoryData) {
         return;
       }
-      for (const item of categoryData) {
+
+      let filterArray = categoryData;
+
+      //対象ジャンルで搾る
+      filterArray.filter((item) => {
+        item.genre === genre || item.genre === "その他";
+      });
+
+      const array = new Array<string>();
+      for (const item of filterArray) {
         array.push(item.name);
       }
+
       setCategoryList([...array]);
     }, [categoryData]);
 

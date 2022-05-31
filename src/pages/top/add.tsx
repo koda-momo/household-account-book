@@ -182,6 +182,7 @@ const AddData: NextPage = () => {
             setCategory={setCategory}
             category={category}
             categoryError={categoryError}
+            genre={inOut}
           />
         </_TextInput>
 
