@@ -3,7 +3,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 
 //MUI
@@ -13,7 +13,6 @@ import SendIcon from "@mui/icons-material/Send";
 
 //components
 import { PageLayout } from "../../../components/layout/PageLayout";
-import { SelectBox } from "../../../components/form/SelectBox";
 import { InputText } from "../../../components/form/InputText";
 import { InputNumber } from "../../../components/form/InputNumber";
 import { InputDate } from "../../../components/form/InputDate";
@@ -24,7 +23,6 @@ import Cookie from "universal-cookie";
 import { toast } from "react-hot-toast";
 import { addYears } from "date-fns";
 import axios from "axios";
-import { CategoryType, ItemType } from "../../../types/MoneyType";
 import { CategorySelect } from "../../../components/top/CategorySelect";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
@@ -32,10 +30,18 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 /**
  * 編集ページ.
  */
-const EditData: NextPage<Props> = ({ categoryList }) => {
+const EditData: NextPage<Props> = ({ listData }) => {
+  //URLからID取得
   const router = useRouter();
+  const [itemId] = useState(router.query.id);
+
   const cookie = new Cookie();
   const userId = cookie.get("userId");
+
+  const listItem = listData.spItem ? listData.spItem : listData.icItem;
+
+  //取得したデータが収入なのか、支出なのか判断
+  const inOutData = listData.spItem ? "支出" : "収入";
 
   //最小の年月設定
   const dateYear = new Date().getFullYear();
@@ -45,8 +51,7 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
   const maxDate = Number(addYears(new Date(dateYear, 1 - 1, 1), 10));
 
   //収支
-  const [inOut, setInOut] = useState<string>("");
-  const [inOutError, setInOutError] = useState<string>("");
+  const [inOut] = useState<string>(inOutData);
 
   //項目名
   const [name, setName] = useState<string>("");
@@ -57,31 +62,40 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
   const [priceError, setPriceError] = useState<string>("");
 
   //日にち
-  const [date, setDate] = useState<number | null>(Number(new Date()));
+  const [date, setDate] = useState<number | null>(0);
   const [dateError, setDateError] = useState<string>("");
 
   //カテゴリ
   const [category, setCategory] = useState<string>("");
   const [categoryError, setCategoryError] = useState<string>("");
 
-  const inOutList = ["収入", "支出"];
+  /**
+   * 初期値の設定.
+   */
+  useEffect(() => {
+    setName(listItem.name);
+    setPrice(listItem.howmatch);
+    setCategory(listData.categoryName);
+    setDate(Number(new Date(listItem.createdAt)));
+  }, []);
+
+  /**
+   * キャンセル.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, []);
 
   /**
    * 収支データ新規登録.
    */
   const postData = useCallback(() => {
     //エラー初期化
-    setInOutError("");
     setNameError("");
     setPriceError("");
     setDateError("");
     setCategoryError("");
     let error = "";
-
-    if (inOut === "") {
-      setInOutError("収支を選択して下さい。");
-      error = "エラーあり";
-    }
 
     if (name === "") {
       setNameError("名前を入力して下さい。");
@@ -116,7 +130,6 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
     }
 
     const postData = {
-      userId: userId,
       name: name,
       howmatch: price,
       date: new Date(postDate),
@@ -124,16 +137,16 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
     };
 
     const url =
-      inOut === "支出" ? `${apiUrl}/newspitem` : `${apiUrl}/newicitem`;
-
-    console.log(category);
+      inOut === "支出"
+        ? `${apiUrl}/updatespitem/${itemId}`
+        : `${apiUrl}/updateicitem/${itemId}`;
 
     try {
       axios.post(url, postData);
-      toast.success(`${name}を${inOut}データで登録しました。`);
-      router.push("/top/");
+      toast.success("データを更新しました。");
+      router.back();
     } catch (e) {
-      toast.error("登録に失敗しました。");
+      toast.error("更新に失敗しました。");
     }
   }, [
     nameError,
@@ -145,27 +158,19 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
     price,
     date,
     category,
+    inOut,
   ]);
 
   return (
     <>
-      <PageLayout title="収支データ新規登録">
-        <_TextInput>
-          <SelectBox
-            menuList={inOutList}
-            setWord={setInOut}
-            value={inOut}
-            label="収支"
-            errorItem={inOutError}
-          />
-        </_TextInput>
-
+      <PageLayout title={`${inOut}データ編集`}>
         <_TextInput>
           <InputText
             label="項目名"
             value={name}
             setWord={setName}
             errorItem={nameError}
+            defaultValue={name}
           />
         </_TextInput>
 
@@ -175,6 +180,7 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
             value={price}
             setNumber={setPrice}
             errorItem={priceError}
+            defaultValue={price}
           />
         </_TextInput>
 
@@ -192,20 +198,24 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
             setCategory={setCategory}
             category={category}
             categoryError={categoryError}
+            genre={inOut}
           />
         </_TextInput>
 
         <_TextInput />
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postData}
             endIcon={<SendIcon />}
             color="primary"
           >
-            登録
+            更新
           </Button>
-        </div>
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -215,29 +225,35 @@ const EditData: NextPage<Props> = ({ categoryList }) => {
  * SSRでカテゴリデータ取得.
  * @returns ユーザ情報初期表示用データ
  */
-export const getServerSideProps: GetServerSideProps = async (req) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //クエリからID取得
-  const path = req.query.path?.[0] ?? null;
+  const itemId = ctx.query.id;
 
   //支出データ取得
-  const spendingRes = await fetch(`${apiUrl}/getspitem`);
-  const spendingList: Array<ItemType> = await spendingRes.json();
+  const spendingRes = await fetch(`${apiUrl}/getspitem/${itemId}`);
+  const spendingList = spendingRes ? await spendingRes.json() : "";
 
   //収入データ取得
-  const incomeRes = await fetch(`${apiUrl}/geticitem`);
-  const incomeList: Array<ItemType> = await incomeRes.json();
+  const incomeRes = await fetch(`${apiUrl}/geticitem/${itemId}`);
+  const incomeList = incomeRes ? await incomeRes.json() : "";
 
-  //同じIDの物を抽出
-  const spendingData = spendingList.find((item) => item._id === path);
+  const listData = spendingList.spItem ? spendingList : incomeList;
 
   return {
-    props: { categoryList },
+    props: { listData },
   };
 };
 
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
+}));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 30,
 }));
 
 export default EditData;
