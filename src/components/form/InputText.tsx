@@ -9,15 +9,15 @@ type Props = {
   value: string;
   setWord: Dispatch<SetStateAction<string>>;
   errorItem: string;
-  defaultValue?: string;
   type?: string;
+  defaultValue?: string;
 };
 
 /**
  * テキストボックスコンポーネント.
  */
 export const InputText: FC<Props> = memo(
-  ({ label, value, setWord, errorItem, defaultValue = "", type = "text" }) => {
+  ({ label, value, setWord, errorItem, type = "text", defaultValue = "" }) => {
     /**
      * 入力値をセットする.
      */
@@ -35,7 +35,6 @@ export const InputText: FC<Props> = memo(
           label={label}
           value={value}
           type={type}
-          // defaultValue={defaultValue}
           size="medium"
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
         />

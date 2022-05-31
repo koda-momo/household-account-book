@@ -15,14 +15,13 @@ type Props = {
   value: number | null;
   setDate: Dispatch<SetStateAction<number | null>>;
   errorItem: string;
-  defaultValue?: number;
 };
 
 /**
  * 日付用テキストボックスコンポーネント.
  */
 export const InputDate: FC<Props> = memo(
-  ({ label, value, setDate, errorItem, defaultValue = "" }) => {
+  ({ label, value, setDate, errorItem }) => {
     //最小の年月設定
     const dateYear = new Date().getFullYear();
     const minDate = Number(addYears(new Date(dateYear, 1 - 1, 1), -10));
@@ -36,7 +35,7 @@ export const InputDate: FC<Props> = memo(
 
         <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth={true}>
           <DatePicker
-            inputFormat="yyyy/M/d"
+            inputFormat="yyyy-M-d"
             label={label}
             value={value}
             onChange={(newValue) => {
