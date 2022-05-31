@@ -133,6 +133,9 @@ const Detail: NextPage = () => {
 
 const _Main = styled("div")(() => ({
   textAlign: "center",
+  "@media screen and (max-width:600px)": {
+    marginBottom: 150,
+  },
 }));
 
 const _Flex = styled("div")(() => ({

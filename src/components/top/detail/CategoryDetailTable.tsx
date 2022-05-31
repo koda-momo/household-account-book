@@ -29,7 +29,7 @@ type Props = {
  */
 export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
   //表示を整える
-  const { formatMoney, formatDate } = useFormater();
+  const { formatMoney, formatDate, formatPhoneDate } = useFormater();
   const router = useRouter();
 
   /**
@@ -50,51 +50,101 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
 
   return (
     <>
-      <_Table>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell width={20} />
-                <TableCell width={5} />
-                <TableCell align="center">項目名</TableCell>
-                <TableCell align="center">金額</TableCell>
-                <TableCell align="center">日時</TableCell>
-                <TableCell align="center"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableData.map((item) => (
-                <TableRow key={item.id}>
+      <_Pc>
+        <_Table>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
                   <TableCell width={20} />
-                  <TableCell width={5}>
-                    <Icon style={{ color: item.color }}>{item.icon}</Icon>
-                  </TableCell>
-                  <TableCell align="center">
-                    <_Name>{item.name}</_Name>
-                  </TableCell>
-                  <TableCell align="center">
-                    &yen;{formatMoney(item.price)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formatDate(new Date(item.createdAt))}
-                  </TableCell>
-                  <TableCell align="center">
-                    <_Icon>
-                      <_EditIcon>
-                        <EditIcon onClick={() => goEditPage(item.id)} />
-                      </_EditIcon>
-                      <_DeleteIcon>
-                        <DeleteIcon onClick={() => goDeletePage(item.id)} />
-                      </_DeleteIcon>
-                    </_Icon>
-                  </TableCell>
+                  <TableCell width={5} />
+                  <TableCell align="center">項目名</TableCell>
+                  <TableCell align="center">金額</TableCell>
+                  <TableCell align="center">日付</TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </_Table>
+              </TableHead>
+              <TableBody>
+                {tableData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell width={20} />
+                    <TableCell width={5}>
+                      <Icon style={{ color: item.color }}>{item.icon}</Icon>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <_Name>{item.name}</_Name>
+                    </TableCell>
+                    <TableCell align="center">
+                      &yen;{formatMoney(item.price)}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      {formatDate(new Date(item.createdAt))}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <_Icon>
+                        <_EditIcon>
+                          <EditIcon onClick={() => goEditPage(item.id)} />
+                        </_EditIcon>
+                        <_DeleteIcon>
+                          <DeleteIcon onClick={() => goDeletePage(item.id)} />
+                        </_DeleteIcon>
+                      </_Icon>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </_Table>
+      </_Pc>
+
+      {/* スマホ用 */}
+      <_Phone>
+        <_Table>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">項目名</TableCell>
+                  <TableCell align="center">金額</TableCell>
+                  <TableCell align="center">日付</TableCell>
+                  <TableCell align="center"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell align="center">
+                      <_Name>{item.name}</_Name>
+                    </TableCell>
+                    <TableCell align="center">
+                      &yen;{formatMoney(item.price)}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      {formatPhoneDate(new Date(item.createdAt))}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <_Icon>
+                        <_EditIcon>
+                          <EditIcon onClick={() => goEditPage(item.id)} />
+                        </_EditIcon>
+                        <_DeleteIcon>
+                          <DeleteIcon onClick={() => goDeletePage(item.id)} />
+                        </_DeleteIcon>
+                      </_Icon>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </_Table>
+      </_Phone>
     </>
   );
 });
@@ -124,9 +174,31 @@ const _DeleteIcon = styled("div")(() => ({
   },
 }));
 
+const _Pc = styled("span")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  width: "100%",
+  "@media screen and (max-width:600px)": {
+    display: "none",
+  },
+}));
+
+const _Phone = styled("div")(() => ({
+  display: "none",
+  "@media screen and (max-width:600px)": {
+    display: "block",
+    width: 500,
+  },
+}));
+
 const _Icon = styled("div")(() => ({
   display: "flex",
   gap: 20,
+  "@media screen and (max-width:600px)": {
+    display: "flex",
+    flexFlow: "column",
+    gap: 1,
+  },
 }));
 
 const _Name = styled("div")(() => ({

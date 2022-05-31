@@ -79,6 +79,11 @@ const _Main = styled("div")(() => ({
   position: "fixed",
   right: 40,
   bottom: 20,
+  "@media screen and (max-width:600px)": {
+    position: "fixed",
+    right: 10,
+    bottom: 10,
+  },
   ":hover": { animation: `${bunibuni} infinite 1s` },
 }));
 

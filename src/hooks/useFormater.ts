@@ -15,6 +15,13 @@ export const useFormater = () => {
   }, []);
 
   /**
+   * 日付の表示を整える.(スマホ用)
+   */
+  const formatPhoneDate = useCallback((date: Date) => {
+    return format(date, "M.d");
+  }, []);
+
+  /**
    * 金額の表示を整える.
    */
   const formatMoney = useCallback((money: number) => {
@@ -53,5 +60,11 @@ export const useFormater = () => {
     return percent;
   };
 
-  return { formatDate, formatMoney, totaleCount, totaleFamilyCount };
+  return {
+    formatDate,
+    formatPhoneDate,
+    formatMoney,
+    totaleCount,
+    totaleFamilyCount,
+  };
 };
