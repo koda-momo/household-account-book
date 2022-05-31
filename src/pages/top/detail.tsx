@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
 import { ToggleButton } from "../../components/form/ToggleButton";
 import { GoToPageBtn } from "../../components/top/GoToPageBtn";
+import { PhoneCategoryDetailTable } from "../../components/top/detail/PhoneCategoryDetailTable";
+import { PhoneFamilyDetailTable } from "../../components/top/detail/PhoneFamilyDetailTable";
 
 /**
  * 収支詳細画面.
@@ -82,7 +84,10 @@ const Detail: NextPage = () => {
           <PageTitle title="あなたの支出詳細" />
           <_Flex>
             {spendingDataCheck ? (
-              <CategoryDetailTable tableData={spendingCategoryTable} />
+              <>
+                <CategoryDetailTable tableData={spendingCategoryTable} />
+                <PhoneCategoryDetailTable tableData={spendingCategoryTable} />
+              </>
             ) : (
               <>データなし</>
             )}
@@ -93,12 +98,14 @@ const Detail: NextPage = () => {
           <PageTitle title="あなたの収入詳細" />
           <_Flex>
             {incomeDataCheck ? (
-              <CategoryDetailTable tableData={incomeCategoryTable} />
+              <>
+                <CategoryDetailTable tableData={incomeCategoryTable} />
+                <PhoneCategoryDetailTable tableData={incomeCategoryTable} />
+              </>
             ) : (
               <>データなし</>
             )}
           </_Flex>
-          <GoToPageBtn path="/top/add/" word="新規追加" left={40} />
         </>
       )}
 
@@ -107,7 +114,10 @@ const Detail: NextPage = () => {
           <PageTitle title="グループの支出詳細" />
           <_Flex>
             {spendingDataCheck ? (
-              <FamilyDetailTable tableData={spendingFamilyTable} />
+              <>
+                <FamilyDetailTable tableData={spendingFamilyTable} />
+                <PhoneFamilyDetailTable tableData={spendingFamilyTable} />
+              </>
             ) : (
               <>データなし</>
             )}
@@ -118,7 +128,10 @@ const Detail: NextPage = () => {
           <PageTitle title="グループの収入詳細" />
           <_Flex>
             {spendingDataCheck ? (
-              <FamilyDetailTable tableData={incomeFamilyTable} />
+              <>
+                <FamilyDetailTable tableData={incomeFamilyTable} />
+                <PhoneFamilyDetailTable tableData={incomeFamilyTable} />
+              </>
             ) : (
               <>データなし</>
             )}
@@ -126,6 +139,7 @@ const Detail: NextPage = () => {
         </>
       )}
 
+      <GoToPageBtn path="/top/add/" word="新規追加" left={40} />
       <_MarginBottom />
     </_Main>
   );

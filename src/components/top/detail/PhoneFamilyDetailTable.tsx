@@ -31,13 +31,13 @@ type Props = {
 /**
  * 詳細テーブル.
  */
-export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
+export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
   //ログイン中のユーザID
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
 
   //表示を整える
-  const { formatMoney, formatDate } = useFormater();
+  const { formatMoney, formatPhoneDate } = useFormater();
   const router = useRouter();
 
   /**
@@ -57,74 +57,76 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
   if (tableData.length <= 0) return <>データなし</>;
 
   return (
-    <_Pc>
+    <_Phone>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell width="5%"></TableCell>
-              <TableCell align="center" width="25%">
-                名前
-              </TableCell>
-              <TableCell align="center" width="20%">
-                項目名
-              </TableCell>
-              <TableCell align="center" width="15%">
-                金額
-              </TableCell>
-              <TableCell align="center" width="20%">
-                日付
-              </TableCell>
-              <TableCell width="5%"></TableCell>
+              <TableCell align="center">名前</TableCell>
+              <TableCell align="center">項目名</TableCell>
+              <TableCell align="center">金額</TableCell>
+              <TableCell align="center">日付</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((item) => (
               <TableRow key={item.id}>
-                <TableCell />
-                <TableCell align="right">
+                <TableCell width="20%" padding="none">
                   <_Name>
-                    <_Image src={`/${item.image}`} height={50} width={50} />
-
+                    <_Image src={`/${item.image}`} height={30} width={30} />
                     {item.name}
                   </_Name>
                 </TableCell>
-                <TableCell align="center">{item.contentName}</TableCell>
-                <TableCell align="center">
-                  &yen;{formatMoney(item.price)}
+
+                <TableCell align="center" width="30%" padding="none">
+                  <_FontSize>{item.contentName}</_FontSize>
                 </TableCell>
-                <TableCell align="center">
-                  {formatDate(new Date(item.createdAt))}
+
+                <TableCell align="center" width="20%" padding="none">
+                  <_FontSize>&yen;{formatMoney(item.price)}</_FontSize>
                 </TableCell>
+
+                <TableCell align="center" width="20%" padding="none">
+                  <_FontSize>
+                    {formatPhoneDate(new Date(item.createdAt))}
+                  </_FontSize>
+                </TableCell>
+
                 {userId === item.userId ? (
-                  <TableCell align="center">
+                  <TableCell align="center" width="10%" padding="none">
                     <_Icon>
                       <_EditIcon>
-                        <EditIcon onClick={() => goEditPage(item.id)} />
+                        <EditIcon
+                          onClick={() => goEditPage(item.id)}
+                          fontSize="small"
+                        />
                       </_EditIcon>
                       <_DeleteIcon>
-                        <DeleteIcon onClick={() => goDeletePage(item.id)} />
+                        <DeleteIcon
+                          onClick={() => goDeletePage(item.id)}
+                          fontSize="small"
+                        />
                       </_DeleteIcon>
                     </_Icon>
                   </TableCell>
                 ) : (
-                  <TableCell />
+                  <TableCell height={50} />
                 )}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </_Pc>
+    </_Phone>
   );
 });
 
-const _Pc = styled("span")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  width: "60%",
+const _Phone = styled("div")(() => ({
+  display: "none",
   "@media screen and (max-width:600px)": {
-    display: "none",
+    display: "block",
+    width: 500,
   },
 }));
 
@@ -134,14 +136,21 @@ const _Image = styled(Image)(() => ({
 
 const _Name = styled("div")(() => ({
   display: "flex",
+  flexFlow: "column",
+  gap: 1,
   alignItems: "center",
-  gap: 20,
+  fontSize: 10,
+}));
+
+const _FontSize = styled("div")(() => ({
+  fontSize: 13,
 }));
 
 const _EditIcon = styled("div")(() => ({
   width: 30,
   height: 30,
   padding: 5,
+  fontSize: 10,
   ":hover": {
     opacity: "30%",
   },
@@ -151,6 +160,7 @@ const _DeleteIcon = styled("div")(() => ({
   width: 30,
   height: 30,
   padding: 5,
+  fontSize: 10,
   ":hover": {
     opacity: "30%",
   },
@@ -158,9 +168,5 @@ const _DeleteIcon = styled("div")(() => ({
 
 const _Icon = styled("div")(() => ({
   display: "flex",
-  gap: 20,
-  "@media screen and (max-width:600px)": {
-    display: "flex",
-    gap: 5,
-  },
+  flexFlow: "column",
 }));

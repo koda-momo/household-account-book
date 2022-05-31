@@ -7,7 +7,6 @@ import { CategoryDetailType } from "../../../types/MoneyType";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import Icon from "@mui/material/Icon";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -18,6 +17,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Icon,
 } from "@mui/material";
 
 type Props = {
@@ -25,11 +25,11 @@ type Props = {
 };
 
 /**
- * 詳細テーブル.
+ * スマホ用詳細テーブル.
  */
-export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
+export const PhoneCategoryDetailTable: FC<Props> = memo(({ tableData }) => {
   //表示を整える
-  const { formatMoney, formatDate, formatPhoneDate } = useFormater();
+  const { formatMoney, formatPhoneDate } = useFormater();
   const router = useRouter();
 
   /**
@@ -50,13 +50,12 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
 
   return (
     <>
-      <_Pc>
+      <_Phone>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell width={20} />
-                <TableCell width={5} />
+                <TableCell align="center" />
                 <TableCell align="center">項目名</TableCell>
                 <TableCell align="center">金額</TableCell>
                 <TableCell align="center">日付</TableCell>
@@ -66,29 +65,35 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
             <TableBody>
               {tableData.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell width={20} />
-                  <TableCell width={5}>
+                  <TableCell width="10%">
                     <Icon style={{ color: item.color }}>{item.icon}</Icon>
                   </TableCell>
 
-                  <TableCell align="center">
+                  <TableCell align="center" padding="none" width="30%">
                     <_Name>{item.name}</_Name>
                   </TableCell>
-                  <TableCell align="center">
+
+                  <TableCell align="center" padding="none" width="20%">
                     &yen;{formatMoney(item.price)}
                   </TableCell>
 
-                  <TableCell align="center">
-                    {formatDate(new Date(item.createdAt))}
+                  <TableCell align="center" padding="none" width="20%">
+                    {formatPhoneDate(new Date(item.createdAt))}
                   </TableCell>
 
-                  <TableCell align="center">
+                  <TableCell align="center" padding="none" width="20%">
                     <_Icon>
                       <_EditIcon>
-                        <EditIcon onClick={() => goEditPage(item.id)} />
+                        <EditIcon
+                          onClick={() => goEditPage(item.id)}
+                          fontSize="small"
+                        />
                       </_EditIcon>
                       <_DeleteIcon>
-                        <DeleteIcon onClick={() => goDeletePage(item.id)} />
+                        <DeleteIcon
+                          onClick={() => goDeletePage(item.id)}
+                          fontSize="small"
+                        />
                       </_DeleteIcon>
                     </_Icon>
                   </TableCell>
@@ -97,17 +102,16 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </_Pc>
+      </_Phone>
     </>
   );
 });
 
-const _Pc = styled("span")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  width: "60%",
+const _Phone = styled("div")(() => ({
+  display: "none",
   "@media screen and (max-width:600px)": {
-    display: "none",
+    display: "block",
+    width: 500,
   },
 }));
 
@@ -130,8 +134,10 @@ const _DeleteIcon = styled("div")(() => ({
 }));
 
 const _Icon = styled("div")(() => ({
-  display: "flex",
-  gap: 20,
+  "@media screen and (max-width:600px)": {
+    display: "flex",
+    flexFlow: "column",
+  },
 }));
 
 const _Name = styled("div")(() => ({
