@@ -36,17 +36,20 @@ export const CategorySelect: FC<Props> = memo(
         return;
       }
 
-      let filterArray = categoryData;
-
       //対象ジャンルで搾る
-      filterArray.filter((item) => {
-        item.genre === genre || item.genre === "その他";
+      const filterArray = categoryData.filter((item) => {
+        return item.genre === genre || item.genre === "その他";
       });
 
+      //名前だけ抽出
       const array = new Array<string>();
       for (const item of filterArray) {
         array.push(item.name);
       }
+
+      //「その他」を後に
+      array.sort();
+      array.reverse();
 
       setCategoryList([...array]);
     }, [categoryData]);
