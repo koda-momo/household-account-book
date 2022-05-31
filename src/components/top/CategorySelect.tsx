@@ -52,7 +52,7 @@ export const CategorySelect: FC<Props> = memo(
       array.reverse();
 
       setCategoryList([...array]);
-    }, [categoryData]);
+    }, [categoryData, genre]);
 
     if (error) return <div>failed to load</div>;
     if (!data) return <div>loading...</div>;
