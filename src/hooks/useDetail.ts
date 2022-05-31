@@ -23,6 +23,7 @@ export const useSpendingDetail = (year: number, month: number) => {
   const [spendingCategoryTable, setSpendingCategoryTable] = useState<
     Array<CategoryDetailType>
   >([]);
+
   const [spendingFamilyTable, setSpendingFamilyTable] = useState<
     Array<FamilyDetailType>
   >([]);
@@ -106,7 +107,8 @@ export const useSpendingDetail = (year: number, month: number) => {
       for (const spendingItem of userItem.spendingId) {
         for (const item of spendingItem.spendingId) {
           dataArray.push({
-            id: spendingItem._id,
+            id: item._id,
+            userId: userItem._id,
             name: userItem.name,
             contentName: item.name,
             image: userItem.image,
@@ -235,7 +237,8 @@ export const useIncomeDetail = (year: number, month: number) => {
       for (const incomeItem of userItem.incomeId) {
         for (const item of incomeItem.incomeId) {
           dataArray.push({
-            id: incomeItem._id,
+            id: item._id,
+            userId: userItem._id,
             name: userItem.name,
             contentName: item.name,
             image: userItem.image,

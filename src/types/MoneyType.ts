@@ -94,6 +94,7 @@ export type CategoryDetailType = {
 
 export type FamilyDetailType = {
   id: string;
+  userId: string;
   name: string;
   contentName: string;
   image: string;
