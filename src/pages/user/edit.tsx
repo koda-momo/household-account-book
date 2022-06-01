@@ -1,29 +1,48 @@
-import type { NextPage } from "next";
-import Link from "next/link";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useCallback, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button } from "@mui/material";
+import { Button, Color } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
+import { InputColor } from "../../components/form/InputColor";
+import Cookies from "universal-cookie";
+import { UserType } from "../../types/UserType";
+import { apiUrl } from "../../utils/values";
+
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
  * ユーザ情報編集画面.
  */
-const UserEdit: NextPage = () => {
+const UserEdit: NextPage<Props> = ({ userData }) => {
   //名前
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>(userData.user.name);
   const [nameError, setNameError] = useState<string>("");
 
   //メールアドレス
-  const [mail, setMail] = useState<string>("");
+  const [mail, setMail] = useState<string>(userData.user.mail);
   const [mailError, setMailError] = useState<string>("");
 
   //役割
-  const [role, setRole] = useState<string>("");
+  const [role, setRole] = useState<string>(userData.user.role);
   const [roleError, setRoleError] = useState<string>("");
+
+  //色
+  const [color, setColor] = useState<string>(userData.user.color);
+  const [colorError, setColorError] = useState<string>("");
+
+  //画像
+  const [image, setImage] = useState<string>(userData.user.image);
 
   /**
    * DBにユーザ登録.
@@ -37,28 +56,28 @@ const UserEdit: NextPage = () => {
       setMailError("メールアドレスを入力して下さい。");
     }
 
-    if (role === "") {
-      setRoleError("役割を入力して下さい。");
-    }
-
-    if (nameError !== "" || mailError !== "" || roleError !== "") {
-      return;
-    }
+    // if (nameError !== "" || mailError !== "" || roleError !== "") {
+    //   return;
+    // }
 
     const data = {
       familyID: "",
       name: name,
+      image: image,
       mail: mail,
       password: "",
       role: role,
+      color: color,
     };
 
     console.dir(JSON.stringify(data));
-  }, []);
+  }, [name, mail, image, role, color]);
 
   return (
     <>
       <PageLayout title="ユーザ情報編集">
+        <Image src={`/${image}`} width={100} height={100} />
+
         <_TextInput>
           <InputText
             label="名前"
@@ -78,10 +97,19 @@ const UserEdit: NextPage = () => {
 
         <_TextInput>
           <InputText
-            label="グループでの役割(個人利用の場合は「個人」と入力)"
+            label="グループでの役割"
             value={role}
             setWord={setRole}
             errorItem={roleError}
+          />
+        </_TextInput>
+
+        <_TextInput>
+          <InputColor
+            label="ユーザカラー"
+            value={color}
+            setValue={setColor}
+            errorItem={colorError}
           />
         </_TextInput>
 
@@ -104,6 +132,23 @@ const UserEdit: NextPage = () => {
       </PageLayout>
     </>
   );
+};
+
+/**
+ * SSRで初期データ取得.
+ * @returns ユーザ情報初期表示用データ
+ */
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const userId = cookies.get("userId");
+  const userRes = await fetch(`${apiUrl}/getuser/${userId}`);
+  const userData: UserType = await userRes.json();
+
+  return {
+    props: { userData },
+  };
 };
 
 //テキストボックス1つ1つ

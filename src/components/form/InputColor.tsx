@@ -5,6 +5,7 @@ import {
   memo,
   SetStateAction,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 
@@ -23,6 +24,19 @@ export const InputColor: FC<Props> = memo(
   ({ label, errorItem, value, setValue }) => {
     const [color, setColor] = useState<RGBColor>();
 
+    useEffect(() => {
+      const splitColor = value.split(", ");
+
+      const result = {
+        r: Number(splitColor[0]),
+        g: Number(splitColor[1]),
+        b: Number(splitColor[2]),
+        a: 1,
+      };
+
+      setColor(result);
+    }, []);
+
     /**
      * 入力値をセットする.
      */
@@ -33,6 +47,7 @@ export const InputColor: FC<Props> = memo(
         const b = color.rgb.b;
         const rgb = r + ", " + g + ", " + b;
         setColor(color.rgb);
+        console.log(color.rgb);
         setValue(rgb);
       },
       [value]
