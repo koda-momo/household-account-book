@@ -1,19 +1,20 @@
 import type { NextPage } from "next";
+import { useCallback, useEffect, useState } from "react";
 
 //components
 import { DateBtn } from "../../components/top/DateBtn";
 import { PageTitle } from "../../components/layout/PageTitle";
 import { CategoryDetailTable } from "../../components/top/detail/CategoryDetailTable";
 import { FamilyDetailTable } from "../../components/top/detail/FamilyDetailTable";
-
-//MUI
-import { styled } from "@mui/material/styles";
-import { useEffect, useState } from "react";
-import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
 import { ToggleButton } from "../../components/form/ToggleButton";
 import { GoToPageBtn } from "../../components/top/GoToPageBtn";
 import { PhoneCategoryDetailTable } from "../../components/top/detail/PhoneCategoryDetailTable";
 import { PhoneFamilyDetailTable } from "../../components/top/detail/PhoneFamilyDetailTable";
+import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
+import { useFormater } from "../../hooks/useFormater";
+
+//MUI
+import { styled } from "@mui/material/styles";
 
 /**
  * 収支詳細画面.
@@ -45,6 +46,9 @@ const Detail: NextPage = () => {
     incomeFamilyTable,
   } = useIncomeDetail(year, month);
 
+  //表示を整える
+  const { calcBalance } = useFormater();
+
   /**
    * データ読み込み.
    */
@@ -63,7 +67,6 @@ const Detail: NextPage = () => {
       <_Flex>
         <DateBtn date={date} setDate={setDate} />
       </_Flex>
-
       <_MarginBottom />
 
       <_Flex>
@@ -77,23 +80,32 @@ const Detail: NextPage = () => {
         </_ToggleButton>
       </_Flex>
 
-      <_MarginBottom />
+      <_Flex>
+        <_Balance>
+          収入 - 支出 = 残高:
+          {oneOrGroupFlug === "個人" ? (
+            <>{calcBalance(spendingCategoryTable, incomeCategoryTable)}</>
+          ) : (
+            <>{calcBalance(spendingFamilyTable, incomeFamilyTable)}</>
+          )}
+        </_Balance>
+      </_Flex>
 
       {oneOrGroupFlug === "個人" && (
         <>
           <PageTitle title="あなたの支出詳細" />
-          <_Flex>
-            {spendingDataCheck ? (
-              <>
+          {spendingDataCheck ? (
+            <>
+              <_Flex>
                 <CategoryDetailTable tableData={spendingCategoryTable} />
                 <PhoneCategoryDetailTable tableData={spendingCategoryTable} />
-              </>
-            ) : (
-              <>データなし</>
-            )}
-          </_Flex>
+              </_Flex>
+            </>
+          ) : (
+            <_Flex>データなし</_Flex>
+          )}
 
-          <_MarginBottom />
+          <_MarginBottom100 />
 
           <PageTitle title="あなたの収入詳細" />
           <_Flex>
@@ -108,7 +120,6 @@ const Detail: NextPage = () => {
           </_Flex>
         </>
       )}
-
       {oneOrGroupFlug === "グループ" && (
         <>
           <PageTitle title="グループの支出詳細" />
@@ -138,7 +149,6 @@ const Detail: NextPage = () => {
           </_Flex>
         </>
       )}
-
       <GoToPageBtn path="/top/add/" word="新規追加" left={40} />
       <_MarginBottom />
     </_Main>
@@ -161,6 +171,10 @@ const _MarginBottom = styled("div")(() => ({
   marginBottom: 50,
 }));
 
+const _MarginBottom100 = styled("div")(() => ({
+  marginBottom: 100,
+}));
+
 const _ToggleButton = styled("div")(() => ({
   textAlign: "center",
   padding: 30,
@@ -168,6 +182,24 @@ const _ToggleButton = styled("div")(() => ({
   width: "20%",
   "@media screen and (max-width:600px)": {
     width: "40%",
+  },
+}));
+
+const _Balance = styled("div")(() => ({
+  marginBottom: 100,
+  marginTop: 100,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: 20,
+  backgroundColor: "white",
+  borderRadius: "3%",
+  width: "60%",
+  height: 100,
+  "@media screen and (max-width:600px)": {
+    marginBottom: 50,
+    marginTop: 50,
+    width: "90%",
   },
 }));
 

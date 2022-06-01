@@ -29,7 +29,7 @@ type Props = {
  */
 export const PhoneCategoryDetailTable: FC<Props> = memo(({ tableData }) => {
   //表示を整える
-  const { formatMoney, formatPhoneDate } = useFormater();
+  const { formatMoney, formatPhoneDate, calcTotal } = useFormater();
   const router = useRouter();
 
   /**
@@ -51,6 +51,7 @@ export const PhoneCategoryDetailTable: FC<Props> = memo(({ tableData }) => {
   return (
     <>
       <_Phone>
+        <_Total>合計金額:{calcTotal(tableData)}</_Total>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -144,4 +145,8 @@ const _Name = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   gap: 20,
+}));
+
+const _Total = styled("div")(() => ({
+  textAlign: "left",
 }));

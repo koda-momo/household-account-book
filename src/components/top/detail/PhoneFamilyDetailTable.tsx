@@ -37,7 +37,7 @@ export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
   const [userId] = useState(cookie.get("userId"));
 
   //表示を整える
-  const { formatMoney, formatPhoneDate } = useFormater();
+  const { formatMoney, formatPhoneDate, calcTotal } = useFormater();
   const router = useRouter();
 
   /**
@@ -58,6 +58,7 @@ export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 
   return (
     <_Phone>
+      <_Total>合計金額:{calcTotal(tableData)}</_Total>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -169,4 +170,8 @@ const _DeleteIcon = styled("div")(() => ({
 const _Icon = styled("div")(() => ({
   display: "flex",
   flexFlow: "column",
+}));
+
+const _Total = styled("div")(() => ({
+  textAlign: "left",
 }));

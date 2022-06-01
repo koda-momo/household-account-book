@@ -60,11 +60,45 @@ export const useFormater = () => {
     return percent;
   };
 
+  /**
+   * 合計金額を計算.
+   */
+  const calcTotal = useCallback((array: Array<any>) => {
+    let total = 0;
+    for (const item of array) {
+      total += item.price;
+    }
+    return "\xA5" + total.toLocaleString();
+  }, []);
+
+  /**
+   * 残金の計算.
+   */
+  const calcBalance = useCallback(
+    (spengingArray: Array<any>, incomeArray: Array<any>) => {
+      let spendingTotal = 0;
+      for (const item of spengingArray) {
+        spendingTotal += item.price;
+      }
+
+      let incomeTotal = 0;
+      for (const item of incomeArray) {
+        incomeTotal += item.price;
+      }
+
+      const answer = incomeTotal - spendingTotal;
+      return "\xA5" + answer.toLocaleString();
+    },
+    []
+  );
+
   return {
     formatDate,
     formatPhoneDate,
     formatMoney,
     totaleCount,
     totaleFamilyCount,
+    calcTotal,
+    calcBalance,
   };
 };

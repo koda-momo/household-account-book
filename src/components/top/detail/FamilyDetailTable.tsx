@@ -37,7 +37,7 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
   const [userId] = useState(cookie.get("userId"));
 
   //表示を整える
-  const { formatMoney, formatDate } = useFormater();
+  const { formatMoney, formatDate, calcTotal } = useFormater();
   const router = useRouter();
 
   /**
@@ -58,6 +58,7 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 
   return (
     <_Pc>
+      <_Total>合計金額:{calcTotal(tableData)}</_Total>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -120,8 +121,6 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 });
 
 const _Pc = styled("span")(() => ({
-  display: "flex",
-  justifyContent: "center",
   width: "60%",
   "@media screen and (max-width:600px)": {
     display: "none",
@@ -163,4 +162,8 @@ const _Icon = styled("div")(() => ({
     display: "flex",
     gap: 5,
   },
+}));
+
+const _Total = styled("div")(() => ({
+  textAlign: "left",
 }));
