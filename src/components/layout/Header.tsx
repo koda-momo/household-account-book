@@ -1,8 +1,10 @@
 import { FC, memo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 //MUI
 import { styled } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 
 /**
  * ヘッダーコンポーネント.
@@ -11,29 +13,39 @@ export const Header: FC = memo(() => {
   return (
     <_Header className="header">
       <_HeaderIcon>
-        <Link href={`/top/`}>
-          <a>ヘッダー</a>
+        <Link href="/top/">
+          <_FlexA>
+            <Image src="/yarukizero-usagi.png" width={100} height={100} />
+            <Image src="/header.png" width={100} height={50} />
+          </_FlexA>
         </Link>
       </_HeaderIcon>
-      <_HeaderMenu>
-        <_List>
-          <Link href="/top/">
-            <a>
-              <li>TOP</li>
-            </a>
-          </Link>
-          <Link href="/user/">
-            <a>
-              <li>USER INFO</li>
-            </a>
-          </Link>
-          <Link href="/user/logout/">
-            <a>
-              <li>LOGOUT</li>
-            </a>
-          </Link>
-        </_List>
-      </_HeaderMenu>
+
+      <_Phone>
+        <MenuIcon />
+      </_Phone>
+
+      <_Pc>
+        <_HeaderMenu>
+          <_List>
+            <Link href="/top/">
+              <a>
+                <li>TOP</li>
+              </a>
+            </Link>
+            <Link href="/user/">
+              <a>
+                <li>USER INFO</li>
+              </a>
+            </Link>
+            <Link href="/user/logout/">
+              <a>
+                <li>LOGOUT</li>
+              </a>
+            </Link>
+          </_List>
+        </_HeaderMenu>
+      </_Pc>
     </_Header>
   );
 });
@@ -47,6 +59,9 @@ const _Header = styled("header")(() => ({
   position: "fixed",
   top: 0,
   zIndex: 0,
+  "@media screen and (max-width:600px)": {
+    position: "static",
+  },
 }));
 
 //ヘッダーのアイコン
@@ -65,4 +80,34 @@ const _List = styled("ul")(() => ({
   display: "flex",
   listStyle: "none",
   gap: 50,
+}));
+
+//PCのみで表示
+const _Pc = styled("div")(() => ({
+  display: "block",
+  "@media screen and (max-width:600px)": {
+    display: "none",
+  },
+}));
+
+//hamburger
+const _Phone = styled("div")(() => ({
+  display: "none",
+  "@media screen and (max-width:600px)": {
+    display: "block",
+    marginRight: 20,
+  },
+}));
+
+const _FlexA = styled("a")(() => ({
+  display: "flex",
+  alignItems: "center",
+  fontSize: 30,
+  color: "#5a5a5a",
+  textShadow: "1px 2px 3px #808080;",
+  ":hover": { cursor: "pointer" },
+  "@media screen and (max-width:600px)": {
+    width: 150,
+    height: 20,
+  },
 }));

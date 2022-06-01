@@ -10,9 +10,3 @@ a {
 a:hover {
   color: #ffde7d;
 }
-
-@media screen and (max-width: 600px) {
-  .header {
-    background: linear-gradient(rgba(248, 243, 212, 1), rgba(248, 243, 212, 0));
-  }
-}
