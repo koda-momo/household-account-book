@@ -14,4 +14,7 @@ export const PageTitle: FC<Props> = memo(({ title }) => {
 const _Title = styled("h1")(() => ({
   textAlign: "center",
   color: "#F6416C",
+  "@media screen and (max-width:600px)": {
+    fontSize: 20,
+  },
 }));
