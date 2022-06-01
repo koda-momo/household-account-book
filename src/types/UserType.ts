@@ -7,6 +7,7 @@ export type UserType = {
   mail: string;
   password: string;
   role: string;
+  color: string;
 };
 
 //家族型
