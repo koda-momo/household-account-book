@@ -1,6 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
 
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../../firebase/index";
 import toast from "react-hot-toast";
 
@@ -9,12 +14,12 @@ import toast from "react-hot-toast";
  * @param image 現在登録中の画像ファイルパス
  * @param setImageItem 画像パスにセット
  */
-export const useFirebaseImage = (
-  image: string,
-  setImageItem: Dispatch<SetStateAction<string>>
-) => {
+export const useFirebaseImage = () => {
   const uploadImage = useCallback(
-    async (e: ChangeEvent<any>) => {
+    async (
+      e: ChangeEvent<any>,
+      setImageItem: Dispatch<SetStateAction<string>>
+    ) => {
       //取得した画像データをsotrageに保存できる形に整形
       const file = e.target.files;
       const blob = new Blob(file, { type: "image/jpeg" });
@@ -36,17 +41,28 @@ export const useFirebaseImage = (
         //アップロードが完了するとその画像が取得できるURLが返ってくる
         const url = await getDownloadURL(snapshot.ref);
         const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
-
         const downloadURL = url.replace(String(firebaseUrl), "");
 
-        setImageItem(downloadURL);
+        return downloadURL;
       } catch (e) {
         toast.error("エラーが発生しました:" + e);
         console.error(e);
       }
     },
-    [image]
+    []
   );
 
-  return { uploadImage, image };
+  /**
+   * 画像の削除.
+   */
+  const deleteImage = useCallback(async (image: string) => {
+    //画像データの後ろ部分を削除
+    const id = image.split("?")[0];
+
+    //Firebaseのstorage編集:対象の画像を削除
+    const desertRef = ref(storage, `images/${id}`);
+    await deleteObject(desertRef);
+  }, []);
+
+  return { uploadImage, deleteImage };
 };
