@@ -2,7 +2,7 @@ import { FC, memo, useEffect } from "react";
 
 //hooks, Type
 import { useFormater } from "../../../../hooks/useFormater";
-import { useSpendingTable } from "../../../../hooks/useSpendingTable";
+import { useSpendingTable } from "../../../../hooks/top/useSpendingTable";
 
 //MUI
 import { styled } from "@mui/material/styles";

@@ -8,8 +8,8 @@ import {
   NestIncomeType,
   NestSpendingType,
   NestUserType,
-} from "../types/MoneyType";
-import { apiUrl } from "../utils/values";
+} from "../../types/MoneyType";
+import { apiUrl } from "../../utils/values";
 
 /**
  * 支出個人データ取得.

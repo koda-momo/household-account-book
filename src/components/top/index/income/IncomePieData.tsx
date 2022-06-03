@@ -11,8 +11,8 @@ import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 
 //others
-import { useIncomePie } from "../../../../hooks/useIncomePie";
-import { usePie } from "../../../../hooks/usePie";
+import { useIncomePie } from "../../../../hooks/top/useIncomePie";
+import { usePie } from "../../../../hooks/top/usePie";
 
 type Props = {
   year: number; //表示年

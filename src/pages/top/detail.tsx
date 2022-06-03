@@ -10,7 +10,7 @@ import { ToggleButton } from "../../components/form/ToggleButton";
 import { GoToPageBtn } from "../../components/top/GoToPageBtn";
 import { PhoneCategoryDetailTable } from "../../components/top/detail/PhoneCategoryDetailTable";
 import { PhoneFamilyDetailTable } from "../../components/top/detail/PhoneFamilyDetailTable";
-import { useSpendingDetail, useIncomeDetail } from "../../hooks/useDetail";
+import { useSpendingDetail, useIncomeDetail } from "../../hooks/top/useDetail";
 import { useFormater } from "../../hooks/useFormater";
 
 //MUI
