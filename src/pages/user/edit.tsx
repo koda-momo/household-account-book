@@ -4,21 +4,29 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import { useCallback, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+
+//components
+import { InputText } from "../../components/form/InputText";
+import { PageLayout } from "../../components/layout/PageLayout";
+import { InputColor } from "../../components/form/InputColor";
+import { InputImage } from "../../components/form/InputImage";
+import { useFirebaseImage } from "../../hooks/users/useFirebaseImage";
+import { apiUrl } from "../../utils/values";
+import { UserType } from "../../types/UserType";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { InputText } from "../../components/form/InputText";
-import { PageLayout } from "../../components/layout/PageLayout";
-import { InputColor } from "../../components/form/InputColor";
+
+//others
 import Cookies from "universal-cookie";
-import { UserType } from "../../types/UserType";
-import { apiUrl } from "../../utils/values";
-import { InputImage } from "../../components/form/InputImage";
+import Cookie from "universal-cookie";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -26,6 +34,10 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  * ユーザ情報編集画面.
  */
 const UserEdit: NextPage<Props> = ({ userData }) => {
+  const router = useRouter();
+  //ユーザID
+  const cookie = new Cookie();
+  const userId = cookie.get("userId");
   //名前
   const [name, setName] = useState<string>(userData.user.name);
   const [nameError, setNameError] = useState<string>("");
@@ -46,10 +58,13 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
   const [image, setImage] = useState(userData.user.image);
   const [imageError, setImageError] = useState<string>("");
 
+  //Firebaseに登録hooks
+  const { deleteImage } = useFirebaseImage();
+
   /**
    * DBにユーザ登録.
    */
-  const postUserData = useCallback(() => {
+  const postUserData = useCallback(async () => {
     if (name === "") {
       setNameError("名前を入力して下さい。");
     }
@@ -58,9 +73,13 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
       setMailError("メールアドレスを入力して下さい。");
     }
 
-    // if (nameError !== "" || mailError !== "" || roleError !== "") {
-    //   return;
-    // }
+    if (nameError !== "" || mailError !== "" || roleError !== "") {
+      return;
+    }
+
+    if (userData.user.image != "" && userData.user.image != image) {
+      await deleteImage(userData.user.image);
+    }
 
     const data = {
       familyID: "",
@@ -72,7 +91,14 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
       color: color,
     };
 
-    console.dir(JSON.stringify(data));
+    //DB更新作業
+    try {
+      await axios.post(`${apiUrl}/updateuser/${userId}`, data);
+      toast.success("更新しました");
+      router.push("/user");
+    } catch (e) {
+      toast.error("更新出来ませんでした。");
+    }
   }, [name, mail, image, role, color]);
 
   return (
@@ -80,7 +106,6 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
       <PageLayout title="ユーザ情報編集">
         <_TextInput>
           <InputImage
-            label="画像"
             image={image}
             setImage={setImage}
             errorItem={imageError}

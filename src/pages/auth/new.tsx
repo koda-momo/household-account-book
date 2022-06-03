@@ -1,19 +1,28 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 //components
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
+import { InputColor } from "../../components/form/InputColor";
+import { InputImage } from "../../components/form/InputImage";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
+//others
+import axios from "axios";
+import { apiUrl } from "../../utils/values";
+import toast from "react-hot-toast";
+
 /**
  * ユーザ登録画面.
  */
 const NewUser: NextPage = () => {
+  const router = useRouter();
   //名前
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
@@ -30,33 +39,60 @@ const NewUser: NextPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
 
+  //色
+  const [color, setColor] = useState<string>("");
+  const [colorError, setColorError] = useState<string>("");
+
+  //画像
+  const [image, setImage] = useState("");
+  const [imageError, setImageError] = useState<string>("");
+
   /**
    * DBにユーザ登録.
    */
-  const postUserData = useCallback(() => {
+  const postUserData = useCallback(async () => {
+    //エラーの初期化
+    let error = "";
+    setNameError("");
+    setMailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setColorError("");
+    setImageError("");
+
+    //バリデーション
     if (name === "") {
       setNameError("名前を入力して下さい。");
+      error = "エラーあり";
     }
 
     if (mail === "") {
       setMailError("メールアドレスを入力して下さい。");
+      error = "エラーあり";
     }
 
     if (password === "") {
       setPasswordError("パスワードを入力して下さい。");
+      error = "エラーあり";
+    }
+
+    if (image === "") {
+      setImageError("画像を選択して下さい。");
+      error = "エラーあり";
+    }
+
+    if (color === "") {
+      setColorError("色を選択して下さい。");
+      error = "エラーあり";
     }
 
     if (password !== confirmPassword) {
       setConfirmPasswordError(
         "パスワードと確認用パスワードが一致していません。"
       );
+      error = "エラーあり";
     }
-    if (
-      nameError !== "" ||
-      mailError !== "" ||
-      passwordError !== "" ||
-      confirmPasswordError !== ""
-    ) {
+    if (error !== "") {
       return;
     }
 
@@ -66,14 +102,43 @@ const NewUser: NextPage = () => {
       mail: mail,
       password: password,
       role: "",
+      color: color,
+      image: image,
     };
 
-    console.dir(JSON.stringify(data));
-  }, []);
+    try {
+      await axios.post(`${apiUrl}/newuser`, data);
+      toast.success("ユーザを登録しました。");
+      router.push("/auth/login");
+    } catch (e) {
+      toast.error("登録に失敗しました。" + String(e));
+    }
+  }, [
+    name,
+    mail,
+    password,
+    confirmPassword,
+    color,
+    image,
+    nameError,
+    mailError,
+    passwordError,
+    confirmPasswordError,
+    colorError,
+    imageError,
+  ]);
 
   return (
     <>
       <PageLayout title="会員登録">
+        <_TextInput>
+          <InputImage
+            image={image}
+            setImage={setImage}
+            errorItem={imageError}
+          />
+        </_TextInput>
+
         <_TextInput>
           <InputText
             label="名前"
@@ -82,6 +147,7 @@ const NewUser: NextPage = () => {
             errorItem={nameError}
           />
         </_TextInput>
+
         <_TextInput>
           <InputText
             label="メールアドレス"
@@ -90,6 +156,7 @@ const NewUser: NextPage = () => {
             errorItem={mailError}
           />
         </_TextInput>
+
         <_TextInput>
           <InputText
             label="パスワード"
@@ -99,6 +166,7 @@ const NewUser: NextPage = () => {
             type="password"
           />
         </_TextInput>
+
         <_TextInput>
           <InputText
             label="パスワード(確認用)"
@@ -108,6 +176,16 @@ const NewUser: NextPage = () => {
             type="password"
           />
         </_TextInput>
+
+        <_TextInput>
+          <InputColor
+            label="ユーザカラー"
+            value={color}
+            setValue={setColor}
+            errorItem={colorError}
+          />
+        </_TextInput>
+
         <div>
           <Button
             variant="contained"
