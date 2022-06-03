@@ -70,6 +70,7 @@ export const InputImage: FC<Props> = memo(({ errorItem, image, setImage }) => {
 
   return (
     <>
+      <_Error>{errorItem}</_Error>
       {imageItem !== "" && (
         <>
           <div>現在設定中の画像</div>
@@ -87,7 +88,6 @@ export const InputImage: FC<Props> = memo(({ errorItem, image, setImage }) => {
           <CameraAltIcon />
           画像を選択
         </_Flex>
-        <_Error>{errorItem}</_Error>
         <_TextField
           fullWidth={true}
           id={image}
