@@ -47,7 +47,6 @@ export const InputColor: FC<Props> = memo(
         const b = color.rgb.b;
         const rgb = r + ", " + g + ", " + b;
         setColor(color.rgb);
-        console.log(color.rgb);
         setValue(rgb);
       },
       [value]
