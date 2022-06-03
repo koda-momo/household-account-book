@@ -10,7 +10,7 @@ import Image from "next/image";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button, Color } from "@mui/material";
+import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
@@ -18,6 +18,7 @@ import { InputColor } from "../../components/form/InputColor";
 import Cookies from "universal-cookie";
 import { UserType } from "../../types/UserType";
 import { apiUrl } from "../../utils/values";
+import { InputImage } from "../../components/form/InputImage";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -42,7 +43,8 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
   const [colorError, setColorError] = useState<string>("");
 
   //画像
-  const [image, setImage] = useState<string>(userData.user.image);
+  const [image, setImage] = useState(userData.user.image);
+  const [imageError, setImageError] = useState<string>("");
 
   /**
    * DBにユーザ登録.
@@ -76,7 +78,14 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
   return (
     <>
       <PageLayout title="ユーザ情報編集">
-        <Image src={`/${image}`} width={100} height={100} />
+        <_TextInput>
+          <InputImage
+            label="画像"
+            image={image}
+            setImage={setImage}
+            errorItem={imageError}
+          />
+        </_TextInput>
 
         <_TextInput>
           <InputText
