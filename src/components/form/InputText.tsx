@@ -1,4 +1,11 @@
-import { ChangeEvent, Dispatch, FC, memo, SetStateAction } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  memo,
+  SetStateAction,
+  useCallback,
+} from "react";
 
 //MUI
 import { TextField } from "@mui/material";
@@ -21,9 +28,12 @@ export const InputText: FC<Props> = memo(
     /**
      * 入力値をセットする.
      */
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setWord(e.target.value);
-    };
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        setWord(e.target.value);
+      },
+      [value]
+    );
 
     return (
       <>
