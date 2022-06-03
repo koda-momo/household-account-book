@@ -53,6 +53,9 @@ const _ToggleBtnA = styled(Button)(() => ({
   ":hover": {
     backgroundColor: "#00B8A9",
   },
+  "@media screen and (max-width:600px)": {
+    fontSize: 10,
+  },
 }));
 
 const _ToggleBtnB = styled(Button)(() => ({
@@ -60,6 +63,9 @@ const _ToggleBtnB = styled(Button)(() => ({
   color: "white",
   ":hover": {
     backgroundColor: "gray",
+  },
+  "@media screen and (max-width:600px)": {
+    fontSize: 10,
   },
 }));
 

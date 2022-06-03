@@ -20,8 +20,11 @@ export const Layout: FC<Props> = memo(({ children }) => {
   );
 });
 
-//ヘッダーの関係で初期表示ヘッダー分下げる
+//ヘッダーの関係で初期表示ヘッダー分下げる(スマホの場合は不要)
 const _Main = styled("main")(() => ({
   paddingTop: 100,
   zIndex: 2,
+  "@media screen and (max-width:600px)": {
+    paddingTop: 0,
+  },
 }));

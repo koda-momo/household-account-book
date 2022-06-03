@@ -2,7 +2,7 @@ import { FC, memo, useEffect } from "react";
 
 //hooks
 import { useFormater } from "../../../../hooks/useFormater";
-import { useIncomeTable } from "../../../../hooks/useIncomeTable";
+import { useIncomeTable } from "../../../../hooks/top/useIncomeTable";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -28,7 +28,7 @@ type Props = {
  */
 export const IncomeCategoryTable: FC<Props> = memo(({ year, month }) => {
   //表示を整える
-  const { formatMoney } = useFormater();
+  const { formatMoney, totaleCount } = useFormater();
 
   const { dataCheck, makeCategoryTableData, categoryTableData } =
     useIncomeTable(year, month);
@@ -36,21 +36,6 @@ export const IncomeCategoryTable: FC<Props> = memo(({ year, month }) => {
   useEffect(() => {
     makeCategoryTableData();
   }, [year, month]);
-
-  /**
-   * パーセンテージの計算.
-   */
-  const totaleCount = (price: number) => {
-    let total = 0;
-
-    for (const item of categoryTableData) {
-      total += item.price;
-    }
-
-    const percent = Math.round((price / total) * Math.pow(10, 2));
-
-    return percent;
-  };
 
   //読み込み中の表示
   if (categoryTableData?.length == 0 && dataCheck === true)
@@ -89,7 +74,7 @@ export const IncomeCategoryTable: FC<Props> = memo(({ year, month }) => {
                       &yen;{formatMoney(item.price)}
                     </TableCell>
                     <TableCell align="center">
-                      {totaleCount(item.price)}%
+                      {totaleCount(item.price, categoryTableData)}%
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>

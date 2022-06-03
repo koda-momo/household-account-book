@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 //API
-import { apiUrl } from "../utils/values";
+import { apiUrl } from "../../utils/values";
 import axios from "axios";
 
 //他
@@ -11,7 +11,7 @@ import {
   CategoryType,
   FamilyType,
   NestUserType,
-} from "../types/MoneyType";
+} from "../../types/MoneyType";
 
 export const useIncomeTable = (year: number, month: number) => {
   //ログイン中のユーザID

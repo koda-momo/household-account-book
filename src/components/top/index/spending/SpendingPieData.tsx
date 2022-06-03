@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import "chartjs-plugin-datalabels";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 
 //others
-import { useSpendingPie } from "../../../../hooks/useSpendingPie";
+import { useSpendingPie } from "../../../../hooks/top/useSpendingPie";
+import { usePie } from "../../../../hooks/top/usePie";
 
 type Props = {
   year: number; //表示年
@@ -24,10 +25,15 @@ type Props = {
  */
 export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
+  Chart.register(ChartDataLabels);
+
   const router = useRouter();
 
+  //hooks
   const { getSpendingCategoryData, getSpendingGroupData, pieData, dataCheck } =
     useSpendingPie(year, month);
+
+  const { pieOption } = usePie();
 
   /**
    * 詳細画面に遷移.
@@ -35,18 +41,21 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
   const goDetailPage = useCallback(() => {
     router.push("/top/detail");
   }, []);
-
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {
-    color: "red",
-    backgroundColor: "red",
     plugins: {
       datalabels: {
+        labels: {
+          title: {
+            color: "white",
+            font: {
+              size: 20,
+            },
+          },
+        },
         display: true,
-        anchor: "end",
-        align: "right",
-        formatter(value) {
-          return `${value}円`;
+        formatter(value, context) {
+          return pieOption(value, context);
         },
       },
     },
@@ -75,18 +84,6 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
           <_Pie>
             <Pie data={pieData} options={chartOptions} />
           </_Pie>
-          <div>
-            <_Flex>
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ width: 300, fontSize: 20 }}
-                onClick={goDetailPage}
-              >
-                詳細を見る
-              </Button>
-            </_Flex>
-          </div>
         </div>
       ) : (
         <_Nodata>登録がありません。</_Nodata>

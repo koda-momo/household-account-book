@@ -2,15 +2,15 @@ import { useCallback, useState } from "react";
 
 //API
 import axios from "axios";
-import { apiUrl } from "../utils/values";
+import { apiUrl } from "../../utils/values";
 
 //chart.js
 import { ChartData } from "chart.js";
-import { useColor } from "./useColor";
+import { useColor } from "../useColor";
 
 //他
 import Cookie from "universal-cookie";
-import { CategoryType, NestIncomeType, NestUserType } from "../types/MoneyType";
+import { NestIncomeType, NestUserType } from "../../types/MoneyType";
 
 export const useIncomePie = (year: number, month: number) => {
   const { makeColor } = useColor();
