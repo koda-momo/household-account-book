@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/router";
 
 //compoents
