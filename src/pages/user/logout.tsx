@@ -23,8 +23,8 @@ const Logout: NextPage = () => {
    */
   const logout = useCallback(() => {
     const cookie = new Cookie();
-    toast.success("ログアウトしました。");
     cookie.remove("userId", { path: "/" });
+    toast.success("ログアウトしました。");
     router.push("/auth/login/");
   }, []);
 
