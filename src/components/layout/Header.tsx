@@ -110,7 +110,7 @@ const _Phone = styled("div")(() => ({
   display: "none",
   "@media screen and (max-width:600px)": {
     display: "block",
-    marginRight: 20,
+    marginRight: 10,
   },
 }));
 
