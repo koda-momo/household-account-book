@@ -6,15 +6,12 @@ import { apiUrl } from "../../utils/values";
 
 //chart.js
 import { ChartData } from "chart.js";
-import { useColor } from "../useColor";
 
 //他
 import Cookie from "universal-cookie";
 import { NestUserType, NestSpendingType } from "../../types/MoneyType";
 
 export const useSpendingPie = (year: number, month: number) => {
-  const { makeColor } = useColor();
-
   //ログイン中のユーザID
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
@@ -111,8 +108,7 @@ export const useSpendingPie = (year: number, month: number) => {
       nameArray.push(item.name);
 
       //色データ
-      const colorData = makeColor();
-      colorArray.push(colorData);
+      colorArray.push(`rgb(${item.color})`);
     }
 
     setNameList(nameArray);
