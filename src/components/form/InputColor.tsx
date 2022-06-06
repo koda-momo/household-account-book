@@ -25,17 +25,17 @@ export const InputColor: FC<Props> = memo(
     const [color, setColor] = useState<RGBColor>();
 
     useEffect(() => {
-      const splitColor = value.split(", ");
-
-      const result = {
-        r: Number(splitColor[0]),
-        g: Number(splitColor[1]),
-        b: Number(splitColor[2]),
-        a: 1,
-      };
-
-      setColor(result);
-    }, []);
+      if (value) {
+        const splitColor = value.split(", ");
+        const result = {
+          r: Number(splitColor[0]),
+          g: Number(splitColor[1]),
+          b: Number(splitColor[2]),
+          a: 1,
+        };
+        setColor(result);
+      }
+    }, [value]);
 
     /**
      * 入力値をセットする.
