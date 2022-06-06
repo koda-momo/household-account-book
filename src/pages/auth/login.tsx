@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 
@@ -107,12 +108,24 @@ const Login: NextPage = () => {
           </Button>
         </div>
       </PageLayout>
+
+      <_Link>
+        <Link href="/auth/new">
+          <a>新規登録はこちら</a>
+        </Link>
+      </_Link>
     </>
   );
 };
 
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
+  marginBottom: 30,
+}));
+
+const _Link = styled("div")(() => ({
+  textAlign: "center",
+  marginTop: 30,
   marginBottom: 30,
 }));
 
