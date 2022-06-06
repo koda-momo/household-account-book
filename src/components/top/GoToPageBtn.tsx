@@ -25,7 +25,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
           {word && (
             <>
               <_Fukidashi>
-                <Image src={"/fukidashi.png"} width={150} height={70} />
+                <Image src={"/images/fukidashi.png"} width={150} height={70} />
               </_Fukidashi>
               <div style={{ position: "absolute", top: 22, left: left }}>
                 {word}
@@ -43,7 +43,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
           {word && (
             <>
               <_Fukidashi>
-                <Image src={"/fukidashi.png"} width={150} height={50} />
+                <Image src={"/images/fukidashi.png"} width={150} height={50} />
               </_Fukidashi>
               <div
                 style={{
@@ -58,7 +58,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
             </>
           )}
           <Image
-            src={"/kanemochi.png"}
+            src={"/images/kanemochi.png"}
             width={80}
             height={80}
             onClick={goToAddPage}

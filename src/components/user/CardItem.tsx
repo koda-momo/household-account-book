@@ -12,12 +12,18 @@ type Props = {
 };
 
 export const CardItem: FC<Props> = memo(({ name, image, role }) => {
+  const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
+
   return (
     <>
       <Card>
         <CardContent>
           <_Flex>
-            <Avatar alt="icon" src={image} sx={{ width: 70, height: 70 }} />
+            <Avatar
+              alt="icon"
+              src={firebaseUrl + image}
+              sx={{ width: 70, height: 70 }}
+            />
           </_Flex>
           <_Flex>{name}</_Flex>
           <_Flex>{role}</_Flex>

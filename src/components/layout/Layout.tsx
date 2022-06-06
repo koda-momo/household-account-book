@@ -1,8 +1,11 @@
-import { FC, memo, ReactNode } from "react";
+import { FC, memo, ReactNode, useEffect, useState } from "react";
 import { Header } from "./Header";
+import { useRouter } from "next/router";
 
 //MUI
 import { styled } from "@mui/material/styles";
+
+import { useLoginChecker } from "../../hooks/useLoginChecker";
 
 type Props = {
   children: ReactNode;
@@ -12,10 +15,38 @@ type Props = {
  * 全体のレイアウト用コンポーネント.
  */
 export const Layout: FC<Props> = memo(({ children }) => {
+  //ログインしているか否か
+  const [isLogin, setIsLogin] = useState(false);
+  //ヘッダーを表示するか否か
+  const [isHeader, setIsHeader] = useState(false);
+
+  //ログインチェッカー
+  const router = useRouter();
+  const { loginChecker } = useLoginChecker(setIsLogin, setIsHeader);
+
+  useEffect(() => {
+    loginChecker(router.pathname);
+  }, [router.pathname]);
+
   return (
     <>
-      <Header />
-      <_Main>{children}</_Main>
+      {isLogin ? (
+        <>
+          {isHeader ? (
+            <>
+              <Header />
+              <_Main>{children}</_Main>
+            </>
+          ) : (
+            <>
+              <_NoHeader />
+              {children}
+            </>
+          )}
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 });
@@ -26,5 +57,12 @@ const _Main = styled("main")(() => ({
   zIndex: 2,
   "@media screen and (max-width:600px)": {
     paddingTop: 0,
+  },
+}));
+
+const _NoHeader = styled("div")(() => ({
+  height: 10,
+  "@media screen and (max-width:600px)": {
+    height: 30,
   },
 }));

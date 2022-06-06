@@ -1,48 +1,63 @@
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
+
+//components
+import { HamburgerMenu } from "../layout/HamburgerMenu";
+import { menuItemType } from "../../types/OtherType";
 
 /**
  * ヘッダーコンポーネント.
  */
 export const Header: FC = memo(() => {
+  //メニューの項目
+  const [menuItem] = useState<Array<menuItemType>>([
+    {
+      name: "TOP",
+      path: "/top/",
+    },
+    {
+      name: "USER INFO",
+      path: "/user/",
+    },
+    {
+      name: "LOGOUT",
+      path: "/user/logout/",
+    },
+  ]);
+
   return (
     <_Header className="header">
       <_HeaderIcon>
         <Link href="/top/">
           <_FlexA>
-            <Image src="/yarukizero-usagi.png" width={100} height={100} />
-            <Image src="/header.png" width={100} height={50} />
+            <Image
+              src="/images/yarukizero-usagi.png"
+              width={100}
+              height={100}
+            />
+            <Image src="/images/header.png" width={100} height={50} />
           </_FlexA>
         </Link>
       </_HeaderIcon>
 
       <_Phone>
-        <MenuIcon />
+        <HamburgerMenu menuItem={menuItem} />
       </_Phone>
 
       <_Pc>
         <_HeaderMenu>
           <_List>
-            <Link href="/top/">
-              <a>
-                <li>TOP</li>
-              </a>
-            </Link>
-            <Link href="/user/">
-              <a>
-                <li>USER INFO</li>
-              </a>
-            </Link>
-            <Link href="/user/logout/">
-              <a>
-                <li>LOGOUT</li>
-              </a>
-            </Link>
+            {menuItem.map((item, i) => (
+              <Link href={item.path} key={i}>
+                <a>
+                  <li>{item.name}</li>
+                </a>
+              </Link>
+            ))}
           </_List>
         </_HeaderMenu>
       </_Pc>
@@ -95,7 +110,7 @@ const _Phone = styled("div")(() => ({
   display: "none",
   "@media screen and (max-width:600px)": {
     display: "block",
-    marginRight: 20,
+    marginRight: 10,
   },
 }));
 

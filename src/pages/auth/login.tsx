@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 
@@ -64,11 +65,11 @@ const Login: NextPage = () => {
         mail: mail,
         password: password,
       });
-      toast.success("ログインしました。");
-      router.push("/top/");
       if (loginData.data.user) {
         cookie.set("userId", loginData.data.user, { path: "/" });
       }
+      toast.success("ログインしました。");
+      router.push("/top/");
     } catch (e) {
       toast.error("ログイン出来ませんでした");
     }
@@ -92,6 +93,7 @@ const Login: NextPage = () => {
             value={password}
             setWord={setPassword}
             errorItem={passwordError}
+            type="password"
           />
         </_TextInput>
 
@@ -106,12 +108,24 @@ const Login: NextPage = () => {
           </Button>
         </div>
       </PageLayout>
+
+      <_Link>
+        <Link href="/auth/new">
+          <a>新規登録はこちら</a>
+        </Link>
+      </_Link>
     </>
   );
 };
 
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
+  marginBottom: 30,
+}));
+
+const _Link = styled("div")(() => ({
+  textAlign: "center",
+  marginTop: 30,
   marginBottom: 30,
 }));
 

@@ -28,6 +28,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  */
 const UserInfo: NextPage<Props> = ({ userData }) => {
   const router = useRouter();
+  const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
 
   /**
    * ページ遷移.
@@ -42,7 +43,7 @@ const UserInfo: NextPage<Props> = ({ userData }) => {
         <_Flex>
           <Avatar
             alt="icon"
-            src={userData.user.image}
+            src={firebaseUrl + userData.user.image}
             sx={{ width: 100, height: 100 }}
           />
         </_Flex>

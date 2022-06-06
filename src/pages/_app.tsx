@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>家計簿</title>
         <meta name="household-account-book" content="household-account-boo" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.jpg" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"

@@ -64,6 +64,7 @@ export type NestUserType = {
   password: string;
   role: string;
   image: string;
+  color: string;
   incomeId: Array<NestIncomeType>;
   spendingId: Array<NestSpendingType>;
 };
