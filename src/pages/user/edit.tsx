@@ -147,11 +147,12 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
           />
         </_TextInput>
 
-        <_Link>
+        {/* 後日実装 */}
+        {/* <_Link>
           <Link href="/auth/password/">
             <a>パスワードの変更はこちら</a>
           </Link>
-        </_Link>
+        </_Link> */}
 
         <div>
           <Button
