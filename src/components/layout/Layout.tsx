@@ -32,11 +32,20 @@ export const Layout: FC<Props> = memo(({ children }) => {
     <>
       {isLogin ? (
         <>
-          {isHeader ? <Header /> : <_NoHeader />}
-          <_Main>{children}</_Main>
+          {isHeader ? (
+            <>
+              <Header />
+              <_Main>{children}</_Main>
+            </>
+          ) : (
+            <>
+              <_NoHeader />
+              {children}
+            </>
+          )}
         </>
       ) : (
-        <>ログインしていない</>
+        <></>
       )}
     </>
   );
@@ -51,6 +60,9 @@ const _Main = styled("main")(() => ({
   },
 }));
 
-const _NoHeader = styled("main")(() => ({
-  height: 50,
+const _NoHeader = styled("div")(() => ({
+  height: 10,
+  "@media screen and (max-width:600px)": {
+    height: 30,
+  },
 }));
