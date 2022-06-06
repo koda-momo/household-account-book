@@ -92,6 +92,7 @@ const Login: NextPage = () => {
             value={password}
             setWord={setPassword}
             errorItem={passwordError}
+            type="password"
           />
         </_TextInput>
 
