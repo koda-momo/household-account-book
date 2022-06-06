@@ -40,7 +40,7 @@ export const InputText: FC<Props> = memo(
         <_Error>{errorItem}</_Error>
         <TextField
           fullWidth={true}
-          id={value}
+          id={label}
           error={Boolean(errorItem)}
           label={label}
           value={value}
