@@ -64,11 +64,11 @@ const Login: NextPage = () => {
         mail: mail,
         password: password,
       });
-      toast.success("ログインしました。");
-      router.push("/top/");
       if (loginData.data.user) {
         cookie.set("userId", loginData.data.user, { path: "/" });
       }
+      toast.success("ログインしました。");
+      router.push("/top/");
     } catch (e) {
       toast.error("ログイン出来ませんでした");
     }
