@@ -6,6 +6,9 @@ import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 
+//components
+import { HamburgerMenu } from "../layout/HamburgerMenu";
+
 /**
  * ヘッダーコンポーネント.
  */
@@ -24,6 +27,7 @@ export const Header: FC = memo(() => {
           </_FlexA>
         </Link>
       </_HeaderIcon>
+      <HamburgerMenu />
 
       <_Phone>
         <MenuIcon />
