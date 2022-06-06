@@ -27,6 +27,7 @@ type Props = {
  * グループごとに分類したデータを回す
  */
 export const IncomeFamilyTable: FC<Props> = memo(({ year, month }) => {
+  const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
   //表示を整える
   const { formatMoney, totaleFamilyCount } = useFormater();
 
@@ -71,7 +72,7 @@ export const IncomeFamilyTable: FC<Props> = memo(({ year, month }) => {
                         <_Avatar>
                           <Avatar
                             alt="icon"
-                            src={item.image}
+                            src={firebaseUrl + item.image}
                             sx={{ width: 50, height: 50 }}
                           />
 

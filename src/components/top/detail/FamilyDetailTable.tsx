@@ -32,6 +32,7 @@ type Props = {
  * 詳細テーブル.
  */
 export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
+  const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
   //ログイン中のユーザID
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
@@ -85,7 +86,11 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
                 <TableCell />
                 <TableCell align="right">
                   <_Name>
-                    <_Image src={`/${item.image}`} height={50} width={50} />
+                    <_Image
+                      src={firebaseUrl + item.image}
+                      height={50}
+                      width={50}
+                    />
 
                     {item.name}
                   </_Name>
