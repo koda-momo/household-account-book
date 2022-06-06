@@ -15,8 +15,12 @@ export const Header: FC = memo(() => {
       <_HeaderIcon>
         <Link href="/top/">
           <_FlexA>
-            <Image src="/yarukizero-usagi.png" width={100} height={100} />
-            <Image src="/header.png" width={100} height={50} />
+            <Image
+              src="/images/yarukizero-usagi.png"
+              width={100}
+              height={100}
+            />
+            <Image src="/images/header.png" width={100} height={50} />
           </_FlexA>
         </Link>
       </_HeaderIcon>
