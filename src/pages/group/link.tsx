@@ -90,6 +90,7 @@ const LinkFamily: NextPage = () => {
         image: userItem.image,
         familyId: userItem.familyId,
         role: role,
+        color: userItem.color,
       };
 
       //ユーザ情報変更
@@ -122,6 +123,7 @@ const LinkFamily: NextPage = () => {
             value={password}
             setWord={setPassword}
             errorItem={passwordError}
+            type="password"
           />
         </_TextInput>
 
