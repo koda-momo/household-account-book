@@ -11,9 +11,15 @@
 
 
 ## ■デプロイURL
-テスト用アカウント：
-mail    : test@mail.com
-password: Test1111
+https://household-account-book.vercel.app/
+
+テスト用アカウント
+<ul>
+  <li>mail    : test@mail.com</li>
+   <li>password: Test1111</li> 
+</ul>
+
+
 
 ## ■使用技術
 <ul>
