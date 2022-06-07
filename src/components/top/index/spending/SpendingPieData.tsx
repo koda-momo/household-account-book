@@ -27,8 +27,6 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
   Chart.register(ChartDataLabels);
 
-  const router = useRouter();
-
   //hooks
   const { getSpendingCategoryData, getSpendingGroupData, pieData, dataCheck } =
     useSpendingPie(year, month);
