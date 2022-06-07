@@ -119,8 +119,6 @@ const AddData: NextPage = () => {
     const url =
       inOut === "支出" ? `${apiUrl}/newspitem` : `${apiUrl}/newicitem`;
 
-    console.log(category);
-
     try {
       axios.post(url, postData);
       toast.success(`${name}を${inOut}データで登録しました。`);
