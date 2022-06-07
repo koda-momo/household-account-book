@@ -40,14 +40,14 @@ const DeleteData: NextPage<Props> = ({ listData }) => {
   /**
    * 削除.
    */
-  const dataDelete = useCallback(() => {
+  const dataDelete = useCallback(async () => {
     const url =
       spic === "支出"
         ? `${apiUrl}/deletespitem/${itemId}`
         : `${apiUrl}/deleteicitem/${itemId}`;
 
     try {
-      axios.delete(url);
+      await axios.delete(url);
       toast.success("削除しました。");
       router.push("/top/");
     } catch (e) {
