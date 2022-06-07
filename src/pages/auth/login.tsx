@@ -66,10 +66,13 @@ const Login: NextPage = () => {
         password: password,
       });
 
+      //もし管理者アカウントだったらadminに遷移
       if (loginData.data.user === process.env.NEXT_PUBLIC_ADMIN) {
-        cookie.set("userId", "管理者", { path: "/" });
+        cookie.set("userId", loginData.data.user, { path: "/" });
         toast.success("管理者でログインしました。");
         router.push("/admin/");
+
+        //普通のユーザはIDをcookieに登録
       } else if (loginData.data.user) {
         cookie.set("userId", loginData.data.user, { path: "/" });
         toast.success("ログインしました。");

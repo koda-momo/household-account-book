@@ -56,13 +56,6 @@ export const CategoryEdit: FC<Props> = memo(({ genre, setGenre, mutate }) => {
   const [genreError, setGenreError] = useState("");
 
   /**
-   * キャンセルボタン.
-   */
-  const cancel = useCallback(() => {
-    router.back();
-  }, []);
-
-  /**
    * カテゴリデータ追加.
    */
   const postUserData = useCallback(async () => {
@@ -165,10 +158,6 @@ export const CategoryEdit: FC<Props> = memo(({ genre, setGenre, mutate }) => {
         <_Flex>
           <Button variant="contained" onClick={postUserData} color="primary">
             追加
-          </Button>
-
-          <Button variant="contained" onClick={cancel} color="error">
-            キャンセル
           </Button>
         </_Flex>
       </PageLayout>

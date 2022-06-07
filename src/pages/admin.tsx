@@ -67,7 +67,7 @@ const AdminPage: NextPage = () => {
    * 管理者出なければこのページに入れないチェッカー.
    */
   useEffect(() => {
-    if (userCheck !== "管理者") {
+    if (userCheck !== process.env.NEXT_PUBLIC_ADMIN) {
       router.push("/top/");
     } else {
       setCheckFlug(true);

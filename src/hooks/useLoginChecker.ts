@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
+import toast from "react-hot-toast";
 
 export const useLoginChecker = (
   setIsLogin: Dispatch<SetStateAction<boolean>>,
@@ -22,7 +23,10 @@ export const useLoginChecker = (
     if (path.match(/auth/) || path.match(/admin/)) {
       setIsLogin(true);
     } else {
-      if (!userId || userId === "") {
+      if (userId === process.env.NEXT_PUBLIC_ADMIN) {
+        router.push("/admin/");
+      } else if (!userId || userId === "") {
+        toast.error("ログインしてください。");
         router.push("/auth/login/");
       } else {
         setIsLogin(true);
