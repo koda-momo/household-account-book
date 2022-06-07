@@ -22,7 +22,7 @@ export const useLoginChecker = (
     if (path.match(/auth/) || path.match(/admin/)) {
       setIsLogin(true);
     } else {
-      if (!userId) {
+      if (!userId || userId === "") {
         router.push("/auth/login/");
       } else {
         setIsLogin(true);
