@@ -62,7 +62,7 @@ const AddData: NextPage = () => {
   /**
    * 収支データ新規登録.
    */
-  const postData = useCallback(() => {
+  const postData = useCallback(async () => {
     //エラー初期化
     setInOutError("");
     setNameError("");
@@ -120,7 +120,7 @@ const AddData: NextPage = () => {
       inOut === "支出" ? `${apiUrl}/newspitem` : `${apiUrl}/newicitem`;
 
     try {
-      axios.post(url, postData);
+      await axios.post(url, postData);
       toast.success(`${name}を${inOut}データで登録しました。`);
       router.push("/top/");
     } catch (e) {
