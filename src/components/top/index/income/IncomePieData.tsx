@@ -39,7 +39,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
           title: {
             color: "white",
             font: {
-              size: 20,
+              size: 15,
             },
           },
         },
