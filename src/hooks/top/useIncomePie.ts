@@ -16,13 +16,21 @@ export const useIncomePie = (year: number, month: number) => {
   const cookie = new Cookie();
   const [userId] = useState(cookie.get("userId"));
 
-  //収入データ
-  const [nameList, setNameList] = useState<Array<string>>([]);
-  const [priceList, setPriceList] = useState<Array<number>>([]);
-  const [colorList, setColorList] = useState<Array<string>>([]);
-
   //データがあるか否か
   const [dataCheck, setDataCheck] = useState(true);
+
+  //円グラフデータ
+  const [pieData, setPieData] = useState<ChartData<"pie">>({
+    labels: [],
+    datasets: [
+      {
+        label: "収入",
+        data: [], //それぞれ価格%
+        backgroundColor: [],
+        hoverOffset: 4,
+      },
+    ],
+  });
 
   /**
    * 収入データ取得.
@@ -52,14 +60,23 @@ export const useIncomePie = (year: number, month: number) => {
       colorArray.push(`rgb(${item.color})`);
     }
 
-    setNameList(categoryArray);
-    setPriceList(priceArray);
-    setColorList(colorArray);
+    const pieArray = {
+      labels: categoryArray,
+      datasets: [
+        {
+          label: "収入",
+          data: priceArray, //それぞれ価格%
+          backgroundColor: colorArray,
+          hoverOffset: 4,
+        },
+      ],
+    };
+    setPieData(pieArray);
 
     if (incomeData.length == 0) {
       setDataCheck(false);
     }
-  }, [year, month, userId, nameList, priceList, colorList]);
+  }, [year, month, userId, pieData]);
 
   /**
    * 収入データ取得.
@@ -110,27 +127,23 @@ export const useIncomePie = (year: number, month: number) => {
       colorArray.push(`rgb(${item.color})`);
     }
 
-    setNameList(nameArray);
-    setPriceList(priceArray);
-    setColorList(colorArray);
+    const pieArray = {
+      labels: nameArray,
+      datasets: [
+        {
+          label: "収入",
+          data: priceArray, //それぞれ価格%
+          backgroundColor: colorArray,
+          hoverOffset: 4,
+        },
+      ],
+    };
+    setPieData(pieArray);
 
     if (incomeData.length == 0) {
       setDataCheck(false);
     }
-  }, [year, month, userId, nameList, priceList, colorList]);
-
-  //円グラフデータ
-  const pieData: ChartData<"pie"> = {
-    labels: nameList,
-    datasets: [
-      {
-        label: "収入",
-        data: priceList, //それぞれ価格%
-        backgroundColor: colorList,
-        hoverOffset: 4,
-      },
-    ],
-  };
+  }, [year, month, userId, pieData]);
 
   return {
     getIncomeCategoryData,
