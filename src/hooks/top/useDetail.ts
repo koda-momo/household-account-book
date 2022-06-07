@@ -1,4 +1,3 @@
-//他
 import axios from "axios";
 import { useCallback, useState } from "react";
 import Cookie from "universal-cookie";

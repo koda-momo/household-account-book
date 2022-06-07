@@ -12,14 +12,14 @@ import { PageLayout } from "../../components/layout/PageLayout";
 import { FamilyList } from "../../components/user/FamilyList";
 import { InfoTable } from "../../components/user/InfoTable";
 import { UserType } from "../../types/UserType";
+import { apiUrl } from "../../utils/values";
 
 //MUI
 import { styled } from "@mui/material/styles";
 import { Avatar, Button } from "@mui/material";
 
-//API
+//others
 import Cookies from "universal-cookie";
-import { apiUrl } from "../../utils/values";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 

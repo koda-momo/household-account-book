@@ -1,20 +1,25 @@
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
+import { useState, useCallback } from "react";
+
+//MUI
+import SendIcon from "@mui/icons-material/Send";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
+
+//components
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
-import { useRouter } from "next/router";
-
-import SendIcon from "@mui/icons-material/Send";
-import { useState, useCallback } from "react";
-import Cookies from "universal-cookie";
 import { apiUrl } from "../../utils/values";
 import { FamilyType } from "../../types/UserType";
+
+//others
+import Cookies from "universal-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
 

@@ -16,6 +16,7 @@ import { PageLayout } from "../../../components/layout/PageLayout";
 import { InputText } from "../../../components/form/InputText";
 import { InputNumber } from "../../../components/form/InputNumber";
 import { InputDate } from "../../../components/form/InputDate";
+import { CategorySelect } from "../../../components/top/CategorySelect";
 import { apiUrl } from "../../../utils/values";
 
 //others
@@ -23,7 +24,6 @@ import Cookie from "universal-cookie";
 import { toast } from "react-hot-toast";
 import { addYears } from "date-fns";
 import axios from "axios";
-import { CategorySelect } from "../../../components/top/CategorySelect";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
