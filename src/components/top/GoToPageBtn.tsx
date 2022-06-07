@@ -38,7 +38,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
             </>
           )}
           <Image
-            src={"/kanemochi.png"}
+            src={"/images/kanemochi.png"}
             width={100}
             height={100}
             onClick={goToAddPage}
