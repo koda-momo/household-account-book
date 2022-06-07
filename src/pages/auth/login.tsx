@@ -65,11 +65,16 @@ const Login: NextPage = () => {
         mail: mail,
         password: password,
       });
-      if (loginData.data.user) {
+
+      if (loginData.data.user === process.env.NEXT_PUBLIC_ADMIN) {
+        cookie.set("userId", "管理者", { path: "/" });
+        toast.success("管理者でログインしました。");
+        router.push("/admin/");
+      } else if (loginData.data.user) {
         cookie.set("userId", loginData.data.user, { path: "/" });
+        toast.success("ログインしました。");
+        router.push("/top/");
       }
-      toast.success("ログインしました。");
-      router.push("/top/");
     } catch (e) {
       toast.error("ログイン出来ませんでした");
     }

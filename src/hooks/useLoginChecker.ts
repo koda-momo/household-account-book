@@ -19,7 +19,7 @@ export const useLoginChecker = (
   const loginChecker = useCallback((path: string) => {
     setIsLogin(false);
     setIsHeader(false);
-    if (path.match(/auth/)) {
+    if (path.match(/auth/) || path.match(/admin/)) {
       setIsLogin(true);
     } else {
       if (!userId) {

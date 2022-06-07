@@ -1,236 +1,125 @@
-import { useState, useCallback } from "react";
-import {
-  NextPage,
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-} from "next";
+import { useEffect, useState, useCallback } from "react";
+import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+
+//components
+import { CategoryType } from "../types/CategoryType";
+import { apiUrl } from "../utils/values";
+import { CategoryEdit } from "../components/admin/CategoryEdit";
 
 //MUI
 import styled from "@emotion/styled";
-import { Button, Icon } from "@mui/material";
-
-//components
-import { InputColor } from "../components/form/InputColor";
-import { InputText } from "../components/form/InputText";
-import { SelectBox } from "../components/form/SelectBox";
-import { PageLayout } from "../components/layout/PageLayout";
-import { PageTitle } from "../components/layout/PageTitle";
-import { CategoryCardItem } from "../components/top/CategoryCardItem";
-import { CategoryType } from "../types/CategoryType";
-import { apiUrl } from "../utils/values";
+import { Button } from "@mui/material";
 
 //others
+import Cookie from "universal-cookie";
 import toast from "react-hot-toast";
-import axios from "axios";
-import Link from "next/link";
-
-type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
+import { fetcher } from "../utils/fetcher";
+import useSWR from "swr";
+import { CategoryList } from "../components/admin/CategoryList";
 
 /**
  *  管理者用ページ.
  */
-const AdminPage: NextPage<Props> = ({ data }) => {
+const AdminPage: NextPage = () => {
   const router = useRouter();
+  const cookie = new Cookie();
+  const userCheck = cookie.get("userId");
 
-  const [categoryList] = useState<Array<CategoryType>>(data);
+  //管理者チェッカー
+  const [checkFlug, setCheckFlug] = useState(false);
 
-  //項目名
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
+  /**
+   * 登録済カテゴリデータの取得.
+   */
+  const { data, error, mutate } = useSWR(`${apiUrl}/category`, fetcher);
+  const [incomeData, setIncomeData] = useState<Array<CategoryType>>();
+  const [spendingData, setSpendingData] = useState<Array<CategoryType>>();
+  const [otherData, setOtherData] = useState<Array<CategoryType>>();
 
-  //色
-  const [color, setColor] = useState("");
-  const [colorError, setColorError] = useState("");
-
-  //アイコン
-  const [icon, setIcon] = useState("");
-  const [iconError, setIconError] = useState("");
-
-  //ジャンル
+  //選択中のジャンル
   const [genre, setGenre] = useState("");
-  const [genreError, setGenreError] = useState("");
 
   /**
-   * キャンセルボタン.
+   * 表示用データ作成.
    */
-  const cancel = useCallback(() => {
-    router.back();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      const incomeArray = data.filter((item: CategoryType) => {
+        return item.genre === "収入";
+      });
+
+      const spendingArray = data.filter((item: CategoryType) => {
+        return item.genre === "支出";
+      });
+
+      const otherArray = data.filter((item: CategoryType) => {
+        return item.genre === "その他";
+      });
+
+      setIncomeData(incomeArray);
+      setSpendingData(spendingArray);
+      setOtherData(otherArray);
+    }
+  }, [data]);
 
   /**
-   * カテゴリデータ追加.
+   * 管理者出なければこのページに入れないチェッカー.
    */
-  const postUserData = useCallback(async () => {
-    //初期化
-    let error = "";
-    setNameError("");
-    setColorError("");
-    setIconError("");
-    setGenreError("");
-
-    //バリデーション
-    if (name === "") {
-      setNameError("項目名を入力して下さい。");
-      error = "エラーあり";
-    }
-
-    if (color === "") {
-      setColorError("色を入力して下さい。");
-      error = "エラーあり";
-    }
-
-    if (icon === "") {
-      setIconError("アイコンを入力して下さい。");
-      error = "エラーあり";
-    }
-
-    if (genre === "") {
-      setGenreError("ジャンルを入力して下さい。");
-      error = "エラーあり";
-    }
-
-    if (error !== "") {
-      return;
-    }
-
-    try {
-      //登録データ
-      const postData = {
-        name: name,
-        color: color,
-        icon: icon,
-        genre: genre,
-      };
-
-      //登録
-      await axios.post(`${apiUrl}/category/add`, postData);
-      toast.success(name + "を登録しました。");
+  useEffect(() => {
+    if (userCheck !== "管理者") {
       router.push("/top/");
-    } catch (e) {
-      toast.error("登録出来ませんでした。" + e);
+    } else {
+      setCheckFlug(true);
     }
-  }, [name, color, genre, icon, nameError, colorError, genreError, iconError]);
+  }, [checkFlug]);
+
+  /**
+   * ログアウト.
+   */
+  const logout = useCallback(async () => {
+    const cookie = new Cookie();
+    cookie.remove("userId", { path: "/" });
+    await router.push("/auth/login/");
+    toast.success("ログアウトしました。");
+  }, []);
 
   return (
     <>
-      <PageLayout title="カテゴリ追加">
-        <Icon>{icon}</Icon>
+      {checkFlug ? (
+        <>
+          {data && (
+            <>
+              <CategoryEdit genre={genre} setGenre={setGenre} mutate={mutate} />
 
-        <_TextInput>
-          <InputText
-            label="アイコン(小文字)"
-            value={icon}
-            setWord={setIcon}
-            errorItem={iconError}
-          />
-        </_TextInput>
-        <Link href="https://mui.com/material-ui/material-icons/">
-          <a target="_blank">※アイコン一覧</a>
-        </Link>
+              {incomeData && genre === "収入" && (
+                <CategoryList categoryList={incomeData} title="収入" />
+              )}
+              {spendingData && genre === "支出" && (
+                <CategoryList categoryList={spendingData} title="支出" />
+              )}
+              {otherData && genre === "その他" && (
+                <CategoryList categoryList={otherData} title="その他" />
+              )}
+            </>
+          )}
 
-        <_TextInput>
-          <InputText
-            label="名前"
-            value={name}
-            setWord={setName}
-            errorItem={nameError}
-          />
-        </_TextInput>
-
-        <_TextInput>
-          <SelectBox
-            label="ジャンル"
-            value={genre}
-            setWord={setGenre}
-            errorItem={genreError}
-            menuList={["収入", "支出", "その他"]}
-          />
-        </_TextInput>
-
-        <_TextInput>
-          <InputColor
-            isSketch={true}
-            label="色"
-            value={color}
-            setValue={setColor}
-            errorItem={colorError}
-          />
-        </_TextInput>
-
-        <_Flex>
-          <Button variant="contained" onClick={postUserData} color="primary">
-            追加
-          </Button>
-
-          <Button variant="contained" onClick={cancel} color="error">
-            キャンセル
-          </Button>
-        </_Flex>
-      </PageLayout>
-
-      <_CategoryList>
-        <PageTitle title="登録済のデータ" />
-
-        <_Flex>
-          {categoryList.map((item) => (
-            <div key={item.name}>
-              <CategoryCardItem
-                name={item.name}
-                icon={item.icon}
-                color={item.color}
-              />
-            </div>
-          ))}
-        </_Flex>
-      </_CategoryList>
+          <_Button>
+            <Button onClick={logout} variant="contained" color="primary">
+              ログアウト
+            </Button>
+          </_Button>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
 
-/**
- * SSRで初期データ取得.
- * @returns ユーザ情報初期表示用データ
- */
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(`${apiUrl}/category`);
-  const data = await res.json();
-
-  //ジャンルでsort
-  data.sort((a: CategoryType, b: CategoryType) => {
-    if (a.genre > b.genre) {
-      return -1;
-    }
-    if (a.genre < b.genre) {
-      return 1;
-    }
-  });
-  return {
-    props: { data },
-  };
-};
-
-//テキストボックス1つ1つ
-const _TextInput = styled("div")(() => ({
-  marginBottom: 30,
-}));
-
-const _Link = styled("div")(() => ({
-  marginTop: 30,
-  marginBottom: 30,
-}));
-
-const _CategoryList = styled("div")(() => ({
-  marginTop: 100,
+const _Button = styled("div")(() => ({
+  textAlign: "center",
   marginBottom: 100,
-}));
-
-const _Flex = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: 20,
-  flexWrap: "wrap",
 }));
 
 export default AdminPage;
