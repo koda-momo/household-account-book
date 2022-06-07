@@ -72,18 +72,27 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
    * DBにユーザ登録.
    */
   const postUserData = useCallback(async () => {
+    //初期化
+    setNameError("");
+    setMailError("");
+    setRoleError("");
+    let error = "";
+
     if (name === "") {
       setNameError("名前を入力して下さい。");
+      error = "エラーあり";
     }
 
     if (mail === "") {
       setMailError("メールアドレスを入力して下さい。");
+      error = "エラーあり";
     }
 
-    if (nameError !== "" || mailError !== "" || roleError !== "") {
+    if (error !== "") {
       return;
     }
 
+    //画像に変更があれば、Firebase内の元画像データを削除
     if (userData.user.image != "" && userData.user.image != image) {
       await deleteImage(userData.user.image);
     }
