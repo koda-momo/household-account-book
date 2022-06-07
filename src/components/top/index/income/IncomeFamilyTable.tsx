@@ -109,6 +109,10 @@ const _Avatar = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
+  "@media screen and (max-width:600px)": {
+    flexDirection: "column",
+    gap: 3,
+  },
 }));
 
 const _Loading = styled("div")(() => ({
