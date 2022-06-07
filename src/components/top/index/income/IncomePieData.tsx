@@ -8,7 +8,6 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button } from "@mui/material";
 
 //others
 import { useIncomePie } from "../../../../hooks/top/useIncomePie";
@@ -34,13 +33,6 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
     useIncomePie(year, month);
 
   const { pieOption } = usePie();
-
-  /**
-   * 詳細画面に遷移.
-   */
-  const goDetailPage = useCallback(() => {
-    router.push("/top/detail");
-  }, []);
 
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {

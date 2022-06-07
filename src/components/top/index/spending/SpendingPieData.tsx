@@ -35,12 +35,6 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
 
   const { pieOption } = usePie();
 
-  /**
-   * 詳細画面に遷移.
-   */
-  const goDetailPage = useCallback(() => {
-    router.push("/top/detail");
-  }, []);
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {
     plugins: {
