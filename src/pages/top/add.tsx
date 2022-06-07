@@ -126,17 +126,7 @@ const AddData: NextPage = () => {
     } catch (e) {
       toast.error("登録に失敗しました。");
     }
-  }, [
-    nameError,
-    priceError,
-    dateError,
-    categoryError,
-    userId,
-    name,
-    price,
-    date,
-    category,
-  ]);
+  }, [inOut, name, price, date, category, userId, minDate, maxDate, router]);
 
   return (
     <>

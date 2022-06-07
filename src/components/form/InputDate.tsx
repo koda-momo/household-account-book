@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FC, memo, SetStateAction } from "react";
+import { Dispatch, FC, memo, SetStateAction } from "react";
 
 //MUI
 import { TextField } from "@mui/material";

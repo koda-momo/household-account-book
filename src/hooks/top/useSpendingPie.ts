@@ -79,7 +79,7 @@ export const useSpendingPie = (year: number, month: number) => {
       setDataCheck(false);
       return;
     }
-  }, [year, month, userId, pieData]);
+  }, [year, month, userId]);
 
   /**
    * 支出データ取得.
@@ -148,7 +148,7 @@ export const useSpendingPie = (year: number, month: number) => {
     if (spendingData.length == 0) {
       setDataCheck(false);
     }
-  }, [year, month, userId, pieData]);
+  }, [year, month, userId]);
 
   return {
     getSpendingCategoryData,

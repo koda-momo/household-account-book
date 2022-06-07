@@ -1,5 +1,4 @@
-import { FC, memo, useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
+import { FC, memo, useEffect } from "react";
 
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
@@ -25,8 +24,6 @@ type Props = {
 export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
   Chart.register(ChartDataLabels);
-
-  const router = useRouter();
 
   //hooks
   const { getIncomeCategoryData, getIncomeGroupData, pieData, dataCheck } =
@@ -64,7 +61,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
     } else if (mode === "グループ") {
       getIncomeGroupData();
     }
-  }, [mode, year, month]);
+  }, [mode, year, month, getIncomeCategoryData, getIncomeGroupData]);
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
@@ -92,13 +89,6 @@ const _Pie = styled("div")(() => ({
     width: 300,
     height: 300,
   },
-}));
-
-const _Flex = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  marginTop: 50,
-  marginBottom: 50,
 }));
 
 const _Nodata = styled("div")(() => ({

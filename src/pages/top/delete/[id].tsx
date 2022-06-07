@@ -53,14 +53,14 @@ const DeleteData: NextPage<Props> = ({ listData }) => {
     } catch (e) {
       toast.error("削除に失敗しました。");
     }
-  }, [itemId]);
+  }, [itemId, router, spic]);
 
   /**
    * 前のページに戻る.
    */
   const goBack = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   return (
     <_Flex>

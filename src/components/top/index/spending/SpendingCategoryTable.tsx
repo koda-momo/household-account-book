@@ -35,7 +35,7 @@ export const SpendingCategoryTable: FC<Props> = memo(({ year, month }) => {
 
   useEffect(() => {
     makeCategoryTableData();
-  }, [year, month]);
+  }, [year, month, makeCategoryTableData]);
 
   //読み込み中の表示
   if (categoryTableData?.length == 0 && dataCheck === true)

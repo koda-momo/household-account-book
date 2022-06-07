@@ -22,7 +22,7 @@ import { toast } from "react-hot-toast";
  * ログイン画面.
  */
 const Login: NextPage = () => {
-  const cookie = new Cookie();
+  const [cookie] = useState(new Cookie());
   const router = useRouter();
 
   //メールアドレス
@@ -81,7 +81,7 @@ const Login: NextPage = () => {
     } catch (e) {
       toast.error("ログイン出来ませんでした");
     }
-  }, [mail, password]);
+  }, [cookie, mail, password, router]);
 
   return (
     <>

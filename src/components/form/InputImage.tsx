@@ -43,7 +43,7 @@ export const InputImage: FC<Props> = memo(({ errorItem, image, setImage }) => {
   //表示用初期値のセット.
   useEffect(() => {
     setImageItem(image);
-  }, []);
+  }, [image]);
 
   /**
    * 入力値をセットする.
@@ -59,13 +59,13 @@ export const InputImage: FC<Props> = memo(({ errorItem, image, setImage }) => {
       }
 
       // Firebaseに登録 & 表示中のイメージアイテムを更新
-      const downloadURL = await uploadImage(e, setImageItem);
+      const downloadURL = await uploadImage(e);
       setImageItem(String(downloadURL));
 
       //画面側の変数にも値を渡す
       setImage(String(downloadURL));
     },
-    [image, changeCount]
+    [changeCount, uploadImage, setImage, deleteImage, imageItem]
   );
 
   return (

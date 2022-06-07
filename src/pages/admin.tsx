@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { NextPage, GetServerSideProps } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 //components
@@ -32,7 +32,7 @@ const AdminPage: NextPage = () => {
   /**
    * 登録済カテゴリデータの取得.
    */
-  const { data, error, mutate } = useSWR(`${apiUrl}/category`, fetcher);
+  const { data, mutate } = useSWR(`${apiUrl}/category`, fetcher);
   const [incomeData, setIncomeData] = useState<Array<CategoryType>>();
   const [spendingData, setSpendingData] = useState<Array<CategoryType>>();
   const [otherData, setOtherData] = useState<Array<CategoryType>>();
@@ -72,7 +72,7 @@ const AdminPage: NextPage = () => {
     } else {
       setCheckFlug(true);
     }
-  }, [checkFlug]);
+  }, [checkFlug, router, userCheck]);
 
   /**
    * ログアウト.
@@ -82,7 +82,7 @@ const AdminPage: NextPage = () => {
     cookie.remove("userId", { path: "/" });
     await router.push("/auth/login/");
     toast.success("ログアウトしました。");
-  }, []);
+  }, [router]);
 
   return (
     <>

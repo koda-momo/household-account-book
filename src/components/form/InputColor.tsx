@@ -49,7 +49,7 @@ export const InputColor: FC<Props> = memo(
         setColor(color.rgb);
         setValue(rgb);
       },
-      [value]
+      [setValue]
     );
 
     return (

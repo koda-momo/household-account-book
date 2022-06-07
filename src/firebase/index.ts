@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import firebase from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 import { firebaseConfig } from "./config";

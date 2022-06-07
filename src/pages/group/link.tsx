@@ -31,7 +31,7 @@ const LinkFamily: NextPage = () => {
    */
   const cancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   //合言葉
   const [secretWord, setSecretWord] = useState<string>("");
@@ -110,7 +110,7 @@ const LinkFamily: NextPage = () => {
     } catch (e) {
       toast.error("紐づけに失敗しました。");
     }
-  }, [secretWord, password, role]);
+  }, [secretWord, password, role, userId, router]);
 
   return (
     <>

@@ -18,14 +18,14 @@ export const ToggleButton: FC<Props> = memo(
      */
     const switchToggleA = useCallback(() => {
       setToggle(toggleItemA);
-    }, [toggle]);
+    }, [setToggle, toggleItemA]);
 
     /**
      * トグルをBBに切り替える.
      */
     const switchToggleB = useCallback(() => {
       setToggle(toggleItemB);
-    }, [toggle]);
+    }, [setToggle, toggleItemB]);
 
     return (
       <>

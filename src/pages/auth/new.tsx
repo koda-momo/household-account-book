@@ -126,20 +126,7 @@ const NewUser: NextPage = () => {
     } catch (e) {
       toast.error("登録に失敗しました。" + String(e));
     }
-  }, [
-    name,
-    mail,
-    password,
-    confirmPassword,
-    color,
-    image,
-    nameError,
-    mailError,
-    passwordError,
-    confirmPasswordError,
-    colorError,
-    imageError,
-  ]);
+  }, [name, mail, password, color, confirmPassword, image, router]);
 
   return (
     <>

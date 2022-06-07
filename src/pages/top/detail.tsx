@@ -60,7 +60,15 @@ const Detail: NextPage = () => {
       getFamilySpending();
       getFamilyIncome();
     }
-  }, [year, month, oneOrGroupFlug]);
+  }, [
+    year,
+    month,
+    oneOrGroupFlug,
+    getCategorySpending,
+    getCategoryIncome,
+    getFamilySpending,
+    getFamilyIncome,
+  ]);
 
   return (
     <_Main>

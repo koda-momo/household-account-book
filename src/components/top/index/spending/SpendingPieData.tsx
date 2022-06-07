@@ -1,5 +1,4 @@
-import { FC, memo, useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
+import { FC, memo, useEffect } from "react";
 
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
@@ -62,7 +61,7 @@ export const SpendingPieData: FC<Props> = memo(({ year, month, mode }) => {
     } else if (mode === "グループ") {
       getSpendingGroupData();
     }
-  }, [mode, year, month]);
+  }, [mode, year, month, getSpendingCategoryData, getSpendingGroupData]);
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
@@ -90,13 +89,6 @@ const _Pie = styled("div")(() => ({
     width: 300,
     height: 300,
   },
-}));
-
-const _Flex = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  marginTop: 50,
-  marginBottom: 50,
 }));
 
 const _Nodata = styled("div")(() => ({

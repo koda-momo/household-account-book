@@ -27,14 +27,14 @@ const Logout: NextPage = () => {
     cookie.remove("userId", { path: "/" });
     await router.push("/auth/login/");
     toast.success("ログアウトしました。");
-  }, []);
+  }, [router]);
 
   /**
    * 前のページに戻る.
    */
   const goBack = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   return (
     <_Flex>

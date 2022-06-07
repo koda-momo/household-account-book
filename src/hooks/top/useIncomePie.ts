@@ -76,7 +76,7 @@ export const useIncomePie = (year: number, month: number) => {
     if (incomeData.length == 0) {
       setDataCheck(false);
     }
-  }, [year, month, userId, pieData]);
+  }, [year, month, userId]);
 
   /**
    * 収入データ取得.
@@ -143,7 +143,7 @@ export const useIncomePie = (year: number, month: number) => {
     if (incomeData.length == 0) {
       setDataCheck(false);
     }
-  }, [year, month, userId, pieData]);
+  }, [year, month, userId]);
 
   return {
     getIncomeCategoryData,

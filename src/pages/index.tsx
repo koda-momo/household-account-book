@@ -31,13 +31,18 @@ const StartPage: NextPage<Props> = ({ userData }) => {
    */
   const goToTop = useCallback(() => {
     router.push("/top/");
-  }, []);
+  }, [router]);
 
   return (
     <>
       <_Flex>
         <_Image>
-          <Image src="/images/toragao.png" width={250} height={250} />
+          <Image
+            src="/images/toragao.png"
+            width={250}
+            height={250}
+            alt="tiger-face"
+          />
         </_Image>
         <_Greeting>
           <div>おはよう、{userName}</div>

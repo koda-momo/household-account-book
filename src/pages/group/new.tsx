@@ -30,7 +30,7 @@ const NewFamily: NextPage = () => {
    */
   const cancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   //名前
   const [name, setName] = useState<string>("");
@@ -133,18 +133,7 @@ const NewFamily: NextPage = () => {
     } catch (e) {
       toast.error("登録に失敗しました。" + e);
     }
-  }, [
-    name,
-    password,
-    confirmPassword,
-    secretWord,
-    role,
-    nameError,
-    passwordError,
-    confirmPasswordError,
-    secretWordError,
-    roleError,
-  ]);
+  }, [name, secretWord, password, confirmPassword, role, userId, router]);
 
   return (
     <>

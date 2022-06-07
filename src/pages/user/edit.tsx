@@ -4,7 +4,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
@@ -52,11 +52,11 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
 
   //色
   const [color, setColor] = useState<string>(userData.user.color);
-  const [colorError, setColorError] = useState<string>("");
+  const [colorError] = useState<string>("");
 
   //画像
   const [image, setImage] = useState(userData.user.image);
-  const [imageError, setImageError] = useState<string>("");
+  const [imageError] = useState<string>("");
 
   //Firebaseに登録hooks
   const { deleteImage } = useFirebaseImage();
@@ -66,7 +66,7 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
    */
   const cancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   /**
    * DBにユーザ登録.
@@ -115,7 +115,17 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
     } catch (e) {
       toast.error("更新出来ませんでした。");
     }
-  }, [name, mail, image, role, color]);
+  }, [
+    name,
+    mail,
+    userData.user.image,
+    image,
+    role,
+    color,
+    deleteImage,
+    userId,
+    router,
+  ]);
 
   return (
     <>
@@ -211,10 +221,10 @@ const _TextInput = styled("div")(() => ({
   marginBottom: 30,
 }));
 
-const _Link = styled("div")(() => ({
-  marginTop: 30,
-  marginBottom: 30,
-}));
+// const _Link = styled("div")(() => ({
+//   marginTop: 30,
+//   marginBottom: 30,
+// }));
 
 const _Flex = styled("div")(() => ({
   display: "flex",

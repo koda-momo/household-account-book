@@ -42,7 +42,7 @@ const FamilyEdit: NextPage<Props> = ({ familyData }) => {
    */
   const cancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   /**
    * DBにユーザ登録.
@@ -70,7 +70,7 @@ const FamilyEdit: NextPage<Props> = ({ familyData }) => {
     } catch (e) {
       toast.error("更新出来ませんでした。" + e);
     }
-  }, [name, nameError]);
+  }, [familyItem._id, name, router]);
 
   return (
     <>

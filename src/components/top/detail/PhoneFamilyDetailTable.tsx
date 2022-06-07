@@ -8,7 +8,6 @@ import { FamilyDetailType } from "../../../types/MoneyType";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import Icon from "@mui/material/Icon";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -44,16 +43,22 @@ export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
   /**
    * 編集ページに遷移.
    */
-  const goEditPage = useCallback((id: string) => {
-    router.push(`/top/edit/${id}/`);
-  }, []);
+  const goEditPage = useCallback(
+    (id: string) => {
+      router.push(`/top/edit/${id}/`);
+    },
+    [router]
+  );
 
   /**
    * 削除ページに遷移.
    */
-  const goDeletePage = useCallback((id: string) => {
-    router.push(`/top/delete/${id}/`);
-  }, []);
+  const goDeletePage = useCallback(
+    (id: string) => {
+      router.push(`/top/delete/${id}/`);
+    },
+    [router]
+  );
 
   if (tableData.length <= 0) return <>データなし</>;
 

@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 
 //MUI
-import { Avatar, Icon } from "@mui/material";
+import { Icon } from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 import { styled } from "@mui/material/styles";
 

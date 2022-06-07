@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 import {
   ref,
@@ -15,42 +15,35 @@ import toast from "react-hot-toast";
  * @param setImageItem 画像パスにセット
  */
 export const useFirebaseImage = () => {
-  const uploadImage = useCallback(
-    async (
-      e: ChangeEvent<any>,
-      setImageItem: Dispatch<SetStateAction<string>>
-    ) => {
-      //取得した画像データをsotrageに保存できる形に整形
-      const file = e.target.files;
-      const blob = new Blob(file, { type: "image/jpeg" });
+  const uploadImage = useCallback(async (e: ChangeEvent<any>) => {
+    //取得した画像データをsotrageに保存できる形に整形
+    const file = e.target.files;
+    const blob = new Blob(file, { type: "image/jpeg" });
 
-      //ファイル名生成:この中の文字を組み合わせた16桁ランダムに生成
-      const S =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWQYZ1234567890";
-      const N = 16;
-      const fileName = Array.from(crypto.getRandomValues(new Uint32Array(N)))
-        .map((n) => S[n % S.length])
-        .join("");
+    //ファイル名生成:この中の文字を組み合わせた16桁ランダムに生成
+    const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWQYZ1234567890";
+    const N = 16;
+    const fileName = Array.from(crypto.getRandomValues(new Uint32Array(N)))
+      .map((n) => S[n % S.length])
+      .join("");
 
-      try {
-        //imagesディレクトリの中に「fileName.jpg」という名前でblobをアップロードするよ
-        const uploadRef = ref(storage, `images/${fileName}.jpg`);
-        const uploadTask = uploadBytes(uploadRef, blob);
-        const snapshot = await uploadTask;
+    try {
+      //imagesディレクトリの中に「fileName.jpg」という名前でblobをアップロードするよ
+      const uploadRef = ref(storage, `images/${fileName}.jpg`);
+      const uploadTask = uploadBytes(uploadRef, blob);
+      const snapshot = await uploadTask;
 
-        //アップロードが完了するとその画像が取得できるURLが返ってくる
-        const url = await getDownloadURL(snapshot.ref);
-        const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
-        const downloadURL = url.replace(String(firebaseUrl), "");
+      //アップロードが完了するとその画像が取得できるURLが返ってくる
+      const url = await getDownloadURL(snapshot.ref);
+      const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
+      const downloadURL = url.replace(String(firebaseUrl), "");
 
-        return downloadURL;
-      } catch (e) {
-        toast.error("エラーが発生しました:" + e);
-        console.error(e);
-      }
-    },
-    []
-  );
+      return downloadURL;
+    } catch (e) {
+      toast.error("エラーが発生しました:" + e);
+      console.error(e);
+    }
+  }, []);
 
   /**
    * 画像の削除.

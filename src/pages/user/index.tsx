@@ -4,8 +4,6 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import { useCallback } from "react";
-import { useRouter } from "next/router";
 
 //components, Types
 import { PageLayout } from "../../components/layout/PageLayout";
@@ -27,7 +25,6 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  * ユーザ情報.
  */
 const UserInfo: NextPage<Props> = ({ userData }) => {
-  const router = useRouter();
   const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
 
   return (

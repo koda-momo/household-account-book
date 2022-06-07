@@ -38,7 +38,7 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
 
   useEffect(() => {
     makeFamilyTableData();
-  }, [year, month]);
+  }, [year, month, makeFamilyTableData]);
 
   //読み込み中の表示
   if (familyTableData?.length == 0 && dataCheck === true)

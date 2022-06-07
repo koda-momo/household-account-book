@@ -6,7 +6,6 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 //components
@@ -14,8 +13,6 @@ import { InputColor } from "../form/InputColor";
 import { InputText } from "../form/InputText";
 import { SelectBox } from "../form/SelectBox";
 import { PageLayout } from "../layout/PageLayout";
-
-import { CategoryType } from "../../types/CategoryType";
 import { apiUrl } from "../../utils/values";
 
 //MUI
@@ -37,8 +34,6 @@ type Props = {
  * カテゴリ追加.
  */
 export const CategoryEdit: FC<Props> = memo(({ genre, setGenre, mutate }) => {
-  const router = useRouter();
-
   //項目名
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -107,7 +102,7 @@ export const CategoryEdit: FC<Props> = memo(({ genre, setGenre, mutate }) => {
     } catch (e) {
       toast.error("登録出来ませんでした。" + e);
     }
-  }, [name, color, genre, icon, nameError, colorError, genreError, iconError]);
+  }, [name, color, icon, genre, mutate]);
 
   return (
     <>
