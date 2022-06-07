@@ -8,7 +8,6 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button } from "@mui/material";
 
 //others
 import { useSpendingPie } from "../../../../hooks/top/useSpendingPie";
