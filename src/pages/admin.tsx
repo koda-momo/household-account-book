@@ -23,6 +23,7 @@ import { apiUrl } from "../utils/values";
 //others
 import toast from "react-hot-toast";
 import axios from "axios";
+import Link from "next/link";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -75,17 +76,17 @@ const AdminPage: NextPage<Props> = ({ data }) => {
     }
 
     if (color === "") {
-      setNameError("色を入力して下さい。");
+      setColorError("色を入力して下さい。");
       error = "エラーあり";
     }
 
     if (icon === "") {
-      setNameError("アイコンを入力して下さい。");
+      setIconError("アイコンを入力して下さい。");
       error = "エラーあり";
     }
 
     if (genre === "") {
-      setNameError("ジャンルを入力して下さい。");
+      setGenreError("ジャンルを入力して下さい。");
       error = "エラーあり";
     }
 
@@ -98,16 +99,14 @@ const AdminPage: NextPage<Props> = ({ data }) => {
       const postData = {
         name: name,
         color: color,
-        // "color": "100, 100, 100",
         icon: icon,
         genre: genre,
       };
 
-      console.dir("登録データ" + JSON.stringify(postData));
-
       //登録
-      //   await axios.post(`${apiUrl}/category/add`, postData);
+      await axios.post(`${apiUrl}/category/add`, postData);
       toast.success(name + "を登録しました。");
+      router.push("/top/");
     } catch (e) {
       toast.error("登録出来ませんでした。" + e);
     }
@@ -126,6 +125,9 @@ const AdminPage: NextPage<Props> = ({ data }) => {
             errorItem={iconError}
           />
         </_TextInput>
+        <Link href="https://mui.com/material-ui/material-icons/">
+          <a target="_blank">※アイコン一覧</a>
+        </Link>
 
         <_TextInput>
           <InputText
@@ -148,6 +150,7 @@ const AdminPage: NextPage<Props> = ({ data }) => {
 
         <_TextInput>
           <InputColor
+            isSketch={true}
             label="色"
             value={color}
             setValue={setColor}
@@ -227,6 +230,7 @@ const _Flex = styled("div")(() => ({
   justifyContent: "center",
   alignItems: "center",
   gap: 20,
+  flexWrap: "wrap",
 }));
 
 export default AdminPage;

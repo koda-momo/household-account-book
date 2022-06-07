@@ -41,6 +41,10 @@ const _Ul = styled("ul")(() => ({
 
 const _Main = styled("div")(() => ({
   width: 200,
+  "@media screen and (max-width:600px)": {
+    width: 120,
+    fontSize: 10,
+  },
 }));
 
 const _Icon = styled("div")(() => ({
