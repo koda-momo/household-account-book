@@ -20,6 +20,10 @@ export const Header: FC = memo(() => {
       path: "/top/",
     },
     {
+      name: "REGISTER",
+      path: "/top/add",
+    },
+    {
       name: "USER INFO",
       path: "/user/",
     },
