@@ -62,6 +62,13 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
   const { deleteImage } = useFirebaseImage();
 
   /**
+   * キャンセルボタン.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, []);
+
+  /**
    * DBにユーザ登録.
    */
   const postUserData = useCallback(async () => {
@@ -154,7 +161,7 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
           </Link>
         </_Link> */}
 
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postUserData}
@@ -163,7 +170,11 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
           >
             更新
           </Button>
-        </div>
+
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -195,4 +206,12 @@ const _Link = styled("div")(() => ({
   marginTop: 30,
   marginBottom: 30,
 }));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 20,
+}));
+
 export default UserEdit;

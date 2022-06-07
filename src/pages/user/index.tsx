@@ -30,13 +30,6 @@ const UserInfo: NextPage<Props> = ({ userData }) => {
   const router = useRouter();
   const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE;
 
-  /**
-   * ページ遷移.
-   */
-  const gotoPage = useCallback((url: string) => {
-    router.push(url);
-  }, []);
-
   return (
     <>
       <PageLayout title="ユーザ情報">
@@ -56,11 +49,7 @@ const UserInfo: NextPage<Props> = ({ userData }) => {
 
         <_BtnGroup>
           <div>
-            <_Btn
-              variant="contained"
-              color="primary"
-              onClick={() => gotoPage("/user/edit/")}
-            >
+            <_Btn variant="contained" color="primary" href="/user/edit/">
               ユーザ情報の編集
             </_Btn>
           </div>
@@ -74,20 +63,12 @@ const UserInfo: NextPage<Props> = ({ userData }) => {
           ) : (
             <>
               <div>
-                <_Btn
-                  variant="contained"
-                  color="primary"
-                  onClick={() => gotoPage("/group/new/")}
-                >
+                <_Btn variant="contained" color="primary" href="/group/new/">
                   グループの新規登録
                 </_Btn>
               </div>
               <div>
-                <_Btn
-                  variant="contained"
-                  color="primary"
-                  onClick={() => gotoPage("/group/link/")}
-                >
+                <_Btn variant="contained" color="primary" href="/group/link/">
                   グループに紐づけ
                 </_Btn>
               </div>

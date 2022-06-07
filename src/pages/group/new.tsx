@@ -25,6 +25,13 @@ const NewFamily: NextPage = () => {
   const userId = cookie.get("userId");
   const router = useRouter();
 
+  /**
+   * キャンセルボタン.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, []);
+
   //名前
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
@@ -189,7 +196,7 @@ const NewFamily: NextPage = () => {
           />
         </_TextInput>
 
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postUserData}
@@ -198,7 +205,10 @@ const NewFamily: NextPage = () => {
           >
             登録
           </Button>
-        </div>
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -207,6 +217,13 @@ const NewFamily: NextPage = () => {
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
+}));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 20,
 }));
 
 export default NewFamily;

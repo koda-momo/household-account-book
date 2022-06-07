@@ -38,6 +38,13 @@ const FamilyEdit: NextPage<Props> = ({ familyData }) => {
   const [nameError, setNameError] = useState<string>("");
 
   /**
+   * キャンセルボタン.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, []);
+
+  /**
    * DBにユーザ登録.
    */
   const postUserData = useCallback(async () => {
@@ -77,7 +84,7 @@ const FamilyEdit: NextPage<Props> = ({ familyData }) => {
           />
         </_TextInput>
 
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postUserData}
@@ -86,7 +93,10 @@ const FamilyEdit: NextPage<Props> = ({ familyData }) => {
           >
             更新
           </Button>
-        </div>
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -119,4 +129,12 @@ export const getServerSideProps: GetServerSideProps = async (
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
 }));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 20,
+}));
+
 export default FamilyEdit;
