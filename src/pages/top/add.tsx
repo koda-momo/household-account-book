@@ -7,17 +7,20 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
-import Cookie from "universal-cookie";
-import { toast } from "react-hot-toast";
+//components
 import { InputText } from "../../components/form/InputText";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { SelectBox } from "../../components/form/SelectBox";
 import { InputNumber } from "../../components/form/InputNumber";
 import { InputDate } from "../../components/form/InputDate";
-import { addYears } from "date-fns";
-import { apiUrl } from "../../utils/values";
-import axios from "axios";
 import { CategorySelect } from "../../components/top/CategorySelect";
+import { apiUrl } from "../../utils/values";
+
+//others
+import axios from "axios";
+import Cookie from "universal-cookie";
+import { toast } from "react-hot-toast";
+import { addYears } from "date-fns";
 
 /**
  * 収支新規登録画面.
@@ -59,7 +62,7 @@ const AddData: NextPage = () => {
   /**
    * 収支データ新規登録.
    */
-  const postData = useCallback(() => {
+  const postData = useCallback(async () => {
     //エラー初期化
     setInOutError("");
     setNameError("");
@@ -116,26 +119,14 @@ const AddData: NextPage = () => {
     const url =
       inOut === "支出" ? `${apiUrl}/newspitem` : `${apiUrl}/newicitem`;
 
-    console.log(category);
-
     try {
-      axios.post(url, postData);
+      await axios.post(url, postData);
       toast.success(`${name}を${inOut}データで登録しました。`);
       router.push("/top/");
     } catch (e) {
       toast.error("登録に失敗しました。");
     }
-  }, [
-    nameError,
-    priceError,
-    dateError,
-    categoryError,
-    userId,
-    name,
-    price,
-    date,
-    category,
-  ]);
+  }, [inOut, name, price, date, category, userId, minDate, maxDate, router]);
 
   return (
     <>

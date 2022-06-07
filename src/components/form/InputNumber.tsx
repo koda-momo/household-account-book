@@ -9,14 +9,13 @@ type Props = {
   value: number;
   setNumber: Dispatch<SetStateAction<number>>;
   errorItem: string;
-  defaultValue?: number;
 };
 
 /**
  * 数字用テキストボックスコンポーネント.
  */
 export const InputNumber: FC<Props> = memo(
-  ({ label, value, setNumber, errorItem, defaultValue = "" }) => {
+  ({ label, value, setNumber, errorItem }) => {
     /**
      * 入力値をセットする.
      */
@@ -34,7 +33,6 @@ export const InputNumber: FC<Props> = memo(
           label={label}
           value={value}
           type="number"
-          // defaultValue={defaultValue}
           size="medium"
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
         />

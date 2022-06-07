@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 //components
 import { DateBtn } from "../../components/top/DateBtn";
@@ -60,7 +60,15 @@ const Detail: NextPage = () => {
       getFamilySpending();
       getFamilyIncome();
     }
-  }, [year, month, oneOrGroupFlug]);
+  }, [
+    year,
+    month,
+    oneOrGroupFlug,
+    getCategorySpending,
+    getCategoryIncome,
+    getFamilySpending,
+    getFamilyIncome,
+  ]);
 
   return (
     <_Main>

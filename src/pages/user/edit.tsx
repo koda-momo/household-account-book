@@ -4,7 +4,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
@@ -52,31 +52,47 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
 
   //色
   const [color, setColor] = useState<string>(userData.user.color);
-  const [colorError, setColorError] = useState<string>("");
+  const [colorError] = useState<string>("");
 
   //画像
   const [image, setImage] = useState(userData.user.image);
-  const [imageError, setImageError] = useState<string>("");
+  const [imageError] = useState<string>("");
 
   //Firebaseに登録hooks
   const { deleteImage } = useFirebaseImage();
 
   /**
+   * キャンセルボタン.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  /**
    * DBにユーザ登録.
    */
   const postUserData = useCallback(async () => {
+    //初期化
+    setNameError("");
+    setMailError("");
+    setRoleError("");
+    let error = "";
+
     if (name === "") {
       setNameError("名前を入力して下さい。");
+      error = "エラーあり";
     }
 
     if (mail === "") {
       setMailError("メールアドレスを入力して下さい。");
+      error = "エラーあり";
     }
 
-    if (nameError !== "" || mailError !== "" || roleError !== "") {
+    if (error !== "") {
       return;
     }
 
+    //画像に変更があれば、Firebase内の元画像データを削除
     if (userData.user.image != "" && userData.user.image != image) {
       await deleteImage(userData.user.image);
     }
@@ -99,7 +115,17 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
     } catch (e) {
       toast.error("更新出来ませんでした。");
     }
-  }, [name, mail, image, role, color]);
+  }, [
+    name,
+    mail,
+    userData.user.image,
+    image,
+    role,
+    color,
+    deleteImage,
+    userId,
+    router,
+  ]);
 
   return (
     <>
@@ -154,7 +180,7 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
           </Link>
         </_Link> */}
 
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postUserData}
@@ -163,7 +189,11 @@ const UserEdit: NextPage<Props> = ({ userData }) => {
           >
             更新
           </Button>
-        </div>
+
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -191,8 +221,16 @@ const _TextInput = styled("div")(() => ({
   marginBottom: 30,
 }));
 
-const _Link = styled("div")(() => ({
-  marginTop: 30,
-  marginBottom: 30,
+// const _Link = styled("div")(() => ({
+//   marginTop: 30,
+//   marginBottom: 30,
+// }));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 20,
 }));
+
 export default UserEdit;

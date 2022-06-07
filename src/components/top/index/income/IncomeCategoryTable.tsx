@@ -35,7 +35,7 @@ export const IncomeCategoryTable: FC<Props> = memo(({ year, month }) => {
 
   useEffect(() => {
     makeCategoryTableData();
-  }, [year, month]);
+  }, [year, month, makeCategoryTableData]);
 
   //読み込み中の表示
   if (categoryTableData?.length == 0 && dataCheck === true)
@@ -99,6 +99,10 @@ const _Name = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
+  "@media screen and (max-width:600px)": {
+    flexDirection: "column",
+    gap: 3,
+  },
 }));
 
 const _Loading = styled("div")(() => ({

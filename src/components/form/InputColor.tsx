@@ -1,5 +1,4 @@
 import {
-  ChangeEvent,
   Dispatch,
   FC,
   memo,
@@ -11,17 +10,18 @@ import {
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { ColorResult, RGBColor, CirclePicker } from "react-color";
+import { ColorResult, RGBColor, CirclePicker, SketchPicker } from "react-color";
 
 type Props = {
   label: string;
   errorItem: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  isSketch?: boolean;
 };
 
 export const InputColor: FC<Props> = memo(
-  ({ label, errorItem, value, setValue }) => {
+  ({ label, errorItem, value, setValue, isSketch = false }) => {
     const [color, setColor] = useState<RGBColor>();
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export const InputColor: FC<Props> = memo(
         setColor(color.rgb);
         setValue(rgb);
       },
-      [value]
+      [setValue]
     );
 
     return (
@@ -59,14 +59,26 @@ export const InputColor: FC<Props> = memo(
         <_Label>{label}</_Label>
         <_Picker>
           <_Pc>
-            <CirclePicker
-              color={color}
-              onChangeComplete={handleChange}
-              width="800px"
-            />
+            {isSketch ? (
+              <SketchPicker
+                color={color}
+                onChangeComplete={handleChange}
+                width="300px"
+              />
+            ) : (
+              <CirclePicker
+                color={color}
+                onChangeComplete={handleChange}
+                width="800px"
+              />
+            )}
           </_Pc>
           <_Phone>
-            <CirclePicker color={color} onChangeComplete={handleChange} />
+            {isSketch ? (
+              <SketchPicker color={color} onChangeComplete={handleChange} />
+            ) : (
+              <CirclePicker color={color} onChangeComplete={handleChange} />
+            )}
           </_Phone>
         </_Picker>
       </>

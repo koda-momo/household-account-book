@@ -7,25 +7,25 @@ import { Button } from "@mui/material";
 type Props = {
   setToggle: Dispatch<SetStateAction<string>>;
   toggle: string;
-  toggleItemA: string;
+  toggleItemA?: string;
   toggleItemB: string;
 };
 
 export const ToggleButton: FC<Props> = memo(
-  ({ setToggle, toggle, toggleItemA, toggleItemB }) => {
+  ({ setToggle, toggle, toggleItemA = "", toggleItemB }) => {
     /**
      * トグルをAに切り替える.
      */
     const switchToggleA = useCallback(() => {
       setToggle(toggleItemA);
-    }, [toggle]);
+    }, [setToggle, toggleItemA]);
 
     /**
      * トグルをBBに切り替える.
      */
     const switchToggleB = useCallback(() => {
       setToggle(toggleItemB);
-    }, [toggle]);
+    }, [setToggle, toggleItemB]);
 
     return (
       <>

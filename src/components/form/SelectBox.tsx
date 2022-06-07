@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FC, memo, SetStateAction } from "react";
+import { Dispatch, FC, memo, SetStateAction } from "react";
 
 //MUI
 import styled from "@emotion/styled";
@@ -9,7 +9,7 @@ type Props = {
   value: string; //変数
   label: string; //ラベル
   setWord: Dispatch<SetStateAction<string>>; //set変数
-  errorItem: string; //エラー文
+  errorItem?: string; //エラー文
   menuList: Array<string>; //選択肢
 };
 
@@ -26,7 +26,8 @@ export const SelectBox: FC<Props> = memo(
     };
     return (
       <>
-        <_Error>{errorItem}</_Error>
+        {errorItem && <_Error>{errorItem}</_Error>}
+
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-helper-label">{label}</InputLabel>
           <Select

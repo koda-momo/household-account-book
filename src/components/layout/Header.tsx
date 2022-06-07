@@ -20,6 +20,10 @@ export const Header: FC = memo(() => {
       path: "/top/",
     },
     {
+      name: "REGISTER",
+      path: "/top/add",
+    },
+    {
       name: "USER INFO",
       path: "/user/",
     },
@@ -38,8 +42,14 @@ export const Header: FC = memo(() => {
               src="/images/yarukizero-usagi.png"
               width={100}
               height={100}
+              alt="header-icon"
             />
-            <Image src="/images/header.png" width={100} height={50} />
+            <Image
+              src="/images/header.png"
+              width={100}
+              height={50}
+              alt="header-title"
+            />
           </_FlexA>
         </Link>
       </_HeaderIcon>

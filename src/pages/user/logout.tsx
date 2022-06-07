@@ -9,6 +9,7 @@ import { PageTitle } from "../../components/layout/PageTitle";
 import styled from "@emotion/styled";
 import { Button, Card, CardContent } from "@mui/material";
 
+//others
 import Cookie from "universal-cookie";
 import { toast } from "react-hot-toast";
 
@@ -21,19 +22,19 @@ const Logout: NextPage = () => {
   /**
    * ログアウト.
    */
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     const cookie = new Cookie();
-    toast.success("ログアウトしました。");
     cookie.remove("userId", { path: "/" });
-    router.push("/auth/login/");
-  }, []);
+    await router.push("/auth/login/");
+    toast.success("ログアウトしました。");
+  }, [router]);
 
   /**
    * 前のページに戻る.
    */
   const goBack = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   return (
     <_Flex>

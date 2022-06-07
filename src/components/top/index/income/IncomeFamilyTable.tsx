@@ -38,7 +38,7 @@ export const IncomeFamilyTable: FC<Props> = memo(({ year, month }) => {
 
   useEffect(() => {
     makeFamilyTableData();
-  }, [year, month]);
+  }, [year, month, makeFamilyTableData]);
 
   //読み込み中の表示
   if (familyTableData?.length == 0 && dataCheck === true)
@@ -109,6 +109,10 @@ const _Avatar = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
+  "@media screen and (max-width:600px)": {
+    flexDirection: "column",
+    gap: 3,
+  },
 }));
 
 const _Loading = styled("div")(() => ({
@@ -120,19 +124,5 @@ const _Loading = styled("div")(() => ({
   "@media screen and (max-width:600px)": {
     width: 300,
     height: 300,
-  },
-}));
-
-const _Phone = styled("div")(() => ({
-  display: "none",
-  "@media screen and (max-width:600px)": {
-    display: "block",
-  },
-}));
-
-const _Pc = styled("div")(() => ({
-  display: "block",
-  "@media screen and (max-width:600px)": {
-    display: "none",
   },
 }));

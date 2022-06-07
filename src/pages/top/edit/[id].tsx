@@ -16,14 +16,13 @@ import { PageLayout } from "../../../components/layout/PageLayout";
 import { InputText } from "../../../components/form/InputText";
 import { InputNumber } from "../../../components/form/InputNumber";
 import { InputDate } from "../../../components/form/InputDate";
+import { CategorySelect } from "../../../components/top/CategorySelect";
 import { apiUrl } from "../../../utils/values";
 
 //others
-import Cookie from "universal-cookie";
 import { toast } from "react-hot-toast";
 import { addYears } from "date-fns";
 import axios from "axios";
-import { CategorySelect } from "../../../components/top/CategorySelect";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -34,9 +33,6 @@ const EditData: NextPage<Props> = ({ listData }) => {
   //URLからID取得
   const router = useRouter();
   const [itemId] = useState(router.query.id);
-
-  const cookie = new Cookie();
-  const userId = cookie.get("userId");
 
   const listItem = listData.spItem ? listData.spItem : listData.icItem;
 
@@ -77,14 +73,19 @@ const EditData: NextPage<Props> = ({ listData }) => {
     setPrice(listItem.howmatch);
     setCategory(listData.categoryName);
     setDate(Number(new Date(listItem.createdAt)));
-  }, []);
+  }, [
+    listData.categoryName,
+    listItem.createdAt,
+    listItem.howmatch,
+    listItem.name,
+  ]);
 
   /**
    * キャンセル.
    */
   const cancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   /**
    * 収支データ新規登録.
@@ -148,18 +149,7 @@ const EditData: NextPage<Props> = ({ listData }) => {
     } catch (e) {
       toast.error("更新に失敗しました。");
     }
-  }, [
-    nameError,
-    priceError,
-    dateError,
-    categoryError,
-    userId,
-    name,
-    price,
-    date,
-    category,
-    inOut,
-  ]);
+  }, [name, price, date, category, inOut, itemId, minDate, maxDate, router]);
 
   return (
     <>
@@ -170,7 +160,6 @@ const EditData: NextPage<Props> = ({ listData }) => {
             value={name}
             setWord={setName}
             errorItem={nameError}
-            defaultValue={name}
           />
         </_TextInput>
 
@@ -180,7 +169,6 @@ const EditData: NextPage<Props> = ({ listData }) => {
             value={price}
             setNumber={setPrice}
             errorItem={priceError}
-            defaultValue={price}
           />
         </_TextInput>
 

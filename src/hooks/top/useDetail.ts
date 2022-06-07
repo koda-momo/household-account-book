@@ -1,4 +1,3 @@
-//他
 import axios from "axios";
 import { useCallback, useState } from "react";
 import Cookie from "universal-cookie";
@@ -72,7 +71,7 @@ export const useSpendingDetail = (year: number, month: number) => {
     if (dataArray.length == 0) {
       setSpendingDataCheck(false);
     }
-  }, [year, month, spendingDataCheck]);
+  }, [userId, year, month]);
 
   /**
    * グループ支出アイテム取得.
@@ -130,7 +129,7 @@ export const useSpendingDetail = (year: number, month: number) => {
     if (dataArray.length == 0) {
       setSpendingDataCheck(false);
     }
-  }, [year, month, spendingDataCheck]);
+  }, [userId, year, month]);
 
   return {
     spendingDataCheck,
@@ -202,7 +201,7 @@ export const useIncomeDetail = (year: number, month: number) => {
     if (dataArray.length == 0) {
       setIncomeDataCheck(false);
     }
-  }, [year, month, incomeDataCheck]);
+  }, [userId, year, month]);
 
   /**
    * グループ収入アイテム取得.
@@ -260,7 +259,7 @@ export const useIncomeDetail = (year: number, month: number) => {
     if (dataArray.length == 0) {
       setIncomeDataCheck(false);
     }
-  }, [year, month, incomeDataCheck]);
+  }, [userId, year, month]);
 
   return {
     incomeDataCheck,

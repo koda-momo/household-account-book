@@ -16,7 +16,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
   const router = useRouter();
   const goToAddPage = useCallback(() => {
     router.push(path);
-  }, []);
+  }, [path, router]);
 
   return (
     <_Main>
@@ -25,7 +25,12 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
           {word && (
             <>
               <_Fukidashi>
-                <Image src={"/images/fukidashi.png"} width={150} height={70} />
+                <Image
+                  src={"/images/fukidashi.png"}
+                  width={150}
+                  height={70}
+                  alt="fikidashi"
+                />
               </_Fukidashi>
               <div style={{ position: "absolute", top: 22, left: left }}>
                 {word}
@@ -37,13 +42,19 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
             width={100}
             height={100}
             onClick={goToAddPage}
+            alt="goto-page-bird"
           />
         </_PcImage>
         <_PhoneImage>
           {word && (
             <>
               <_Fukidashi>
-                <Image src={"/images/fukidashi.png"} width={150} height={50} />
+                <Image
+                  src={"/images/fukidashi.png"}
+                  width={150}
+                  height={50}
+                  alt="fukidashi"
+                />
               </_Fukidashi>
               <div
                 style={{
@@ -62,6 +73,7 @@ export const GoToPageBtn: FC<Props> = memo(({ path, word, left }) => {
             width={80}
             height={80}
             onClick={goToAddPage}
+            alt="goto-page-bird"
           />
         </_PhoneImage>
       </_Btn>

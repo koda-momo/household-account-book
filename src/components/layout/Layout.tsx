@@ -26,7 +26,7 @@ export const Layout: FC<Props> = memo(({ children }) => {
 
   useEffect(() => {
     loginChecker(router.pathname);
-  }, [router.pathname]);
+  }, [loginChecker, router.pathname]);
 
   return (
     <>

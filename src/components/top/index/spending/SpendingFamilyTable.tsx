@@ -38,7 +38,7 @@ export const SpendingFamilyTable: FC<Props> = memo(({ year, month }) => {
 
   useEffect(() => {
     makeFamilyTableData();
-  }, [year, month]);
+  }, [year, month, makeFamilyTableData]);
 
   //読み込み中の表示
   if (familyTableData?.length == 0 && dataCheck === true)
@@ -108,6 +108,10 @@ const _Avatar = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
+  "@media screen and (max-width:600px)": {
+    flexDirection: "column",
+    gap: 3,
+  },
 }));
 
 const _Loading = styled("div")(() => ({

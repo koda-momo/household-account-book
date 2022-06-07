@@ -26,6 +26,13 @@ const LinkFamily: NextPage = () => {
   const router = useRouter();
   const userId = cookie.get("userId");
 
+  /**
+   * キャンセルボタン.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, [router]);
+
   //合言葉
   const [secretWord, setSecretWord] = useState<string>("");
   const [secretWordError, setScretWordError] = useState<string>("");
@@ -103,7 +110,7 @@ const LinkFamily: NextPage = () => {
     } catch (e) {
       toast.error("紐づけに失敗しました。");
     }
-  }, [secretWord, password, role]);
+  }, [secretWord, password, role, userId, router]);
 
   return (
     <>
@@ -136,7 +143,7 @@ const LinkFamily: NextPage = () => {
           />
         </_TextInput>
 
-        <div>
+        <_Flex>
           <Button
             variant="contained"
             onClick={postUserData}
@@ -145,7 +152,10 @@ const LinkFamily: NextPage = () => {
           >
             グループに登録する
           </Button>
-        </div>
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -154,6 +164,13 @@ const LinkFamily: NextPage = () => {
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
+}));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 20,
 }));
 
 export default LinkFamily;

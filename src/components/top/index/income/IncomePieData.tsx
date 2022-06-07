@@ -1,5 +1,4 @@
-import { FC, memo, useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
+import { FC, memo, useEffect } from "react";
 
 //chart.js
 import { ChartOptions, ArcElement, Chart } from "chart.js";
@@ -8,7 +7,6 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 //MUI
 import { styled } from "@mui/material/styles";
-import { Button } from "@mui/material";
 
 //others
 import { useIncomePie } from "../../../../hooks/top/useIncomePie";
@@ -27,20 +25,11 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
   Chart.register(ArcElement);
   Chart.register(ChartDataLabels);
 
-  const router = useRouter();
-
   //hooks
   const { getIncomeCategoryData, getIncomeGroupData, pieData, dataCheck } =
     useIncomePie(year, month);
 
   const { pieOption } = usePie();
-
-  /**
-   * 詳細画面に遷移.
-   */
-  const goDetailPage = useCallback(() => {
-    router.push("/top/detail");
-  }, []);
 
   //円グラフのオプション
   const chartOptions: ChartOptions<"pie"> = {
@@ -72,7 +61,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
     } else if (mode === "グループ") {
       getIncomeGroupData();
     }
-  }, [mode, year, month]);
+  }, [mode, year, month, getIncomeCategoryData, getIncomeGroupData]);
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
@@ -100,13 +89,6 @@ const _Pie = styled("div")(() => ({
     width: 300,
     height: 300,
   },
-}));
-
-const _Flex = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "center",
-  marginTop: 50,
-  marginBottom: 50,
 }));
 
 const _Nodata = styled("div")(() => ({

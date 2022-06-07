@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
+import toast from "react-hot-toast";
 
 export const useLoginChecker = (
   setIsLogin: Dispatch<SetStateAction<boolean>>,
@@ -16,20 +17,26 @@ export const useLoginChecker = (
    * @remarks パスがauth以外 && ログインしていない→ログイン画面に遷移
    * @remarks パスがauth以外 && ログインしている→ヘッダーも内容も表示
    */
-  const loginChecker = useCallback((path: string) => {
-    setIsLogin(false);
-    setIsHeader(false);
-    if (path.match(/auth/)) {
-      setIsLogin(true);
-    } else {
-      if (!userId) {
-        router.push("/auth/login/");
-      } else {
+  const loginChecker = useCallback(
+    (path: string) => {
+      setIsLogin(false);
+      setIsHeader(false);
+      if (path.match(/auth/) || path.match(/admin/)) {
         setIsLogin(true);
-        setIsHeader(true);
+      } else {
+        if (userId === process.env.NEXT_PUBLIC_ADMIN) {
+          router.push("/admin/");
+        } else if (!userId || userId === "") {
+          toast.error("ログインしてください。");
+          router.push("/auth/login/");
+        } else {
+          setIsLogin(true);
+          setIsHeader(true);
+        }
       }
-    }
-  }, []);
+    },
+    [router, setIsHeader, setIsLogin, userId]
+  );
 
   return { loginChecker };
 };

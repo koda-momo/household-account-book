@@ -33,7 +33,7 @@ export const DateBtn: FC<Props> = memo(({ date, setDate }) => {
 
     setDate(tentativeDate);
     setFormatDate(format(tentativeDate, "yyyy年M月分"));
-  }, [date, formatDate]);
+  }, [date, setDate]);
 
   /**
    * 月を戻す.
@@ -43,7 +43,7 @@ export const DateBtn: FC<Props> = memo(({ date, setDate }) => {
 
     setDate(tentativeDate);
     setFormatDate(format(tentativeDate, "yyyy年M月分"));
-  }, [date, formatDate]);
+  }, [date, setDate]);
 
   return (
     <_Main>
