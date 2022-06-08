@@ -60,6 +60,13 @@ const AddData: NextPage = () => {
   const inOutList = ["収入", "支出"];
 
   /**
+   * キャンセル.
+   */
+  const cancel = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  /**
    * 収支データ新規登録.
    */
   const postData = useCallback(async () => {
@@ -178,7 +185,8 @@ const AddData: NextPage = () => {
         </_TextInput>
 
         <_TextInput />
-        <div>
+
+        <_Flex>
           <Button
             variant="contained"
             onClick={postData}
@@ -187,7 +195,10 @@ const AddData: NextPage = () => {
           >
             登録
           </Button>
-        </div>
+          <Button variant="contained" onClick={cancel} color="error">
+            キャンセル
+          </Button>
+        </_Flex>
       </PageLayout>
     </>
   );
@@ -196,6 +207,13 @@ const AddData: NextPage = () => {
 //テキストボックス1つ1つ
 const _TextInput = styled("div")(() => ({
   marginBottom: 30,
+}));
+
+const _Flex = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 30,
 }));
 
 export default AddData;
