@@ -52,7 +52,7 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
     [router]
   );
 
-  if (tableData.length <= 0) return <>データなし</>;
+  if (tableData.length == 0) return <></>;
 
   return (
     <>
