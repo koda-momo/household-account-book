@@ -146,7 +146,7 @@ const Detail: NextPage = () => {
 
           <PageTitle title="グループの収入詳細" />
           <_Flex>
-            {spendingDataCheck ? (
+            {incomeDataCheck ? (
               <>
                 <FamilyDetailTable tableData={incomeFamilyTable} />
                 <PhoneFamilyDetailTable tableData={incomeFamilyTable} />
