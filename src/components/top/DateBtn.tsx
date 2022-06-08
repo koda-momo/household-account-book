@@ -48,13 +48,21 @@ export const DateBtn: FC<Props> = memo(({ date, setDate }) => {
 
   return (
     <_Main>
-      <Button onClick={subtractMonth} color="inherit">
+      <Button
+        onClick={subtractMonth}
+        color="inherit"
+        aria-label="表示している月を１つ戻す"
+      >
         <ArrowBackIosNewIcon />
       </Button>
 
       <_Date>{formatDate}</_Date>
 
-      <Button onClick={addMonth} color="inherit">
+      <Button
+        onClick={addMonth}
+        color="inherit"
+        aria-label="表示している月を１つ進める"
+      >
         <ArrowForwardIosIcon />
       </Button>
     </_Main>
