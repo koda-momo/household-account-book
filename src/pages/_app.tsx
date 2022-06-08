@@ -21,7 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>家計簿</title>
-        <meta name="household-account-book" content="household-account-boo" />
+        <meta
+          name="description"
+          content="家計簿アプリです。グループに登録するとグループでの収支データの管理も簡単です。"
+        />
         <link rel="icon" href="/images/favicon.jpg" />
         <link
           rel="stylesheet"
