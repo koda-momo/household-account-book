@@ -36,7 +36,7 @@ export const Header: FC = memo(() => {
   return (
     <_Header className="header">
       <_HeaderIcon>
-        <Link href="https://household-account-book.vercel.app/top/">
+        <Link href="/top/">
           <a>
             <_FlexA>
               <Image
