@@ -45,6 +45,7 @@ export const HamburgerMenu: FC<Props> = memo(({ menuItem }) => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        aria-label="メニューを開く"
       >
         <MenuIcon />
       </Button>

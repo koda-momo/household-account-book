@@ -39,14 +39,21 @@ export const InfoTable: FC<Props> = memo(({ userData }) => {
   return (
     <>
       <_Flex>
-        <_Item>メールアドレス</_Item>
+        <_Item>カラー</_Item>
+        <_Item>
+          <_Color style={{ backgroundColor: `rgb(${userData.color})` }} />
+        </_Item>
+      </_Flex>
+
+      <_Flex>
+        <_Item>メール</_Item>
         <_Item>{userData.mail}</_Item>
       </_Flex>
 
       {familyData && (
         <>
           <_Flex>
-            <_Item>グループ名</_Item>
+            <_Item>グループ</_Item>
             <_Item>{familyData.name}</_Item>
           </_Flex>
 
@@ -62,6 +69,13 @@ export const InfoTable: FC<Props> = memo(({ userData }) => {
 
 const _Item = styled("div")(() => ({
   width: "47%",
+  display: "flex",
+  alignItems: "center",
+}));
+
+const _Color = styled("div")(() => ({
+  width: 100,
+  height: 10,
 }));
 
 const _Flex = styled("div")(() => ({

@@ -13,6 +13,7 @@ import addMonths from "date-fns/addMonths";
 
 //MUI
 import { styled } from "@mui/material/styles";
+import { Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -47,33 +48,34 @@ export const DateBtn: FC<Props> = memo(({ date, setDate }) => {
 
   return (
     <_Main>
-      <_Btn onClick={subtractMonth}>
+      <Button
+        onClick={subtractMonth}
+        color="inherit"
+        aria-label="表示している月を１つ戻す"
+      >
         <ArrowBackIosNewIcon />
-      </_Btn>
+      </Button>
 
       <_Date>{formatDate}</_Date>
 
-      <_Btn onClick={addMonth}>
+      <Button
+        onClick={addMonth}
+        color="inherit"
+        aria-label="表示している月を１つ進める"
+      >
         <ArrowForwardIosIcon />
-      </_Btn>
+      </Button>
     </_Main>
   );
 });
 
 const _Main = styled("div")(() => ({
   display: "flex",
+  alignItems: "center",
   gap: 10,
   zIndex: 2,
 }));
 
 const _Date = styled("div")(() => ({
   fontSize: 20,
-}));
-
-const _Btn = styled("button")(() => ({
-  background: "transparent",
-  border: "none",
-  outline: "none",
-  ":focus": { boxShadow: "none" },
-  ":hover": { color: "#FFDE7D" },
 }));
