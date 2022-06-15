@@ -77,10 +77,10 @@ const NewUser: NextPage = () => {
       error = "エラーあり";
     }
 
-    // if (image === "") {
-    //   setImageError("画像を選択して下さい。");
-    //   error = "エラーあり";
-    // }
+    if (image === "") {
+      setImageError("画像を選択して下さい。");
+      error = "エラーあり";
+    }
 
     if (color === "") {
       setColorError("色を選択して下さい。");
@@ -97,17 +97,17 @@ const NewUser: NextPage = () => {
       return;
     }
 
-    const loginData = {
-      mail: mail,
-      password: password,
-    };
+    // const loginData = {
+    //   mail: mail,
+    //   password: password,
+    // };
 
-    const mailChack = await axios.post(`${apiUrl}/loginuser`, loginData);
+    // const mailChack = await axios.post(`${apiUrl}/loginuser`, loginData);
 
-    if (!mailChack.data.user || mailChack.data.user !== "") {
-      toast.error("登録済のアドレス、パスワードです。");
-      return;
-    }
+    // if (mailChack) {
+    //   toast.error("登録済のアドレス、パスワードです。");
+    //   return;
+    // }
 
     const data = {
       familyID: "",
@@ -119,13 +119,9 @@ const NewUser: NextPage = () => {
       image: image,
     };
 
-    try {
-      await axios.post(`${apiUrl}/newuser`, data);
-      toast.success("ユーザを登録しました。");
-      router.push("/auth/login");
-    } catch (e) {
-      toast.error("登録に失敗しました。" + String(e));
-    }
+    await axios.post(`${apiUrl}/newuser`, data);
+    toast.success("ユーザを登録しました。");
+    router.push("/auth/login");
   }, [name, mail, password, color, confirmPassword, image, router]);
 
   return (
