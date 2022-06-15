@@ -33,10 +33,15 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
 
+  //ログインボタンの有効無効
+  const [loginBtn, setLoginBtn] = useState<boolean>(false);
+
   /**
    * ログイン.
    */
   const login = useCallback(async () => {
+    setLoginBtn(true);
+
     //エラーリセット
     setMailError("");
     setPasswordError("");
@@ -80,6 +85,8 @@ const Login: NextPage = () => {
       }
     } catch (e) {
       toast.error("ログイン出来ませんでした");
+    } finally {
+      setLoginBtn(false);
     }
   }, [cookie, mail, password, router]);
 
@@ -111,6 +118,7 @@ const Login: NextPage = () => {
             onClick={login}
             endIcon={<SendIcon />}
             color="primary"
+            disabled={loginBtn}
           >
             ログイン
           </Button>
