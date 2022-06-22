@@ -162,6 +162,7 @@ const _EditIcon = styled("div")(() => ({
   height: 30,
   padding: 5,
   fontSize: 10,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
@@ -172,6 +173,7 @@ const _DeleteIcon = styled("div")(() => ({
   height: 30,
   padding: 5,
   fontSize: 10,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },

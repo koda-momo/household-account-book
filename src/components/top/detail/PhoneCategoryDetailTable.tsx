@@ -126,6 +126,7 @@ const _EditIcon = styled("div")(() => ({
   width: 30,
   height: 30,
   padding: 5,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
@@ -135,6 +136,7 @@ const _DeleteIcon = styled("div")(() => ({
   width: 30,
   height: 30,
   padding: 5,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
