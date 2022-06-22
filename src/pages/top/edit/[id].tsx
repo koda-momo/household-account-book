@@ -90,7 +90,7 @@ const EditData: NextPage<Props> = ({ listData }) => {
   /**
    * 収支データ新規登録.
    */
-  const postData = useCallback(() => {
+  const postData = useCallback(async () => {
     //エラー初期化
     setNameError("");
     setPriceError("");
@@ -143,7 +143,7 @@ const EditData: NextPage<Props> = ({ listData }) => {
         : `${apiUrl}/updateicitem/${itemId}`;
 
     try {
-      axios.post(url, postData);
+      await axios.post(url, postData);
       toast.success("データを更新しました。");
       router.back();
     } catch (e) {
