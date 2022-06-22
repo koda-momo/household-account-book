@@ -65,7 +65,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
-    return <_Nodata>登録がありません。</_Nodata>;
+    return <_Loading>読み込み中…</_Loading>;
 
   return (
     <>
@@ -95,4 +95,11 @@ const _Nodata = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   marginBottom: 50,
+}));
+
+const _Loading = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 50,
+  color: "#F8F3D4",
 }));
