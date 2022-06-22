@@ -65,7 +65,11 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
 
   //読み込み中の表示
   if (pieData.labels?.length == 0 && dataCheck === true)
-    return <_Nodata>登録がありません。</_Nodata>;
+    return (
+      <_Loading>
+        <_Pie>読み込み中…</_Pie>
+      </_Loading>
+    );
 
   return (
     <>
@@ -85,7 +89,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
 const _Pie = styled("div")(() => ({
   width: 500,
   height: 500,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     width: 300,
     height: 300,
   },
@@ -95,4 +99,8 @@ const _Nodata = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   marginBottom: 50,
+}));
+
+const _Loading = styled("div")(() => ({
+  color: "#F8F3D4",
 }));

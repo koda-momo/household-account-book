@@ -100,8 +100,8 @@ export const IncomeFamilyTable: FC<Props> = memo(({ year, month }) => {
 
 const _Table = styled("div")(() => ({
   width: "60%",
-  "@media screen and (max-width:600px)": {
-    width: "auto",
+  "@media screen and (max-width:820px)": {
+    width: "90%",
   },
 }));
 
@@ -109,7 +109,7 @@ const _Avatar = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   gap: 20,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     flexDirection: "column",
     gap: 3,
   },
@@ -121,7 +121,7 @@ const _Loading = styled("div")(() => ({
   marginBottom: 50,
   width: 500,
   height: 500,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     width: 300,
     height: 300,
   },

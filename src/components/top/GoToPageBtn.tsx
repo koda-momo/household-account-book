@@ -91,7 +91,7 @@ const _Main = styled("div")(() => ({
   position: "fixed",
   right: 40,
   bottom: 20,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     position: "fixed",
     right: 10,
     bottom: 10,
@@ -106,14 +106,14 @@ const _Fukidashi = styled("div")(() => ({
 
 const _PcImage = styled("div")(() => ({
   display: "block",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));
 
 const _PhoneImage = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "block",
   },
 }));

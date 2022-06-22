@@ -111,7 +111,7 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Pc = styled("span")(() => ({
   width: "60%",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));
@@ -120,6 +120,7 @@ const _EditIcon = styled("div")(() => ({
   width: 30,
   height: 30,
   padding: 5,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
@@ -128,6 +129,7 @@ const _EditIcon = styled("div")(() => ({
 const _DeleteIcon = styled("div")(() => ({
   width: 30,
   height: 30,
+  zIndex: 1,
   padding: 5,
   ":hover": {
     opacity: "30%",

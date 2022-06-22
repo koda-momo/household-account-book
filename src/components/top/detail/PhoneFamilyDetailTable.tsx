@@ -135,7 +135,7 @@ export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Phone = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "block",
     width: 500,
   },
@@ -162,6 +162,7 @@ const _EditIcon = styled("div")(() => ({
   height: 30,
   padding: 5,
   fontSize: 10,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
@@ -172,6 +173,7 @@ const _DeleteIcon = styled("div")(() => ({
   height: 30,
   padding: 5,
   fontSize: 10,
+  zIndex: 1,
   ":hover": {
     opacity: "30%",
   },
