@@ -55,14 +55,14 @@ export const Layout: FC<Props> = memo(({ children }) => {
 const _Main = styled("main")(() => ({
   paddingTop: 100,
   zIndex: 2,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     paddingTop: 0,
   },
 }));
 
 const _NoHeader = styled("div")(() => ({
   height: 10,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     height: 30,
   },
 }));

@@ -132,7 +132,7 @@ export const FamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Pc = styled("span")(() => ({
   width: "60%",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));
@@ -170,7 +170,7 @@ const _DeleteIcon = styled("div")(() => ({
 const _Icon = styled("div")(() => ({
   display: "flex",
   gap: 20,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "flex",
     gap: 5,
   },

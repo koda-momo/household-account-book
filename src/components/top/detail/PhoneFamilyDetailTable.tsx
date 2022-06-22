@@ -135,7 +135,7 @@ export const PhoneFamilyDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Phone = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "block",
     width: 500,
   },

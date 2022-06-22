@@ -111,7 +111,7 @@ export const CategoryDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Pc = styled("span")(() => ({
   width: "60%",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));

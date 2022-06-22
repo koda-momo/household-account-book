@@ -85,7 +85,7 @@ export const IncomePieData: FC<Props> = memo(({ year, month, mode }) => {
 const _Pie = styled("div")(() => ({
   width: 500,
   height: 500,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     width: 300,
     height: 300,
   },

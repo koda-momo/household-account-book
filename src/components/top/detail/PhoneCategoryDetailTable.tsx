@@ -116,7 +116,7 @@ export const PhoneCategoryDetailTable: FC<Props> = memo(({ tableData }) => {
 
 const _Phone = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "block",
     width: 500,
   },
@@ -143,7 +143,7 @@ const _DeleteIcon = styled("div")(() => ({
 }));
 
 const _Icon = styled("div")(() => ({
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "flex",
     flexFlow: "column",
   },
