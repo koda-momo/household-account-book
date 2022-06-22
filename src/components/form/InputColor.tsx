@@ -99,7 +99,7 @@ const _Label = styled("div")(() => ({
 const _Picker = styled("div")(() => ({
   marginTop: 20,
   marginBottom: 30,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     flexDirection: "column",
     gap: 20,
   },
@@ -107,14 +107,16 @@ const _Picker = styled("div")(() => ({
 
 const _Phone = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
-    display: "block",
+  "@media screen and (max-width:820px)": {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 50,
   },
 }));
 
 const _Pc = styled("div")(() => ({
   display: "block",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));

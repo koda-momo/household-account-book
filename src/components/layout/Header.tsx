@@ -86,7 +86,7 @@ const _Header = styled("header")(() => ({
   position: "fixed",
   top: 0,
   zIndex: 0,
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     position: "static",
   },
 }));
@@ -112,7 +112,7 @@ const _List = styled("ul")(() => ({
 //PCのみで表示
 const _Pc = styled("div")(() => ({
   display: "block",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "none",
   },
 }));
@@ -120,7 +120,7 @@ const _Pc = styled("div")(() => ({
 //hamburger
 const _Phone = styled("div")(() => ({
   display: "none",
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     display: "block",
     marginRight: 10,
   },
@@ -133,7 +133,7 @@ const _FlexA = styled("a")(() => ({
   color: "#5a5a5a",
   textShadow: "1px 2px 3px #808080;",
   ":hover": { cursor: "pointer" },
-  "@media screen and (max-width:600px)": {
+  "@media screen and (max-width:820px)": {
     width: 150,
     height: 20,
   },
