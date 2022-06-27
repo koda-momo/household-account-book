@@ -97,13 +97,27 @@ export const useSpendingPie = (year: number, month: number) => {
       month: month,
     });
 
-    const responseData = result.data.family;
     const spendingData = new Array<NestUserType>();
 
-    //トータルが0になった時は排除するようにサーバ側で調整すること！
-    for (const responseItem of responseData) {
-      if (responseItem.spendingId.length > 0) {
-        spendingData.push(responseItem);
+    // グループ紐づけが無い場合
+    if (familyId === "") {
+      const responseData = result.data.family.filter((item: NestUserType) => {
+        return item._id === userId;
+      });
+      for (const responseItem of responseData) {
+        if (responseItem.spendingId.length > 0) {
+          // データがない配列は除外してpush
+          spendingData.push(responseItem);
+        }
+      }
+      // グループ紐づけがある場合
+    } else {
+      const responseData = result.data.family;
+      for (const responseItem of responseData) {
+        // データがない配列は除外してpush
+        if (responseItem.spendingId.length > 0) {
+          spendingData.push(responseItem);
+        }
       }
     }
 
